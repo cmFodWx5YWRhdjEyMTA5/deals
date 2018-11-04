@@ -1,0 +1,7 @@
+ http://esms.zubairitexpert.com/smsapi?api_key=C20021175ba79dbcadc2e3.38549687&type=text&contacts=8801707565165&senderid=BDBroadband&msg=Hello+HAbib%2C+This+is+a+test+message
+
+
+
+contacts = 8801711667912
+sender id = BDBroadband
+api_key = C20021175ba79dbcadc2e3.38549687
