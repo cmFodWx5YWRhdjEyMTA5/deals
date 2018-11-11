@@ -73,7 +73,7 @@ $baseUrl = Yii::app()->request->getBaseUrl(true);
                                     <span style="display: none; padding-left: 10px; width: 50px; float: left;" id="favorite-send-loading">
                                             <img alt="Loading..." src="/images/loader.gif">
                                     </span>
-                    <input name="userfile" type="file" id="userfile"> (only .pdf and .doc allowed)
+                    <input name="userfile" type="file" id="userfile"> (Upload your resume. Only .pdf and .doc allowed)
                     <div align="left" class="register_status"></div>
                     <button type="submit" id="apply_button" class="btn-theme">Send Request</button>
                 </div>

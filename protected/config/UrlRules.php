@@ -98,14 +98,16 @@ class UrlRules {
                     'my-profile/jobs'=>'profile/ManageJobs',
                     'my-profile/add-job'=>'profile/AddJobs',
                     
+                    'e-store/estore-order-confirm' => 'estore/OrderConfirmation',
                     'e-store/<company_name>/all-products' => 'estore/AllProducts',
                     'e-store/<company_name>/product-details/<product_id>' => 'estore/productDetails',
                     'e-store/<company_name>' => 'estore/index',
                     'e-store/<company_name>/contact-us' => 'estore/Contact',
                     'e-store/<company_name>/about-us' => 'estore/About',
 
+                    'isp/isp-order-confirm' => 'isp/OrderConfirmation',
                     'isp/<company_name>/all-products' => 'isp/AllProducts',
-                    'isp/<company_name>/product-details/<product_id>' => 'isp/productDetails',
+                    'isp/<company_name>/package-details/<product_id>' => 'isp/productDetails',
                     'isp/<company_name>' => 'isp/index',
                     'isp/<company_name>/contact-us' => 'isp/Contact',
                     'isp/<company_name>/about-us' => 'isp/About',

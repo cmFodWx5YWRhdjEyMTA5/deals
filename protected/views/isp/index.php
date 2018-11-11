@@ -175,19 +175,19 @@ Yii::app()->clientScript->registerMetaTag($og_image,'twitter:image');
 													<div class="item-product-filter">
 														<div class="product-thumb product-thumb6">
 															<div class="inner-product-thumb">
-																<a class="product-thumb-link" href="<?=$base_url.'/isp/'.$store_details->url_alias?>/product-details/<?=$individual_product['id']?>">
+																<a class="product-thumb-link" href="<?=$base_url.'/isp/'.$store_details->url_alias?>/package-details/<?=$individual_product['id']?>">
 																	<img alt="" src="<?php echo ImageHelper::cloudinary($images[0],$opt_top) ?>" class="first-thumb">
 																	<img alt="" src="<?php echo ImageHelper::cloudinary($images[0],$opt_top) ?>" class="second-thumb">
 																</a>
 																<div class="product-info-cart">
 
-																	<a class="addcart-link" href="<?=$base_url.'/isp/'.$store_details->url_alias?>/product-details/<?=$individual_product['id']?>"><i class="fa fa-eye"></i>  View Details</a>
+																	<a class="addcart-link" href="<?=$base_url.'/isp/'.$store_details->url_alias?>/package-details/<?=$individual_product['id']?>"><i class="fa fa-eye"></i>  View Details</a>
 
 																</div>
 															</div>
 														</div>
 														<div class="product-info6">
-															<h3 class="title-product"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/product-details/<?=$individual_product['id']?>"><?=$individual_product['title']?></a></h3>
+															<h3 class="title-product"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/package-details/<?=$individual_product['id']?>"><?=$individual_product['title']?></a></h3>
 															<?php if($individual_product['show_price']) { ?>
 															<div class="info-price">
 																<span>&#2547; <?=$individual_product['price']?></span>

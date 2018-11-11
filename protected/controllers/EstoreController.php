@@ -111,12 +111,31 @@ class EstoreController extends Controller
 			$name = $_POST['name'];
 			$phone_number = $_POST['phone_number'];
 			$message = $_POST['message'];
-			$subject = "You have received a message from bdbroadbanddeals.com e-store";
-			$message = "<p>Mr/Mrs $name is contact with you through your e-store in bdbroadbanddeals.com. User information including his/her message is given below.
+			$subject = "You have received a message from e-store in bdbroadbanddeals";
+			$message_content = "<p>Mr/Mrs $name is in contact with you through your e-store in bdbroadbanddeals.com. User information including his/her message is given below.
 			</p><br><p>Name : $name</p><p>Email : $from</p><p>Phone Number :$phone_number</p><p>Message : $message</p><br><p>Kind regards</p>";
+			Generic::sendMail($message_content,$subject,$to);
 
-			$headers = "bdbroadbanddeals.com";
-			Generic::sendMail($message,$subject,$to,$headers);
+			$current_date = new \DateTime();
+			$message_details = 'My estimated offer price is BDT ' . $offered_price;
+                $message = new Message();
+                $message->sender_name = $name;
+                $message->sender_email = $from;
+                $message->sender_phone = $phone_number;
+                $message->receiver = $store_details->user_id;
+                $message->details = $message_content;
+                $message->create_date = $current_date->format('Y-m-d H:i:s');
+                $message->is_starred = 0;
+                $message->read_status = 0;
+                $message->reply_of = NULL;
+                $message->save();
+
+                /* ------------------- Add a notification --------------------- */
+                $message_notification = new Notification_message();
+                $message_notification->receiver_id = $store_details->user_id;
+                $message_notification->create_date = $current_date->format('Y-m-d H:i:s');
+                $message_notification->save();
+
 			//mail($to,$subject,$message,$headers);
 			$thanks_message = "Mail Sent successfully. Thank you " . $name . ", we will contact you shortly.";
 		}
@@ -708,7 +727,8 @@ class EstoreController extends Controller
 			'view_count' => $view_count,
 			'favorite_counter' => $favorite_counter,
 			'locale' => $locale,
-			'discounted_total' => $discounted_total
+			'discounted_total' => $discounted_total,
+			'return_url' => "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
 
 		));
 
@@ -736,6 +756,8 @@ class EstoreController extends Controller
 		$current_date = new \DateTime();
 		$date = $current_date->format('d-m-Y');
 		$create_date = $current_date->format('Y-m-d H:i:s');
+		$otp_time = $current_date->format('Y-m-d H:i:s');
+		$otp_code = mt_rand(100000, 999999);
 
 		$estore_order = new EstoreOrder();
 		$estore_order->registered_user_id = $loggedin_user_id;
@@ -748,6 +770,9 @@ class EstoreController extends Controller
 		$estore_order->buyer_email = $email;
 		$estore_order->buyer_phone = $phone_number;
 		$estore_order->create_date = $create_date;
+		$estore_order->otp = $otp_code;
+		$estore_order->otp_time = $otp_time;
+		$estore_order->order_source = "estore";
 		if($estore_order->save()){
 			$invoice_id = $estore_order->id;
 			$estore_order->invoice_id = $invoice_id;
@@ -971,12 +996,10 @@ class EstoreController extends Controller
 			</div>
 		</aside>
 		 ';
-
+		
 		$email_to_visitor = Generic::sendMail($mail_content,"Request Connectivity From bdbroadbanddeals.com",$email,"bdbroadbanddeals.com <support@bdbroadbanddeals.com>",false,false,false,$style);
 		$email_to_shop_owner = Generic::sendMail($mail_content,"Request Connectivity From bdbroadbanddeals.com",$owner_email,$email,false,false,"support@bdbroadbanddeals.com",$style);
 		//$email_to_support = Generic::sendMail($mail_content,"Invoice From bdbroadbanddeals.com","business@bdbroadbanddeals.com",$email,false,false,"support@bdbroadbanddeals.com",$style);
-
-
 		if($email_to_visitor && $email_to_shop_owner){
 
 			$response['status'] = "success";
@@ -992,6 +1015,327 @@ class EstoreController extends Controller
 
 	}
 
+	public function actionOrderConfirmation(){
+		
+		$name = Yii::app()->request->getParam('sender_name','');
+		$email= Yii::app()->request->getParam('sender_email','');
+		$phone_number= Yii::app()->request->getParam('sender_phone','');
+		$item_name= Yii::app()->request->getParam('product_name','');
+		$item_code= Yii::app()->request->getParam('item_code','');
+		$price= Yii::app()->request->getParam('product_price','');
+		$logo= Yii::app()->request->getParam('logo','#');
+		$enterprise_name= Yii::app()->request->getParam('enterprise_name','');
+		$address= Yii::app()->request->getParam('address','');
+		$owner_number= Yii::app()->request->getParam('owner_number','');
+		$loggedin_user_id= Yii::app()->request->getParam('loggedin_user_id','');
+		$estore_id= Yii::app()->request->getParam('estore_id','');
+		$owner_email= Yii::app()->request->getParam('owner_email','');
+		$return_url = Yii::app()->request->getParam('return_url','');
+
+		$current_date = new \DateTime();
+		$date = $current_date->format('d-m-Y');
+		$create_date = $current_date->format('Y-m-d H:i:s');
+		$otp_time = $current_date->format('Y-m-d H:i:s');
+		$otp_code = mt_rand(100000, 999999);
+
+		$estore_order = new EstoreOrder();
+		$estore_order->registered_user_id = $loggedin_user_id;
+		$estore_order->estore_id = $estore_id;
+		$estore_order->product_name = $item_name;
+		$estore_order->item_code = $item_code;
+		$estore_order->product_price = $price;
+		$estore_order->estore_name = $enterprise_name;
+		$estore_order->buyer_name = $name;
+		$estore_order->buyer_email = $email;
+		$estore_order->buyer_phone = $phone_number;
+		$estore_order->create_date = $create_date;
+		$estore_order->otp = $otp_code;
+		$estore_order->otp_time = $otp_time;
+		$estore_order->order_source = "estore";
+		if($estore_order->save()){
+			$invoice_id = $estore_order->id;
+			$estore_order->invoice_id = $invoice_id;
+			$estore_order->update();
+		};
+
+		//Generic::sendOTPtoMail($otp_code,"One-time verification code from bdbroadbanddeals",$email);
+		Generic::sendOTPMessage($otp_code,$phone_number);
+
+		$this->render('otp_confirmation',array(
+			'order_id' => $invoice_id,
+			'phone_number' => $phone_number,
+			'return_url' => $return_url
+		));
+	}
+
+	public function actionResendOtp(){
+		$response = array();
+		$order_id = Yii::app()->request->getParam('order_id','');
+		$criteria = new CDbCriteria();
+        $criteria->condition = 'md5(id) = :order_id';
+        $criteria->params = array(':order_id' => $order_id);
+        $order_details = EstoreOrder::model()->find($criteria);
+
+		$current_date = new \DateTime();
+		$date = $current_date->format('d-m-Y');
+		$create_date = $current_date->format('Y-m-d H:i:s');
+		$otp_time = $current_date->format('Y-m-d H:i:s');
+		$otp_code = mt_rand(100000, 999999);
+		$phone_number = $order_details->buyer_phone;
+		$email = $order_details->buyer_email;
+		Generic::sendOTPtoMail($otp_code,"One-time verification code from bdbroadbanddeals",$email);
+		Generic::sendOTPMessage($otp_code,$phone_number);
+		$order_details->otp = $otp_code;
+		$order_details->otp_time = $otp_time;
+		$order_details->no_of_try = null;
+		$order_details->update();
+		echo json_encode($response);
+	}
+
+
+	/*
+     * Check OTP which i submit on the register-confirmation page with my received mobile number OTP.
+     * @return status success
+     */
+
+    public function actionCheckOtp() {
+        $base_url = Yii::app()->request->getBaseUrl(true);
+        $otp = Yii::app()->request->getParam('otp');
+        $order_id = Yii::app()->request->getParam('order_id', '');
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'md5(id) = :order_id';
+        $criteria->params = array(':order_id' => $order_id);
+        $order_details = EstoreOrder::model()->find($criteria);
+        
+        $response = array();
+        if (!$order_details) {
+            
+        } else {
+        	 if ($order_details->otp == $otp) {
+	            $response['status'] = "Confirm Successfully";
+	            $order_details->otp_time = null;
+	            $order_details->otp = null;
+	            $order_details->status = 1;
+	            $order_details->update();
+	            $estore_details = Estore::model()->findByPk($order_details->estore_id);
+	            $user_details = Register::model()->findByPk($estore_details->user_id);
+	            $style = '<style>
+
+		*{
+			border: 0;
+			box-sizing: content-box;
+			color: inherit;
+			font-family: inherit;
+			font-size: inherit;
+			font-style: inherit;
+			font-weight: inherit;
+			line-height: inherit;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			text-decoration: none;
+			vertical-align: top;
+		}
+
+
+		*[contenteditable] { border-radius: 0.25em; min-width: 1em; outline: 0; }
+
+		*[contenteditable] { cursor: pointer; }
+
+		*[contenteditable]:hover, *[contenteditable]:focus, td:hover *[contenteditable], td:focus *[contenteditable], img.hover { background: #DEF; box-shadow: 0 0 1em 0.5em #DEF; }
+
+		span[contenteditable] { display: inline-block; }
+
+
+
+		h1 { font: bold 100% sans-serif; letter-spacing: 0.5em; text-align: center; text-transform: uppercase; }
+
+
+
+		table { font-size: 75%; table-layout: fixed; width: 100%; }
+		table { border-collapse: separate; border-spacing: 2px; }
+		th, td { border-width: 1px; padding: 0.5em; position: relative; text-align: left; }
+		th, td { border-radius: 0.25em; border-style: solid; }
+		th { background: #EEE; border-color: #BBB; }
+		td { border-color: #DDD; }
+
+
+
+
+		html { background: #999; cursor: default; }
+
+		body { box-sizing: border-box; height: 11in; margin: 0 auto; overflow: hidden; padding: 0.5in; width: 8.5in; }
+		body { background: #FFF; border-radius: 1px; box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5); }
+
+		/* header */
+
+		header { margin: 0 0 3em; }
+		header:after { clear: both; content: ""; display: table; }
+
+		header h1 { background: #000; border-radius: 0.25em; color: #FFF; margin: 0 0 1em; padding: 0.5em 0; }
+		header address { float: left; font-size: 75%; font-style: normal; line-height: 1.25; margin: 0 1em 1em 0; }
+		header address p { margin: 0 0 0.25em; }
+		header span, header img { display: block; float: right; }
+		header span { margin: 0 0 1em 1em; max-height: 25%; max-width: 60%; position: relative; }
+		header img { max-height: 100%; max-width: 100%; }
+		header input { cursor: pointer; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; height: 100%; left: 0; opacity: 0; position: absolute; top: 0; width: 100%; }
+
+		/* article */
+
+		article, article address, table.meta, table.inventory { margin: 0 0 3em; }
+		article:after {   }
+		article h1 { clip: rect(0 0 0 0); position: absolute; }
+
+		article address { float: left; font-size: 125%; font-weight: bold; }
+
+		/* table meta & balance */
+
+		table.meta, table.balance { float: right; width: 36%; }
+		table.meta:after, table.balance:after { clear: both; content: ""; display: table; }
+
+		/* table meta */
+
+		table.meta th { width: 40%; }
+		table.meta td { width: 60%; }
+
+		/* table items */
+
+		table.inventory { clear: both; width: 100%; }
+		table.inventory th { font-weight: bold; text-align: center; }
+
+		table.inventory td:nth-child(1) { width: 26%; }
+		table.inventory td:nth-child(2) { width: 38%; }
+		table.inventory td:nth-child(3) { text-align: right; width: 12%; }
+		table.inventory td:nth-child(4) { text-align: right; width: 12%; }
+		table.inventory td:nth-child(5) { text-align: right; width: 12%; }
+
+		/* table balance */
+
+		table.balance th, table.balance td { width: 50%; }
+		table.balance td { text-align: right; }
+
+		/* aside */
+
+		aside h1 { border: none; border-width: 0 0 1px; margin: 0 0 1em; }
+		aside h1 { border-color: #999; border-bottom-style: solid; }
+
+		/* javascript */
+
+		.add, .cut
+		{
+			border-width: 1px;
+			display: block;
+			font-size: .8rem;
+			padding: 0.25em 0.5em;
+			float: left;
+			text-align: center;
+			width: 0.6em;
+		}
+
+		.add, .cut
+		{
+			background: #9AF;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+			background-image: -moz-linear-gradient(#00ADEE 5%, #0078A5 100%);
+			background-image: -webkit-linear-gradient(#00ADEE 5%, #0078A5 100%);
+			border-radius: 0.5em;
+			border-color: #0076A3;
+			color: #FFF;
+			cursor: pointer;
+			font-weight: bold;
+			text-shadow: 0 -1px 2px rgba(0,0,0,0.333);
+		}
+
+		.add { margin: -2.5em 0 0; }
+
+		.add:hover { background: #00ADEE; }
+
+		.cut { opacity: 0; position: absolute; top: 0; left: -1.5em; }
+		.cut { -webkit-transition: opacity 100ms ease-in; }
+
+		tr:hover .cut { opacity: 1; }
+
+		@media print {
+			* { -webkit-print-color-adjust: exact; }
+			html { background: none; padding: 0; }
+			body { box-shadow: none; margin: 0; }
+			span:empty { display: none; }
+			.add, .cut { display: none; }
+		}
+
+		@page { margin: 0; }
+
+		</style>';
+		$mail_content ='
+     	<header>
+			<h1>Request Connectivity</h1>
+			<address>
+				<p>'.$order_details->estore_name.'</p>
+				<p>'.$user_details->phone_number.'</p>
+			</address>
+			<span><img alt="" height="55" width="225"  src="'.$estore_details->logo.'"></span>
+		</header>
+		<article style="clear: both; display: block;">
+
+			<address>
+				<p>'.$order_details->buyer_name.'<br>'.$order_details->buyer_phone.'</p>
+			</address>
+			<table class="meta">
+				<tr>
+					<th><span>Invoice #</span></th>
+					<td><span>'.$order_details->invoice_id.'</span></td>
+				</tr>
+				<tr>
+					<th><span>Date</span></th>
+					<td><span>'.$order_details->create_date.'</span></td>
+				</tr>
+
+			</table>
+			<table class="inventory">
+				<thead>
+					<tr>
+						<th><span>Item</span></th>
+						<th><span>Item Code</span></th>
+						<th><span>Rate</span></th>
+						<th><span>Quantity</span></th>
+						<th><span>Price</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><span>'.$order_details->product_name.'</span></td>
+						<td><span>'.$order_details->item_code.'</span></td>
+						<td><span data-prefix>BDT </span><span>'.$order_details->product_price.'</span></td>
+						<td><span>1</span></td>
+						
+					</tr>
+				</tbody>
+			</table>
+			<div style="clear:both;"></div>
+		</article>
+		<aside>
+			<h1><span>Additional Notes</span></h1>
+			<div>
+				<p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p>
+			</div>
+		</aside>
+		 ';
+		
+		$email_to_visitor = Generic::sendMail($mail_content,"Order Request From bdbroadbanddeals.com",$email,"bdbroadbanddeals.com <sales@bdbroadbanddeals.com>",false,false,false,$style);
+		$email_to_shop_owner = Generic::sendMail($mail_content,"Order Request From bdbroadbanddeals.com",$order_details->buyer_email,$user_details->email,false,false,"sales@bdbroadbanddeals.com",$style);
+			$response['business_url'] = 'e-store/'.$estore_details->url_alias.'/';
+	            
+        	} else {
+        		$no_of_try = $order_details->no_of_try;
+        		$no_of_try++;
+        		$order_details->no_of_try = $no_of_try;
+        		$order_details->update();
+        	}
+        }
+       
+
+        echo json_encode($response);
+    }
 
 	public function actionChangeOrderStatus(){
 
@@ -1007,17 +1351,17 @@ class EstoreController extends Controller
 		$data->status = $status;
 		if($data->update()){
 
-			if($data->status == 1){
+			if($data->status == 3){
 				$response['status'] = "approved";
 				$mail_content = "Dear $buyer_name <br>,";
 				$mail_content .= "Your Order ID $invoice_number for this Product, Product Name: $product_name Has been Approved Successfully.<br>";
 				$mail_content .= "Thanks";
 				$subject = "Order Approval";
-				$from = "invoice@bdbroadbanddeals.com";
+				$from = Yii::app()->params['businessEmail'];
+				$admin_mail =  Yii::app()->params['adminEmail'];
 				$to = $data['buyer_email'];
 				Generic::sendMail($mail_content,$subject,$to,$from);
-
-
+				Generic::sendMail($mail_content,$subject,$admin_mail,$from);
 			}
 			elseif($data->status == 2){
 				$response['status'] = "cancelled";
@@ -1025,16 +1369,27 @@ class EstoreController extends Controller
 				$mail_content .= "Your Order ID $invoice_number for this Product, Product Name: $product_name Has been Cancelled.<br>";
 				$mail_content .= "Thanks";
 				$subject = "Order Cancellation";
-				$from = "invoice@bdbroadbanddeals.com";
+				$from = Yii::app()->params['businessEmail'];
+				$admin_mail =  Yii::app()->params['adminEmail'];
 				$to = $data['buyer_email'];
 				Generic::sendMail($mail_content,$subject,$to,$from);
-
+				Generic::sendMail($mail_content,$subject,$admin_mail,$from);
+			} elseif($data->status == 4){
+				$response['status'] = "completed";
+				$mail_content = "Dear $buyer_name <br>,";
+				$mail_content .= "Your Order ID $invoice_number for this Product, Product Name: $product_name Has been Completed.<br>";
+				$mail_content .= "Thanks";
+				$subject = "Order Complete";
+				$from = Yii::app()->params['businessEmail'];
+				$admin_mail =  Yii::app()->params['adminEmail'];
+				$to = $data['buyer_email'];
+				Generic::sendMail($mail_content,$subject,$to,$from);
+				Generic::sendMail($mail_content,$subject,$admin_mail,$from);
 			}
 
 		}
 		else{
 			$response['status'] = "false";
-
 		}
 		echo json_encode($response);
 	}

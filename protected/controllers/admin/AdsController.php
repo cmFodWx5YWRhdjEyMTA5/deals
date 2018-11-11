@@ -77,8 +77,8 @@ class AdsController extends Controller
         				$estore_criteria->params = array(':user_id'=>$user_details->id);
 						$store_details = Estore::model()->findAll($estore_criteria);
 
-						$message = 'Your Package has been approved. You can see it <a href="'.$base_url.'/isp/'.$store_details[0]->url_alias.'/product-details/'.$model->id.'" target="_blank">here</a>';
-						$message_for_business = 'A request has been approved. You can see it <a href="'.$base_url.'/isp/'.$store_details[0]->url_alias.'/product-details/'.$model->id.'" target="_blank">here</a>';
+						$message = 'Your Package has been approved. You can see it <a href="'.$base_url.'/isp/'.$store_details[0]->url_alias.'/package-details/'.$model->id.'" target="_blank">here</a>';
+						$message_for_business = 'A request has been approved. You can see it <a href="'.$base_url.'/isp/'.$store_details[0]->url_alias.'/package-details/'.$model->id.'" target="_blank">here</a>';
 					} else if($user_details->register_type == 'store'){
 						$estore_criteria = new CDbCriteria();
         				$estore_criteria->condition = "user_id = :user_id";

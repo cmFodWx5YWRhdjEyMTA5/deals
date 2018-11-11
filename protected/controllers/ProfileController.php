@@ -1089,9 +1089,9 @@ class ProfileController extends Controller
         $estore_details = Estore::model()->findAll($estore_criteria);
 
         if($ad_owner->register_type == 'business'){
-            $ad_link = 'isp/'.$estore_details[0]->url_alias.'/product-details/'.$ad_id;
+            $ad_link = 'isp/'.$estore_details[0]->url_alias.'/package-details/'.$ad_id;
         } else if($ad_owner->register_type == 'store'){
-            $ad_link = 'estore/'.$estore_details[0]->url_alias.'/product-details/'.$ad_id;
+            $ad_link = 'e-store/'.$estore_details[0]->url_alias.'/product-details/'.$ad_id;
         }
 
         $criteria = new CDbCriteria();
@@ -1574,8 +1574,8 @@ class ProfileController extends Controller
         $user_details = (object) $this->checkUserDetails();
 
         $criteria = new CDbCriteria();
-        $criteria->condition = 'estore_id = :estore_id';
-        $criteria->params = array(':estore_id' => $user_details->estore_id);
+        $criteria->condition = 'estore_id = :estore_id and status != :status';
+        $criteria->params = array(':estore_id' => $user_details->estore_id, ':status' => 0);
         $order_data = EstoreOrder::model()->findAll($criteria);
 
 
@@ -3036,13 +3036,17 @@ class ProfileController extends Controller
 
     public function actionEditEstoreProduct() {
         $user_details = (object) $this->checkUserDetails();
+        $ad_id = Yii::app()->request->getParam('ad_id');
+        $ad_id = base64_decode(urldecode($ad_id));
+        $ad_details = Ads::model()->findByPk($ad_id);
         $this->render('update-estore-product',array(
             'user_name' => $user_details->user_name,
             'register_type' => $user_details->register_type,
             'profile_data' => $user_details->profile_data,
             'sidebar_type' => $user_details->sidebar_type,
             'business_status' => $user_details->business_status,
-            'store_url' => $user_details->store_url
+            'store_url' => $user_details->store_url,
+            'ad_details' => $ad_details
         ));
     }
 

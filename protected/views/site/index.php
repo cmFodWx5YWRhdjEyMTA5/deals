@@ -142,12 +142,15 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 				</div>
 			</div>
 		</div>
-                <div class="banner-ad1">
-				<img src="images/banner_ads/banner_ad2.jpg" alt="banner ad 1">
-		</div>
-		<div class="banner-ad2" style="width:100%; height:125px; background:#ED2912; text-align:center; color:#fff; font-size: 85px; padding-top:18px;">
-			<!-- <img src="images/banner_ads/banner_ad1.jpg" alt="banner ad 2"> -->
-			Your Advertisement Goes Here
+        <div class="category-brand-slider banner-ad-slider">
+			<div class="wrap-item">
+				<div class="item">
+					<img src="images/banner_ads/banner_ad2.jpg" alt="banner ad 2">
+				</div>
+				<div class="item">
+					<img src="images/banner_ads/banner_ad1.jpg" alt="banner ad 1">
+				</div>
+			</div>
 		</div>
 		<div class="clear"></div>
 		<!-- End List Service -->
@@ -932,6 +935,10 @@ $this->renderPartial("/elements/ad_preview_modal");
 
 	.inner-list-services:hover {
 		opacity: 0.7;
+	}
+
+	.banner-ad-slider {
+		border:none !important;
 	}
 
 </style>

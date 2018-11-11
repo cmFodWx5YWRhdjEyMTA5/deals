@@ -1,4 +1,21 @@
-
+<style type="text/css">
+    .job_title {
+        color: #000 !important;
+    }
+    .company_logo {
+        float: left; 
+        margin-right: 20px;
+    }
+    .company_logo img{
+        width: 220px !important;
+        padding-top: 10px;
+    }
+    .employer_name {
+        font-size: 36px;
+        text-transform: uppercase;
+        line-height: 76px;
+    }
+</style>
 <section id="main" class="clearfix contact-us">
     <div class="container">
         <div class="web-app">
@@ -7,12 +24,20 @@
                     <div class="page contextual-page mb-0">
                         <div class="inner">
 
-                            <header class="page-header text-center">
-                                <h3><?=$job_details[0]['title']?></h3>
+                            <header class="page-header text-center" style="padding: 5px !important;">
+                                <p>
+                                    <a href="<?php echo $company_link ?>" target="_blank" class="company_logo">
+                                        <img src="<?=$employer_details->image?>">
+                                    </a>
+                                    <span class="employer_name"><?=$employer_details->enterprise_name?></span>
+                                    <div style="clear: both;"></div>
+                                </p>
+                                
                             </header>
 
                             <div class="text-widget">
                                 <div class="inner">
+                                    <h3 class="job_title"><strong>Job Title: </strong><?=$job_details[0]['title']?></h3>
                                     <h4>Vacancy</h4>
                                     <p><?=$job_details[0]['vacancy']?></p>
                                     <hr>
@@ -51,27 +76,19 @@
 
                                     </div>
                             </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="section">
-                    <div class="container">
-                        <div class="row">
                             <div class="text-widget">
-                                <div class="inner">
-                                    <h4>Contact details</h4>
-                                    <p><strong>Send your resume: </strong> support@bdbroadbanddeals.com</p>
-                                    <p><strong>Customer Support telephone number:   </strong> +88-09639114455</p>
-                                    <p><b>If you have any questions about this policy please contact our customer service using the contact us form.</b></p><br>
-                                    <a href="javascript::void(0)"  class="btn btn-theme apply" data-item="<?=$job_details[0]['id']?>">Apply</a>
+                                <div class="inner" style="text-align: center;">
+                                    <a href="javascript::void(0)"  class="btn btn-theme apply" data-item="<?=$job_details[0]['id']?>">Apply Now</a>
                                 </div>
                             </div>
+
                         </div>
-                    </div>
+                    </div>  
+
+
                 </div>
+
+                
             </div>
         </div>
 

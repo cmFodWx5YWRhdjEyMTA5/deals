@@ -48,6 +48,16 @@
 				array('label'=>'ISP Company', 'url'=>array('admin/business_estore/admin/store/0'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Estore', 'url'=>array('admin/business_estore/admin/store/1'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Jobs', 'url'=>array('admin/jobs/admin'), 'visible'=>!Yii::app()->user->isGuest),
+				/*array(
+					'label'=>'Orders',
+					'url'=>'#',
+					'visible'=>!Yii::app()->user->isGuest,
+					'items' => array(
+						array('label'=>'ISP Orders', 'url'=>array('admin/EstoreOrder/admin'), 'visible'=>!Yii::app()->user->isGuest),
+						array('label'=>'Estore Orders', 'url'=>array('admin/EstoreOrder/admin'), 'visible'=>!Yii::app()->user->isGuest),
+					)
+				),*/
+				array('label'=>'Order Management', 'url'=>array('admin/EstoreOrder/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Notify User', 'url'=>array('admin/register/sendNotification'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),

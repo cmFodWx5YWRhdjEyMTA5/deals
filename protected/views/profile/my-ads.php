@@ -251,7 +251,10 @@ $this->renderPartial("/elements/ad_preview_modal");
             success : function(response){
                 if(response.status=="success"){
                     if(response.ad_status == '1') {
-                        window.location = SITE_URL+'ad?ad_id='+encodeURIComponent(btoa(ad_id))+'&ad_type='+encodeURIComponent(btoa("ads"));
+                       window.open(
+                          SITE_URL+response.ad_link,
+                          '_blank' 
+                        );
                     } else {
                         $('.carousel-inner').html(response.ad_image);
                         $('.ad_title').html(response.ad_title);

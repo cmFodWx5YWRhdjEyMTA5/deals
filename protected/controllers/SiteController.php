@@ -116,9 +116,11 @@ class SiteController extends Controller {
         }
 
         $estore_ads = array_slice($estore_adss, 0, 6);
-        $divisions = Division::model()->findAll();
-        $districts = District::model()->findAll();
-        $thanas = Thana::model()->findAll();
+        
+        $divisions = Division::model()->findAll(array('order'=>'division'));
+        //Generic::_setTrace($divisions);
+        $districts = District::model()->findAll(array('order'=>'district'));
+        $thanas = Thana::model()->findAll(array('order'=>'thana'));
        
         //Generic::_setTrace($estore_ads);
         //$this->createHeader();
@@ -175,13 +177,22 @@ class SiteController extends Controller {
      */
     public function actionContact($country_code = '') {
         $model = new ContactForm;
+        $to_email = Yii::app()->params['registrationEmail'];
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
             if ($model->validate()) {
                 $headers = "From: {$model->email}\r\nReply-To: {$model->email}";
-                mail(Yii::app()->params['adminEmail'], $model->subject, $model->body, $headers);
+                $message = 'An user has an enquiry with following details: <br/>';
+                $message .= 'Name: '.$model->name.'<br>';
+                $message .= 'Email: '.$model->email.'<br>';
+                $message .= 'Message: <br><br>'.$model->body.'<br>';
+                Generic::sendMail($message,$model->subject,$to_email);
+                //mail(Yii::app()->params['adminEmail'], $model->subject, $model->body, $headers);
                 Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
                 $this->refresh();
+            } else {
+                $message = "There is an error in sending mail";
+                Generic::sendMail($message,$model->subject,$to_email);
             }
         }
         $this->render('contact', array('model' => $model));
@@ -1487,8 +1498,17 @@ class SiteController extends Controller {
         $ad_id = Yii::app()->request->getParam('ad_id');
         $title = Yii::app()->request->getParam('ads_title', '');
         $image_urls = Yii::app()->request->getParam('image_file');
-        $image_urls_array = explode(',', substr($image_urls, 1));
+        $image_urls = trim($image_urls,',');
+        $image_urls_array = explode(',',$image_urls);
+        $image_urls_array = array_map(function($item){
+            if(!strpos($item, 'uploads') !== false){
+                $item = Yii::app()->getBaseUrl(true).'/uploads/'.$item;
+            }
+            return $item;
+        }, $image_urls_array);
+
         $image_url = json_encode($image_urls_array);
+
         $description = Yii::app()->request->getParam('ads_description', '');
         $condition = Yii::app()->request->getParam('ads_condition', '');
         $price = Yii::app()->request->getParam('ads_price', '');
@@ -1497,6 +1517,7 @@ class SiteController extends Controller {
         $show_price_option = Yii::app()->request->getParam('show_price_option', 1);
         $discount = Yii::app()->request->getParam('discount', '');
         $category_id = Yii::app()->request->getParam('category_id', '');
+
         $is_featured = Yii::app()->request->getParam('is_featured', 0);
         $is_premium = Yii::app()->request->getParam('is_premium', 0);
         $is_top = Yii::app()->request->getParam('is_top', 0);
@@ -1536,6 +1557,10 @@ class SiteController extends Controller {
         $ad->latitude = $latitude;
         $ad->longitude = $longitude;
         $ad->show_price = $show_price_option;
+        $ad->active = 0;
+        if(!empty($category_id)){
+            $ad->category_id = $category_id;
+        }
         if ($ad->update()) {
             $ad_id = $ad->id;
             $this->deleteMetaData($ad_id);
@@ -1963,7 +1988,7 @@ class SiteController extends Controller {
      * deleting multiple images from Amazon s3
      */
     public function actionDeleteMultiImageFromS3() {
-        if (isset($_POST['file'])) {
+        if (isset($_POST['file']) && !empty($_POST['file'])) {
             $images = trim($_POST['file'],',');
             $image_array = explode(',', $images);
             foreach ($image_array as $image) {
@@ -3089,14 +3114,32 @@ class SiteController extends Controller {
     public function actionjobDetails() {
         $job_id = base64_decode(urldecode(Yii::app()->request->getParam('job_id')));
         $job_details = Generic::getJobsDetailsfromId($job_id);
+        $employer_details = $company_details = [];
+        if(isset($job_details[0]['user_id'])){
+            $employer_id = $job_details[0]['user_id'];
+            $employer_details = Register::model()->findByPk($employer_id);
 
+            $store_criteria = new CDbCriteria();
+            $store_criteria->condition = "user_id = :user_id and active = :active";
+            $store_criteria->params = array(':user_id' => $employer_id,':active' => 1);
+            $company_details = Estore::model()->find($store_criteria);
+            if($employer_details->register_type == 'business'){
+                $company_link = Yii::app()->getBaseUrl(true).'/isp/'.$company_details->url_alias;
+            } else {
+                $company_link = Yii::app()->getBaseUrl(true).'/e-store/'.$company_details->url_alias;
+            }
+        }
         $Criteria = new CDbCriteria();
         $Criteria->condition = "user_token = :user_token";
         $Criteria->params = array(':user_token' => Yii::app()->session['user_token']);
         $loggedin_user = Register::model()->find($Criteria);
+
         $this->render('job_description', array(
             'job_details' => $job_details,
             'loggedin_user' => $loggedin_user,
+            'employer_details' => $employer_details,
+            'company_details' => $company_details,
+            'company_link' => $company_link
         ));
     }
 
@@ -3112,6 +3155,9 @@ class SiteController extends Controller {
         $user_id = $profile_data['id'];
         $current_time = new \DateTime();
 
+        $job_details = Jobs::model()->findByPk($job_id);
+        $user_details = Register::model()->findByPk($job_details->user_id);
+
         $file_name = $_FILES['userfile']['name'];
 
         $job = new JobApplication();
@@ -3123,8 +3169,7 @@ class SiteController extends Controller {
         $job->address = $address;
         $job->resume_details = $file_name;
         $job->create_date = $current_time->format('Y-m-d');
-        ;
-
+        
         $thanks_message = '';
         if ($job->save()) {
             $file = $_FILES['userfile']['tmp_name'];
@@ -3133,12 +3178,13 @@ class SiteController extends Controller {
             $uid = md5(uniqid(time()));
 
             #$to = "support@bdbroadbanddeals.com";
-            $to = Yii::app()->params['adminEmail'];
+            $to = $user_details->email;
+            $jobs_mail = Yii::app()->params['jobsEmail'];;
             $from = $email;
-            $subject = "Sent Application for " . $job_details[0]['title'];
+            $subject = "Sent Application for " . $job_details->title;
 
 
-            $message = "Name : $name \nEmail : $from \nPhone Number :$phone \nAddress : $address \nApplied for post : " . $job_details[0]['title'] . "\nApplicant Resume : \n\n";
+            $message = "Name : $name \nEmail : $from \nPhone Number :$phone \nAddress : $address \nApplied for post : " . $job_details->title . "\nApplicant Resume : \n\n";
 
 
             // main header (multipart mandatory)
@@ -3159,7 +3205,8 @@ class SiteController extends Controller {
             $nmessage .= $content . "\r\n\r\n";
             $nmessage .= "--" . $uid . "--";
 
-            mail($to, $subject, $nmessage, $headers);
+            @mail($to, $subject, $nmessage, $headers);
+            @mail($jobs_mail, $subject, $nmessage, $headers);
             //Generic::sendMail($message,$subject,$to,$headers);
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {

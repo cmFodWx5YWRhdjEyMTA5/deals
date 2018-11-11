@@ -13,6 +13,7 @@ return array(
 	'registrationEmail' => 'support@bdbroadbanddeals.com',
 	'transactionEmail' => 'admin@bdbroadbanddeals.com',
 	'businessEmail' => 'sales@bdbroadbanddeals.com',
+	'jobsEmail' => 'jobs@bdbroadbanddeals.com',
 	// number of posts displayed per page
 	'postsPerPage'=>10,
 	// maximum number of comments that can be displayed in recent comments portlet

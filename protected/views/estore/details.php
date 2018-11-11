@@ -517,11 +517,12 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                 <h4 class="modal-title" id="myModalLabel">Send Request For Place Your Order </h4>
             </div>
             <div class="modal-body">
-                <form class="sending-ads-request" action="javascript:void(0);" id="sending_ads_request" method="post">
+                <form class="sending-ads-request" action="<?php echo Yii::app()->getBaseUrl(true) ?>/e-store/estore-order-confirm" id="sending_ads_request" method="post">
                     <input type="hidden" id="myRequest" name="my_request" value="" />
                     <input type="hidden" id="logo" name="logo" value="<?=$store_details->logo?>" />
                     <input type="hidden" id="enterprise_name" name="enterprise_name" value="<?=$user_details->enterprise_name?>" />
                     <input type="hidden" id="address" name="address" value="<?=$user_details->address?>" />
+                    <input type="hidden" id="return_url" name="return_url" value="<?=$return_url ?>" />
                     <input type="hidden" id="phone_number" name="phone_number" value="<?=$user_details->phone_number?>" />
                     <input type="hidden" id="estore_id" name="estore_id" value="<?=$store_details->id?>" />
                     <input type="hidden" id="owner_email" name="owner_email" value="<?=$user_details->email?>" />
@@ -560,7 +561,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                     <span><?php echo $loggedin_user->phone_number ?></span>
                                     <input type="hidden" class="form-control" name="sender_phone" id="sender_phone" value="<?php echo $loggedin_user->phone_number ?>" />
                                 <?php } else { ?>
-                                    <input type="tel" class="form-control" name="sender_phone" id="sender_phone" placeholder="Your Phone" required />
+                                    <input type="tel" class="form-control" name="sender_phone" id="sender_phone" placeholder="Your Mobile Number i.e 8801XXXXXXXXX" required />
                                 <?php } ?>
                             </div>
                         </div>
@@ -739,7 +740,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
 
 <script>
 
-    $(document).on('click','#order-send',function(){
+    /*$(document).on('click','#order-send',function(){
         function baseUrl(){var href=window.location.href.split('/');return href[0]+'//'+href[2]+'/';}
         var SITE_URL=baseUrl();
         var userName,sendToEmail,phoneNumber,productName,itemCode,price,emailReg,logo,enterprise_name,address,phone_number,loggedin_user_id,estore_id,owner_email;
@@ -795,7 +796,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                             $('#myModal_order').modal('hide');
                             $(".js_favorite_massage").hide();
                         }
-                        window.setTimeout(hide,3000);
+                        
 
 
 
@@ -809,7 +810,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                 }
             });
         }
-    });
+    });*/
 
     $(document).ready(function () {
         // Attach Button click event listener for sending message

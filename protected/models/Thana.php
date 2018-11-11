@@ -96,6 +96,9 @@ class Thana extends CActiveRecord
 
 		return new CActiveDataProvider('Thana', array(
 			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'thana ASC',
+			)
 		));
 	}
 

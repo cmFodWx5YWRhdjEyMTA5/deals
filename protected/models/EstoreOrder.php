@@ -17,6 +17,10 @@
  * @property string $buyer_phone
  * @property integer $status
  * @property string $create_date
+ * @property string $otp
+ * @property string $otp_time
+ * @property string $order_source
+ * @property string $no_of_try
  */
 class EstoreOrder extends CActiveRecord
 {
@@ -42,7 +46,7 @@ class EstoreOrder extends CActiveRecord
 			array('product_price', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, registered_user_id, invoice_id, estore_id, product_name, item_code, product_price, estore_name, buyer_name, buyer_email, buyer_phone, status, create_date', 'safe', 'on'=>'search'),
+			array('id, registered_user_id, invoice_id, estore_id, product_name, item_code, product_price, estore_name, buyer_name, buyer_email, buyer_phone, status, create_date,otp,otp_time,order_source,no_of_try', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,6 +80,10 @@ class EstoreOrder extends CActiveRecord
 			'buyer_phone' => 'Buyer Phone',
 			'status' => 'Status',
 			'create_date' => 'Create Date',
+			'otp' => 'Otp',
+			'otp_time' => 'Otp Time',
+			'order_source' => 'Order Source',
+			'no_of_try' => 'No of Try'
 		);
 	}
 
@@ -110,7 +118,10 @@ class EstoreOrder extends CActiveRecord
 		$criteria->compare('buyer_phone',$this->buyer_phone,true);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('create_date',$this->create_date,true);
-
+		$criteria->compare('otp',$this->otp,true);
+		$criteria->compare('otp_time',$this->otp_time,true);
+		$criteria->compare('order_source',$this->order_source,true);
+		$criteria->compare('no_of_try',$this->no_of_try,true);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

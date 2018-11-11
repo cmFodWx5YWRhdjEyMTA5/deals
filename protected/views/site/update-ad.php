@@ -4,7 +4,10 @@ $ad_id = urldecode(base64_decode(Yii::app()->request->getParam('ad_id')));
 $ad_details = Generic::getAddDetailsFromAddTable($ad_id);
 $ad_details_all = Generic::getAddDetailsFromAddMetaTable($ad_details['id']);
 $ad_id = urldecode(base64_decode(Yii::app()->request->getParam('ad_id')));
-$category_id = $ad_details['category_id'];
+$selected_category_id = $ad_details['category_id'];
+$user_id = isset($profile_data['id']) ? $profile_data['id'] : '';
+$category_name = Yii::app()->db->createCommand( "SELECT category_id,category_name FROM tbl_category  WHERE parent_id <> 0")->queryAll();
+
 $sub_category_data = Generic::getCategoryDetails($category_id);
 $sub_category_slug = $sub_category_data['sub_category_slug'];
 $token = Yii::app()->session['user_token'];
@@ -72,6 +75,24 @@ $top_price = $price_config['top']['amount'];
                                     <input type="text" name="ads_title" id="ad_title" value="<?=$ad_details['title']?>" class="form-control"  data-container="body" data-toggle="popover" data-trigger="focus" data-content="Type your ad title here. Example: Sony xperia dual sim brand new">
                                     <input type="hidden" name="ad_id" value="<?=$ad_details['id']?>" id="ad_id" >
 
+                                </div>
+                                <div id="message"></div>
+                            </div>
+                            <div class="row form-group add-title" id='category_business'>
+                                <label class="col-sm-3 label-title">Select Category<span class="required">*</span></label>
+                                <div class="col-sm-9" >
+                                   
+                                    <select class="form-control"  id="category_id" name="category_id">
+                                        <option  value="Select Category">Select Category</option>
+                                        <?php
+                                        foreach($category_name as $category){
+                                            $category_name = $category['category_name'];
+                                            $category_id = $category['category_id'];
+                                            ?>
+                                            <option  value="<?=$category_id?>" <?php if($selected_category_id == $category_id) { echo "selected"; } ?>><?=$category_name?></option>
+                                        <?php }?>
+                                    </select>
+                                    
                                 </div>
                                 <div id="message"></div>
                             </div>
@@ -188,7 +209,6 @@ $top_price = $price_config['top']['amount'];
                             ?>
                             <input type="hidden" id="show_price_option" name="show_price_option" value="<?php echo $ad_details['show_price'] ?>">
                             <input type="hidden" name="custom_column_number" value="<?php echo $custom_column_number; ?>" />
-                            <input type="hidden" name="category_id" value="<?= $category_id ?>" />
                         </div><!-- section -->
 
                         <div class="section seller-info">

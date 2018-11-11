@@ -92,6 +92,9 @@ class Division extends CActiveRecord
 
 		return new CActiveDataProvider('Division', array(
 			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'division ASC',
+			)
 		));
 	}
 

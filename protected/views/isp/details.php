@@ -486,10 +486,10 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
 
                                     <li class="clearfix">
                                         <div class="product-related-thumb">
-                                            <a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/product-details/<?=$individual['id']?>"><img src="<?= ImageHelper::cloudinary($images[0],$related_image_opt)?>" alt="" /></a>
+                                            <a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/package-details/<?=$individual['id']?>"><img src="<?= ImageHelper::cloudinary($images[0],$related_image_opt)?>" alt="" /></a>
                                         </div>
                                         <div class="product-related-info">
-                                            <h3 class="title-product"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/product-details/<?=$individual['id']?>"><?=$individual['title']?></a></h3>
+                                            <h3 class="title-product"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/package-details/<?=$individual['id']?>"><?=$individual['title']?></a></h3>
                                             <?php if($individual['show_price']){ ?>
                                             <div class="info-price">
                                                 <span>&#2547; <?=$individual['price']?>
@@ -503,48 +503,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                 </ul>
                             </div>
                             <?php } ?>
-                            <!-- End Related Product -->
-<!--                            <div class="widget widget-adv">-->
-<!--                                <h2 class="title-widget-adv">-->
-<!--                                    <span>Week</span>-->
-<!--                                    <strong>big sale</strong>-->
-<!--                                </h2>-->
-<!--                                <div class="wrap-item">-->
-<!--                                    <div class="item">-->
-<!--                                        <div class="item-widget-adv">-->
-<!--                                            <div class="adv-widget-thumb">-->
-<!--                                                <a href="#"><img src="--><?//=$base_url?><!--/images/grid/sl1.jpg" alt="" /></a>-->
-<!--                                            </div>-->
-<!--                                            <div class="adv-widget-info">-->
-<!--                                                <h3>New Collection</h3>-->
-<!--                                                <h2><span>from</span> 40% off</h2>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="item">-->
-<!--                                        <div class="item-widget-adv">-->
-<!--                                            <div class="adv-widget-thumb">-->
-<!--                                                <a href="#"><img src="--><?//=$base_url?><!--/images/grid/sl2.jpg" alt="" /></a>-->
-<!--                                            </div>-->
-<!--                                            <div class="adv-widget-info">-->
-<!--                                                <h3>Quality usinesswear </h3>-->
-<!--                                                <h2><span>from</span> 30% off</h2>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="item">-->
-<!--                                        <div class="item-widget-adv">-->
-<!--                                            <div class="adv-widget-thumb">-->
-<!--                                                <a href="#"><img src="--><?//=$base_url?><!--/images/grid/sl3.jpg" alt="" /></a>-->
-<!--                                            </div>-->
-<!--                                            <div class="adv-widget-info">-->
-<!--                                                <h3>Hanbags Style 2016</h3>-->
-<!--                                                <h2><span>from</span> 20% off</h2>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            
                             <!-- End Adv -->
                         </div>
                         <!-- End Sidebar Shop -->
@@ -582,11 +541,12 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                 <h4 class="modal-title" id="myModalLabel">Send Request For Place Your Order </h4>
             </div>
             <div class="modal-body">
-                <form class="sending-ads-request" action="javascript:void(0);" id="sending_ads_request" method="post">
+                <form class="sending-ads-request" action="<?php echo Yii::app()->getBaseUrl(true) ?>/isp/isp-order-confirm" id="sending_ads_request" method="post">
                     <input type="hidden" id="myRequest" name="my_request" value="" />
                     <input type="hidden" id="logo" name="logo" value="<?=$store_details->logo?>" />
                     <input type="hidden" id="enterprise_name" name="enterprise_name" value="<?=$user_details->enterprise_name?>" />
                     <input type="hidden" id="address" name="address" value="<?=$user_details->address?>" />
+                    <input type="hidden" id="return_url" name="return_url" value="<?=$return_url ?>" />
                     <input type="hidden" id="phone_number" name="phone_number" value="<?=$user_details->phone_number?>" />
                     <input type="hidden" id="estore_id" name="estore_id" value="<?=$store_details->id?>" />
                     <input type="hidden" id="owner_email" name="owner_email" value="<?=$user_details->email?>" />
@@ -804,78 +764,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
 
 <script>
 
-    $(document).on('click','#order-send',function(){
-        function baseUrl(){var href=window.location.href.split('/');return href[0]+'//'+href[2]+'/';}
-        var SITE_URL=baseUrl();
-        var userName,sendToEmail,phoneNumber,productName,itemCode,price,emailReg,logo,enterprise_name,address,phone_number,loggedin_user_id,estore_id,owner_email;
-        userName = $("#sender_name").val();
-        phoneNumber = $("#sender_phone").val();
-        sendToEmail = $.trim($("#sender_email").val());
-        productName = $("#product_name").val().trim();
-        itemCode = $("#item_code").val();
-        price = $("#product_price").val();
-        logo = $("#logo").val();
-        enterprise_name = $("#enterprise_name").val();
-        address = $("#address").val();
-        phone_number = $("#phone_number").val();
-        loggedin_user_id = $("#logged_user_id").val();
-        estore_id = $("#estore_id").val();
-        owner_email = $("#owner_email").val();
-
-
-        emailReg = /[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}/;
-        if(userName == '') {
-            $(".js_favorite_massage").html('User Name can not be left blank.');
-            $(".js_favorite_massage").show();
-        }
-        else if(sendToEmail == '') {
-            $(".js_favorite_massage").html('Email address can not be left blank.');
-            $(".js_favorite_massage").show();
-        }
-        else if(!emailReg.test(sendToEmail)) {
-            $(".js_favorite_massage").html('Please enter valid email address.');
-            $(".js_favorite_massage").show();
-        }
-        else if(phoneNumber == '') {
-            $(".js_favorite_massage").html('Phone Number Can not be Blank');
-            $(".js_favorite_massage").show();
-        }
-        else{
-            $(".js_favorite_massage").html('');
-            $(".js_favorite_massage").hide();
-            $('#favorite-send-loading').show();
-            $.ajax({
-                type:"POST"
-                ,url:SITE_URL+"estore/SendOrderInvoice"
-                ,data:{name:userName,email_to:sendToEmail,phone_number:phoneNumber,item_name:productName,item_code:itemCode,price:price,logo:logo,enterprise_name:enterprise_name,address:address,owner_number:phone_number,loggedin_user_id:loggedin_user_id,estore_id:estore_id,owner_email:owner_email}
-                ,dataType: "json"
-                ,success:function(data){
-                    if(data.status == 'success'){
-
-                        $('#favorite-send-loading').hide();
-                        $(".js_favorite_massage").html('<p class="alert-success">&nbsp;Order Submitted Successfully.</p>');
-                        $(".js_favorite_massage").show();
-
-                       function hide(){
-                            $('#myModal_order').modal('hide');
-                            $(".js_favorite_massage").hide();
-                        }
-                        window.setTimeout(hide,3000);
-
-
-
-                    }
-                    else if(data.status == 'false'){
-                        $('#favorite-send-loading').hide();
-
-                        $(".js_favorite_massage").show();
-
-                    }
-                }
-            });
-        }
-    });
-
+    
     $(document).ready(function () {
         // Attach Button click event listener for sending message
         $("#send_message").click(function(){

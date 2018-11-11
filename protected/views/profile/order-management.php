@@ -67,25 +67,39 @@ echo $this->renderPartial($sidebar_type,array(
                     <tbody>
 
 
-                   <?php if (isset($order_data) && count($order_data>1)){
+                   <?php if (isset($order_data) && count($order_data)>1){
                        $i=0;
 
                        foreach($order_data as $individual_data){
-                           $status = "Pending";
+                           /*$status = "Pending";
                            $button_one = "display:block";
-                           $button_two = "display:block";
+                           $button_two = "display:block";*/
 
                            if(($individual_data->status) && ($individual_data->status == 1)){
 
-                               $status = "Approved";
-                               $button_one = "display:none";
-                               $button_two = "display:none";
+                               $status = "Pending";
+                               $button_one = "display:block";
+                               $button_two = "display:block";
+                               $button_three = "display:none";
                             }
-                              elseif(($individual_data->status) && ($individual_data->status == 2)){
+                            elseif(($individual_data->status) && ($individual_data->status == 2)){
 
                                   $status = "Cancelled";
                                   $button_one = "Approve";
                                   $button_two = "display:none";
+                                  $button_three = "display:none";
+                             }elseif(($individual_data->status) && ($individual_data->status == 3)){
+
+                                  $status = "Approved";
+                                  $button_one = "display:none";
+                                  $button_two = "display:none";
+                                  $button_three = "display:block";
+                             }elseif(($individual_data->status) && ($individual_data->status == 4)){
+
+                                  $status = "Completed";
+                                  $button_one = "display:none";
+                                  $button_two = "display:none";
+                                  $button_three = "display:none";
                              }
                            $i++;
                            ?>
@@ -144,8 +158,10 @@ echo $this->renderPartial($sidebar_type,array(
                                            <td><?=$individual_data->create_date?></td>
                                        </tr>
 
-                                            <a href="javascript:void(0);" style="<?=$button_one?>; width: 100px; padding: 5px 8px 5px 8px;text-align: center;float: left;background-color: #02A6D8;color: #fff;text-decoration: none; margin: 10px;" onclick="changeOrderStatus(1,'<?php echo $individual_data->invoice_id;?>')">Approve</a>
+                                            <a href="javascript:void(0);" style="<?=$button_one?>; width: 100px; padding: 5px 8px 5px 8px;text-align: center;float: left;background-color: #02A6D8;color: #fff;text-decoration: none; margin: 10px;" onclick="changeOrderStatus(3,'<?php echo $individual_data->invoice_id;?>')">Approve</a>
                                             <a href="javascript:void(0);" style="<?=$button_two?>;width: 100px; padding: 5px 8px 5px 8px;text-align: center;float: left;background-color: #02A6D8;color: #fff;text-decoration: none; margin: 10px;" onclick="changeOrderStatus(2,'<?php echo $individual_data->invoice_id;?>')">Cancel</a>
+                                            <a href="javascript:void(0);" style="<?=$button_three?>;width: 100px; padding: 5px 8px 5px 8px;text-align: center;float: left;background-color: #02A6D8;color: #fff;text-decoration: none; margin: 10px;" onclick="changeOrderStatus(4,'<?php echo $individual_data->invoice_id;?>')">Complete</a>
+
                                             <a href="javascript:void(0);" id="print_button" class="print_button" style="width: 100px; padding: 5px 8px 5px 8px;text-align: center;float: right;background-color: #02A6D8;color: #fff;text-decoration: none; margin: 10px;">Print </a>
 
                                    </table>
@@ -223,10 +239,10 @@ echo $this->renderPartial($sidebar_type,array(
            ,data:{status:value,id:id}
            ,dataType: "json"
            ,success:function(data){
-               if(data.status == 'approved' || data.status == 'cancelled' ){
+               if(data.status == 'approved' || data.status == 'cancelled' || data.status == 'completed' ){
 
                    $('#favorite-send-loading').hide();
-                   $(".js_favorite_massage").html('<p class="alert-success">&nbsp;Order Submitted Successfully.</p>');
+                   $(".js_favorite_massage").html('<p class="alert-success">&nbsp;Order Status Changed Successfully.</p>');
                    $(".js_favorite_massage").show();
                    location.reload();
 

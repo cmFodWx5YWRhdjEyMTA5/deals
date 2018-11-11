@@ -162,6 +162,25 @@ class Generic
 
     }
 
+    public static function sendOTPMessage($otp,$phone){
+        $esms_endpoint = "http://esms.zubairitexpert.com/smsapi";
+        $api_key = "C20021175ba79dbcadc2e3.38549687";
+        $sender_id = "BDBroadband";
+        $message = $otp." is your order verification code";
+        $otp_url = $esms_endpoint."?api_key=".$api_key."&type=text&contacts=".$phone."&senderid=".$sender_id."&msg=".urlencode($message);
+
+        //file_get_contents($otp_url);
+        $curl = curl_init($otp_url);
+        curl_setopt($curl, CURLOPT_FAILONERROR, true);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);  
+        $result = curl_exec($curl); 
+
+        //http://esms.zubairitexpert.com/smsapi?api_key=C20021175ba79dbcadc2e3.38549687&type=text&contacts=8801707565165&senderid=BDBroadband&msg=Hello+HAbib%2C+This+is+a+test+message
+    }
+
     public static function validateUploadImage($model, $attribute)
     {
 
@@ -2822,7 +2841,7 @@ class Generic
                     $ad_url = $baseUrl.'/ad?ad_id='.urlencode(base64_encode($product_id)).'&ad_type='.urlencode(base64_encode('ads'));
                 }
             } else if($ad_type == 'business') {
-                $ad_url = $baseUrl.'/isp/'.$url_alias.'/product-details/'.$product_id;
+                $ad_url = $baseUrl.'/isp/'.$url_alias.'/package-details/'.$product_id;
             }else{
                 if($country_code){
                     $ad_url = $baseUrl.'/'.$country_code.'/e-store/'.$url_alias.'/product-details/'.$product_id;
@@ -3339,7 +3358,8 @@ class Generic
         $connection = Yii::app()->db;;
         $command = $connection->createCommand()
             ->select("*")
-            ->from('tbl_jobs');
+            ->from('tbl_jobs')
+            ->where('active = :active',array(':active' => 1));
         $command->queryAll();
         $data_result = $command->queryAll();
         return $data_result;
@@ -4028,6 +4048,7 @@ class Generic
     public static function sendRegistrationPaper($registered_user){
 
         $current_date = new \DateTime();
+        $current_date->setTimezone(new DateTimeZone('Asia/Dhaka'));
         $remote_ip = Generic::getUserIP();
         $enterprise_name_block = '';
         $type_of_business_block = '';
@@ -4037,6 +4058,9 @@ class Generic
         $license_block = '';
         if($registered_user->license_number != '') {
             $license_block = '<tr>
+                                <td colspan="2" style="border:none">&nbsp;</td>
+                            </tr>
+                            <tr>
                                 <td>License Number:</td>
                                 <td>'.$registered_user->license_number.'</td>
                             </tr>';
@@ -4146,9 +4170,6 @@ class Generic
 	<tr>
 		<td width="200">Contact Number</td>
 		<td align="left" class="shade_text">'.$registered_user->phone_number.'</td>
-	</tr>
-	<tr>
-	<td colspan="2" style="border:none">&nbsp;</td>
 	</tr>
 	<tr>
 	<td colspan="2" style="border:none">&nbsp;</td>

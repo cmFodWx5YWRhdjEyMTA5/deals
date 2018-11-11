@@ -222,15 +222,24 @@ else if(ad_price=="")
 else{$.ajax({type:'POST',url:SITE_URL+"site/SaveAd",data:data,cache:false,dataType:"json",beforeSend:function(){$("#ad_status").fadeOut();$("#ad_submit").html('<span class="glyphicon glyphicon-transfer"></span> &nbsp; Submitting ...');},success:function(response){if(response.status=="success"){$("#ad_submit").html('<img src="'+SITE_URL+'images/ajax-loader.gif" /> &nbsp; Submitting Data ...');function redirect(){window.location=SITE_URL+'success?ad_id='+response.ad_id;}
     window.setTimeout(redirect,4000);}else if(response.status=="false"){$("#error_personal").fadeIn(1000,function(){$("#error_ad_post").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; '+response.message+' !</div>');});}}});}
     return false;}
-    $('#ad-form').on('submit',function(e){ adPostInsert();});$('.salary_type').on('change',function(){if($(this).val()=='1'){$('#salary_start').prop('placeholder','Salary');$('#salary_end').css('display','none');}else if($(this).val()=='2'){$('#salary_start').prop('placeholder','Salary Start Range');$('#salary_end').css('display','block');}else if($(this).val()=='3'){$('#salary_end').css('display','none');$('#salary_start').prop('placeholder','n/a');$('#salary_start').prop('readonly','true');}});function adPostUpdate(){ tinyMCE.triggerSave(); var data=$('#update-form').serialize();var ad_title=$("#ad_title").val();var ad_description=$("#ad_description").val();var ad_price=$("#ad_price").val();if(ad_title=="")
-{$("#ad_status").html('<div class="info">Please enter your  Ads Title to proceed !</div>');$("#ad_title").focus();}
+    $('#ad-form').on('submit',function(e){ adPostInsert();});$('.salary_type').on('change',function(){if($(this).val()=='1'){$('#salary_start').prop('placeholder','Salary');$('#salary_end').css('display','none');}else if($(this).val()=='2'){$('#salary_start').prop('placeholder','Salary Start Range');$('#salary_end').css('display','block');}else if($(this).val()=='3'){$('#salary_end').css('display','none');$('#salary_start').prop('placeholder','n/a');$('#salary_start').prop('readonly','true');}});
+    function adPostUpdate(){ 
+        tinyMCE.triggerSave(); 
+        var category_id = $('#category_id').val();
+        var data=$('#update-form').serialize();
+        var ad_title=$("#ad_title").val();
+        var ad_description=$("#ad_description").val();
+        var ad_price=$("#ad_price").val();if(ad_title=="")
+{
+    $("#ad_status").html('<div class="info">Please enter your  Ads Title to proceed !</div>');$("#ad_title").focus();}
 else if(ad_description=="")
 {$("#ad_status").html('<div class="info">Please enter your Ads Description to go !</div>');$("#ad_description").focus();}
 else if(ad_price=="")
 {$("#ad_status").html('<div class="info">Please enter your Ads Price to go !</div>');$("#ad_price").focus();}
 else{$.ajax({type:'POST',url:SITE_URL+"site/UpdateAd",data:data,cache:false,dataType:"json",beforeSend:function(){$("#ad_status").fadeOut();$("#ad_submit").html('<span class="glyphicon glyphicon-transfer"></span> &nbsp; Submitting ...');},success:function(response){if(response.status=="success"){$("#ad_submit").html('<img src="'+SITE_URL+'images/ajax-loader.gif" /> &nbsp; Submitting Data ...');function redirect(){window.location=SITE_URL+'update-success?ad_id='+response.ad_id;}
     window.setTimeout(redirect,4000);}else if(response.status=="false"){$("#error_personal").fadeIn(1000,function(){$("#error_ad_post").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; '+response.message+' !</div>');});}}});}
-    return false;}
+    return false;
+}
     $('#update-form').on('submit',function(e){files_to_delete=$('#delete_image_file').val();$.ajax({type:'POST',url:SITE_URL+"site/DeleteMultiImageFromS3",cache:false,data:{file:files_to_delete}});adPostUpdate();});function jobPostInsert(){var data=$('#job-form').serialize();var ad_title=$("#ads_title").val();var ad_description=$("#ads_description").val();var job_salary=$("#salary_start").val();var deadline=$("#application_deadline").val();if(ad_title=="")
 {$("#ad_status").html('<div class="info">Please enter your  Job Title to proceed !</div>');$("#ad_title").focus();}
 else if(ad_description==""){$("#ad_status").html('<div class="info">Please enter your Job Description to go !</div>');$("#ad_description").focus();}

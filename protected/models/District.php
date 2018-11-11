@@ -96,6 +96,9 @@ class District extends CActiveRecord
 
 		return new CActiveDataProvider('District', array(
 			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'district ASC',
+			)
 		));
 	}
 

@@ -1,3 +1,11 @@
+<style type="text/css">
+	.business_name {
+		float: left;
+		font-size: 43px;
+		color: #fff;
+		line-height: 71px;
+	}
+</style>
 	<div id="header">
 		<div class="header5">
 			<div class="container">
@@ -15,12 +23,14 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-4 col-sm-3 col-xs-12">
-						<div class="logo6">
+					<div class="col-md-8 col-sm-3 col-xs-12">
+						<div class="logo6" style="float: left; margin-right: 15px;>
 							<a href="<?=$current_url?>"><img alt="" src="<?=ImageHelper::cloudinary($store_details->logo,$opt)?>"></a>
 						</div>
+						<div class="business_name"><?=$user_details->enterprise_name?></div>
+						<div style="clear: both;"></div>
 					</div>
-					<div class="col-md-6 col-sm-9 col-xs-12">
+					<div class="col-md-4 col-sm-9 col-xs-12">
 						<div class="smart-search smart-search6">
 							<div class="select-category">
 								<a class="category-toggle-link" href="#"><span>All Categories</span></a>

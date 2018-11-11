@@ -12,7 +12,6 @@ foreach($individual_category_id as $id){
     $category_name[] = Category::model()->findByPk($id);
 }
 
-$expire_date =Subscription_plan ::model()->findByAttributes(array('user_id' => $user_id));
 
 echo $this->renderPartial($sidebar_type,array(
     'profile_data'=>$profile_data,

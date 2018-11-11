@@ -93,10 +93,6 @@ $this->menu=array(
 	'enableAjaxValidation'=>false,
 )); ?>
 
-<div class="row">
-	<?php echo $form->hiddenField($model,'expire_date',array('value'=>date("Y-m-d", strtotime('+1 Months')))); ?>
-	<?php echo $form->error($model,'expire_date'); ?>
-</div>
 
 	<div class="row" style="font-size: 15px;font-weight: bold;color: green">
 		<?php echo $form->labelEx($model,'ads_active'); ?>

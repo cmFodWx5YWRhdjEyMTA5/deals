@@ -66,17 +66,17 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="item-deal-product">
                                     <div class="product-thumb">
-                                        <a class="product-thumb-link" href="<?=$base_url.'/isp/'.$store_details->url_alias?>/product-details/<?=$products['id']?>">
+                                        <a class="product-thumb-link" href="<?=$base_url.'/isp/'.$store_details->url_alias?>/package-details/<?=$products['id']?>">
                                             <img class="first-thumb" alt="" src="<?php echo ImageHelper::cloudinary($images[0],$opt_featured) ?>">
                                             <img class="second-thumb" alt="" src="<?php echo ImageHelper::cloudinary($images[0],$opt_featured) ?>">
                                         </a>
                                         <div class="product-info-cart">
 
-                                            <a class="addcart-link" href="<?=$base_url.'/isp/'.$store_details->url_alias?>/product-details/<?=$products['id']?>"><i class="fa fa-eye"></i> VIEW DETAILS</a>
+                                            <a class="addcart-link" href="<?=$base_url.'/isp/'.$store_details->url_alias?>/package-details/<?=$products['id']?>"><i class="fa fa-eye"></i> VIEW DETAILS</a>
                                         </div>
                                     </div>
                                     <div class="product-info">
-                                        <h3 class="title-product"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/product-details/<?=$products['id']?>"><?=$products['title']?></a></h3>
+                                        <h3 class="title-product"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/package-details/<?=$products['id']?>"><?=$products['title']?></a></h3>
                                         <p class="desc"><?=$retval?></p>
                                         <?php if($products['show_price']) { ?>
                                         <div class="info-price-deal">
@@ -84,7 +84,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                         </div>
                                         <?php } ?>
                                         <div class="deal-shop-social">
-                                            <a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/product-details/<?=$products['id']?>" class="deal-shop-link">view details</a>
+                                            <a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/package-details/<?=$products['id']?>" class="deal-shop-link">view details</a>
 
                                         </div>
                                     </div>
