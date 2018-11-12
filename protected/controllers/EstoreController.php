@@ -114,8 +114,8 @@ class EstoreController extends Controller
 			$subject = "You have received a message from e-store in bdbroadbanddeals";
 			$message_content = "<p>Mr/Mrs $name is in contact with you through your e-store in bdbroadbanddeals.com. User information including his/her message is given below.
 			</p><br><p>Name : $name</p><p>Email : $from</p><p>Phone Number :$phone_number</p><p>Message : $message</p><br><p>Kind regards</p>";
+			
 			Generic::sendMail($message_content,$subject,$to);
-
 			$current_date = new \DateTime();
 			$message_details = 'My estimated offer price is BDT ' . $offered_price;
                 $message = new Message();

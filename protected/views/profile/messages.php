@@ -51,7 +51,7 @@ echo $this->renderPartial($sidebar_type,array(
                                 <li><a href="<?php echo $base_url ?>/my-profile/messages/starred">Starred</a></li>
                             </ul>
                         </div>
-                        <div class="col-xs-12 col-md-6">
+                        <!-- <div class="col-xs-12 col-md-6">
                             <ul class="text-right panel-action-list">
                                 <li><a href="#" class="danger-hover">Mark as Read</a></li>
                                 <li><a href="#" class="danger-hover">Delete</a></li>
@@ -72,7 +72,7 @@ echo $this->renderPartial($sidebar_type,array(
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -158,12 +158,12 @@ echo $this->renderPartial($sidebar_type,array(
                                 <?php } ?>
                                 <li><a class="tc starr-message <?php if($message->is_starred) echo "starr-active"; ?>" href="javascript:void(0)" data-value="<?php echo $message->id ?>" message-type="<?php echo $message_type ?>" title="mark as starred"><i class="fa fa-star"></i></a></li>
                                 <li><a class="tc12-hover delete-message" href="javascript:void(0)" data-value="<?php echo $message->id ?>" message-type="<?php echo $message_type ?>" title="delete message"><i class="adicon-recyclebin"></i></a></li>
-                                <li>
+                                <!-- <li>
                                     <div class="custom-check">
                                         <input id="select_<?php echo $message->id ?>" type="checkbox">
                                         <label for="select_<?php echo $message->id ?>"></label>
                                     </div>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div><!--msg-unit-->
@@ -318,26 +318,26 @@ echo $this->renderPartial($sidebar_type,array(
         });
         
         // reply message box showing below
-        // $('.show_message,.msg-body').on('click',function () {
-        //     message_id = $(this).attr('data-value');
-        //     message_type = $(this).attr('message-type');
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: SITE_URL + "profile/getMessageDetails",
-        //         data: {message_id: message_id,message_type:message_type},
-        //         cache: false,
-        //         dataType: "json",
-        //         success: function (response) {
-        //             if(response.status == 'success') {
-        //                 $('#full_message').html(response.html);
-        //                 $('#reply_button_block').html(response.html_reply_button);
-        //                 $('#hidden_message_info').html(response.html_hidden);
-        //                 $('#message_details_modal').modal('show');
-        //             }
-        //         }
-        //     });
+        $('.show_message,.msg-body').on('click',function () {
+            message_id = $(this).attr('data-value');
+            message_type = $(this).attr('message-type');
+            $.ajax({
+                type: 'POST',
+                url: SITE_URL + "profile/getMessageDetails",
+                data: {message_id: message_id,message_type:message_type},
+                cache: false,
+                dataType: "json",
+                success: function (response) {
+                    if(response.status == 'success') {
+                        $('#full_message').html(response.html);
+                        //$('#reply_button_block').html(response.html_reply_button);
+                        $('#hidden_message_info').html(response.html_hidden);
+                        $('#message_details_modal').modal('show');
+                    }
+                }
+            });
 
-        // });
+        });
 
         $('.ad_id').on('click',function(){
             ad_id = $(this).attr('data-value');

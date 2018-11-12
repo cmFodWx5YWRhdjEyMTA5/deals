@@ -130,6 +130,7 @@ class IspController extends Controller
                 $message->reply_of = NULL;
                 $message->save();
 
+
                 /* ------------------- Add a notification --------------------- */
                 $message_notification = new Notification_message();
                 $message_notification->receiver_id = $store_details->user_id;

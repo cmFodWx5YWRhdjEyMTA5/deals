@@ -163,6 +163,11 @@ class Generic
     }
 
     public static function sendOTPMessage($otp,$phone){
+        $phone = trim($phone,'+');
+        // set 88 as prefix if not mentioned
+        if(substr($phone, 0, 2) !== '88'){
+            $phone = '88'.$phone;
+        }
         $esms_endpoint = "http://esms.zubairitexpert.com/smsapi";
         $api_key = "C20021175ba79dbcadc2e3.38549687";
         $sender_id = "BDBroadband";
@@ -1155,6 +1160,15 @@ class Generic
         return true;
     }
 
+    public static function deleteJobDetailsFromJobTable($ad_id)
+    {
+        $connection = Yii::app()->db;
+        $model = $connection->createCommand('DELETE FROM tbl_jobs WHERE id=:ad_id');
+        $model->bindParam(':ad_id', $ad_id);
+        $model->execute();
+        return true;
+    }
+
     /*
      * get all meta from job id
      */
@@ -2114,10 +2128,10 @@ class Generic
         $table = 'tbl_message tm';
         $condition = 'tm.receiver = :receiver_id';
         $condition_param = array(':receiver_id' => $receiver_id);
-        $select = 'tm.id as id,tr.image as image, tm.sender_email as email, tm.sender_phone as phone, tm.sender_name as sender_name, tm.details as details, tm.create_date as create_date, tm.is_starred as is_starred, ta.title as title, tm.ad_id as ad_id';
+        $select = 'tm.id as id,tr.image as image, tm.sender_email as email, tm.sender_phone as phone, tm.sender_name as sender_name, tm.details as details, tm.create_date as create_date, tm.is_starred as is_starred,tm.ad_id as ad_id';
         if ($message_type != '' && $message_type == 'sent') {
             $table = 'tbl_message_sent tm';
-            $select = 'tm.id as id,tr.image as image, tr.user_name as sender_name, tm.details as details, tm.create_date as create_date, tm.is_starred as is_starred, ta.title as title, tm.ad_id as ad_id';
+            $select = 'tm.id as id,tr.image as image, tr.user_name as sender_name, tm.details as details, tm.create_date as create_date, tm.is_starred as is_starred, tm.ad_id as ad_id';
             $condition = 'tm.registered_sender = :sender_id';
             $condition_param = array(':sender_id' => $receiver_id);
         }
@@ -2126,9 +2140,10 @@ class Generic
             ->from($table)
             //->join('tbl_register tr1', 'tr1.id = tm.registered_sender')
             ->join('tbl_register tr', 'tr.id=tm.receiver')
-            ->join('tbl_ads ta', 'ta.id=tm.ad_id')
+            //->join('tbl_ads ta', 'ta.id=tm.ad_id')
             ->where($condition, $condition_param)
             ->order('tm.id DESC');
+
         if ($message_type != '' and $message_type == 'read') {
             $command->andwhere('tm.read_status = :read_status', array(':read_status' => 1));
         } else if ($message_type != '' and $message_type == 'unread') {
@@ -2137,6 +2152,7 @@ class Generic
             $command->andwhere('tm.is_starred = :is_starred', array(':is_starred' => 1));
         }
         $data_result = $command->queryAll();
+        
         return $data_result;
     }
 

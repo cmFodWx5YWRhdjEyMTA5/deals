@@ -35,7 +35,7 @@ class Message extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('registered_sender, receiver, read_status, is_starred, create_date', 'required'),
+			array('receiver, read_status, is_starred, create_date', 'required'),
 			array('registered_sender, receiver, ad_id, read_status, is_starred, reply_of', 'numerical', 'integerOnly'=>true),
 			array('sender_name, sender_email, sender_phone', 'length', 'max'=>255),
 			array('details', 'safe'),

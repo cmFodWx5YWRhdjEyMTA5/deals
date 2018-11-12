@@ -1657,6 +1657,63 @@ class SiteController extends Controller {
         echo json_encode($response);
     }
 
+    public function actionDeleteJob() {
+        $response = array();
+        $baseUrl = Yii::app()->getBaseUrl(true);
+        $ad_id = Yii::app()->request->getParam('job_id');
+        $user_id = Yii::app()->request->getParam('user_id');
+        $image_helper = new ImageHelper();
+        $user_details = Register::model()->findByPk($user_id);
+
+        $ad_update_type = '/update-job';
+        if($user_details->register_type == 'business'){
+            $ad_update_type = '/my-profile/update-isp-job';
+        } else if($user_details->register_type == 'store'){
+            $ad_update_type = '/my-profile/update-estore-job';
+        } 
+
+        //$ad_meta_delete = Generic::deleteAdDetailsFromAdMetaTable($ad_id);
+        $ad_details_delete = Generic::deleteJobDetailsFromJobTable($ad_id);
+
+        if ($ad_details_delete) {
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'user_id = :user_id and active = :active';
+            $criteria->params = [':user_id' => $user_id, ':active' => 1];
+            $jobs = Jobs::model()->findAll($criteria);
+
+            $baseUrl = Yii::app()->getBaseUrl(true);
+            $loaded_html = "";
+                foreach($jobs as $job){
+                    
+                    $loaded_html .= '<div class="items-list">
+                                <article class="item-spot">
+                                <div class="item-content">
+                                    <header>
+                                        <h6><a href="javascript:void(0)" class="tc" data-item="'.$job->id.'">'.$job->title.'</a></h6>
+                                        <ul class="item-info">
+                                            <div class="price-tag">BDT '.$job->salary.'</div>
+                                        </ul>
+                                    </header>
+
+                                    <div class="item-admin-actions text-center">
+                                        <ul>
+                                            <li><a class="tc" title="View" href="javascript:void(0)" onclick="showAdPreviewModal('.$job->id.')" data-item="'.$job->id.'"><i class="adicon-eye"></i></a></li>
+                                            <li><a class="tc6-hover" title="Edit" href="'.$baseUrl."/update-job?job_id=".urlencode(base64_encode($job->id)).'"><i class="adicon-edit"></i></a></li>
+                                            <li><a class="tc12-hover" title="Delete" href="javascript:void(0);" onclick="deleteItem(' . $job->id . ',\'' .$job->user_id.'\')"><i class="adicon-recyclebin"></i></a></li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </article>
+                       </div>';
+                              }
+
+            $response['status'] = 'success';
+            $response['html'] = html_entity_decode($loaded_html);
+        }
+        echo json_encode($response);
+    }
+
     /*
      * function saveJob
      * saves job details

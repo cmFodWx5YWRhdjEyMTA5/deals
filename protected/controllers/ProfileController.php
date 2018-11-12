@@ -1392,7 +1392,7 @@ class ProfileController extends Controller
                                     <div class="item-admin-actions text-center">
                                         <ul>
                                             <li><a class="tc" title="View" href="javascript:void(0)" onclick="showAdPreviewModal('.$job->id.')" data-item="'.$job->id.'"><i class="adicon-eye"></i></a></li>
-                                            <li><a class="tc6-hover" title="Edit" href="'.$baseUrl."/update-ad?ad_id=".urlencode(base64_encode($job->id)).'"><i class="adicon-edit"></i></a></li>
+                                            <li><a class="tc6-hover" title="Edit" href="'.$baseUrl."/update-job?job_id=".urlencode(base64_encode($job->id)).'"><i class="adicon-edit"></i></a></li>
                                             <li><a class="tc12-hover" title="Delete" href="javascript:void(0);" onclick="deleteItem(' . $job->id . ',\'' .$job->user_id.'\')"><i class="adicon-recyclebin"></i></a></li>
                                         </ul>
                                     </div>

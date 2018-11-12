@@ -145,8 +145,8 @@ $this->renderPartial("/elements/ad_preview_modal");
             $.ajax({
                 type: 'POST',
                 async: false,
-                url: SITE_URL + "site/DeleteAd",
-                data: {ad_id: id, user_id: user_id},
+                url: SITE_URL + "site/DeleteJob",
+                data: {job_id: id, user_id: user_id},
                 cache: false,
                 dataType: "json",
                 success: function (data) {
@@ -188,9 +188,14 @@ $this->renderPartial("/elements/ad_preview_modal");
 
 
     function showAdPreviewModal(ad_id){
-        $.ajax({
+         var job_link = SITE_URL+'job-details?job_id='+encodeURIComponent(btoa(ad_id));
+         window.open(
+           job_link,
+            '_blank' 
+            );
+        /*$.ajax({
             type : 'POST',
-            url  : SITE_URL+"profile/getAdDetailsForProfile",
+            url  : SITE_URL+"profile/getJobDetailsForProfile",
             data : {ad_id : ad_id},
             cache: false,
             dataType:"json",
@@ -209,7 +214,7 @@ $this->renderPartial("/elements/ad_preview_modal");
                     }
                 }
             }
-        });
+        });*/
     }
 
 
