@@ -1,0 +1,160 @@
+2018/12/02 11:13:55 [trace] [system.CModule] Loading "log" application component
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.db.ar.CActiveRecord] Ads.findAll()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.CModule] Loading "db" application component
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.db.CDbConnection] Opening DB connection
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.db.CDbCommand] Querying SQL: SHOW FULL COLUMNS FROM `tbl_ads`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.db.CDbCommand] Querying SQL: SHOW CREATE TABLE `tbl_ads`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_ads` `t` WHERE active=:active and expire_date is not :expire_date
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.db.ar.CActiveRecord] Register.findByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.db.CDbCommand] Querying SQL: SHOW FULL COLUMNS FROM `tbl_register`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.db.CDbCommand] Querying SQL: SHOW CREATE TABLE `tbl_register`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:55 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_register` `t` WHERE `t`.`id`=1182 LIMIT 1
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:56 [trace] [system.db.ar.CActiveRecord] Register.findByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:56 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_register` `t` WHERE `t`.`id`=1183 LIMIT 1
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:57 [trace] [system.db.ar.CActiveRecord] Register.findByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:57 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_register` `t` WHERE `t`.`id`=1183 LIMIT 1
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:58 [trace] [system.db.ar.CActiveRecord] Register.findByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:13:58 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_register` `t` WHERE `t`.`id`=1185 LIMIT 1
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.CModule] Loading "log" application component
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.ar.CActiveRecord] Ads.findAll()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.CModule] Loading "db" application component
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.CDbConnection] Opening DB connection
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.CDbCommand] Querying SQL: SHOW FULL COLUMNS FROM `tbl_ads`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.CDbCommand] Querying SQL: SHOW CREATE TABLE `tbl_ads`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_ads` `t` WHERE active=:active and expire_date is not :expire_date
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.ar.CActiveRecord] Register.findByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.CDbCommand] Querying SQL: SHOW FULL COLUMNS FROM `tbl_register`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.CDbCommand] Querying SQL: SHOW CREATE TABLE `tbl_register`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_register` `t` WHERE `t`.`id`=1182 LIMIT 1
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.ar.CActiveRecord] Ads.update()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.ar.CActiveRecord] Ads.updateByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:09 [trace] [system.db.CDbCommand] Executing SQL: UPDATE `tbl_ads` SET `id`=:yp0, `user_id`=:yp1, `title`=:yp2, `image_url`=:yp3, `description`=:yp4, `ad_condition`=:yp5, `price`=:yp6, `price_type`=:yp7, `category_id`=:yp8, `create_date`=:yp9, `update_date`=:yp10, `expire_date`=:yp11, `active`=:yp12, `show_in_store`=:yp13, `ad_id`=:yp14, `is_featured`=:yp15, `is_premium`=:yp16, `is_top`=:yp17, `is_paid`=:yp18, `hot_ads`=:yp19, `hot_ads_start_date`=:yp20, `hot_ads_end_date`=:yp21, `discount`=:yp22, `special_offer`=:yp23, `location`=:yp24, `latitude`=:yp25, `longitude`=:yp26, `price_end`=:yp27, `show_price`=:yp28, `country_code`=:yp29, `city`=:yp30, `package_type`=:yp31, `internet_speed`=:yp32, `youtube_speed`=:yp33, `bdix_speed`=:yp34, `ftp_link`=:yp35, `live_tv`=:yp36, `facebook_link`=:yp37, `website_link`=:yp38, `public_ip`=:yp39, `service_charge`=:yp40 WHERE `tbl_ads`.`id`=13
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:10 [trace] [system.db.ar.CActiveRecord] Register.findByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:10 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_register` `t` WHERE `t`.`id`=1183 LIMIT 1
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:10 [trace] [system.db.ar.CActiveRecord] Ads.update()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:10 [trace] [system.db.ar.CActiveRecord] Ads.updateByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:10 [trace] [system.db.CDbCommand] Executing SQL: UPDATE `tbl_ads` SET `id`=:yp0, `user_id`=:yp1, `title`=:yp2, `image_url`=:yp3, `description`=:yp4, `ad_condition`=:yp5, `price`=:yp6, `price_type`=:yp7, `category_id`=:yp8, `create_date`=:yp9, `update_date`=:yp10, `expire_date`=:yp11, `active`=:yp12, `show_in_store`=:yp13, `ad_id`=:yp14, `is_featured`=:yp15, `is_premium`=:yp16, `is_top`=:yp17, `is_paid`=:yp18, `hot_ads`=:yp19, `hot_ads_start_date`=:yp20, `hot_ads_end_date`=:yp21, `discount`=:yp22, `special_offer`=:yp23, `location`=:yp24, `latitude`=:yp25, `longitude`=:yp26, `price_end`=:yp27, `show_price`=:yp28, `country_code`=:yp29, `city`=:yp30, `package_type`=:yp31, `internet_speed`=:yp32, `youtube_speed`=:yp33, `bdix_speed`=:yp34, `ftp_link`=:yp35, `live_tv`=:yp36, `facebook_link`=:yp37, `website_link`=:yp38, `public_ip`=:yp39, `service_charge`=:yp40 WHERE `tbl_ads`.`id`=14
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:11 [trace] [system.db.ar.CActiveRecord] Register.findByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:11 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_register` `t` WHERE `t`.`id`=1183 LIMIT 1
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:11 [trace] [system.db.ar.CActiveRecord] Ads.update()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:11 [trace] [system.db.ar.CActiveRecord] Ads.updateByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:11 [trace] [system.db.CDbCommand] Executing SQL: UPDATE `tbl_ads` SET `id`=:yp0, `user_id`=:yp1, `title`=:yp2, `image_url`=:yp3, `description`=:yp4, `ad_condition`=:yp5, `price`=:yp6, `price_type`=:yp7, `category_id`=:yp8, `create_date`=:yp9, `update_date`=:yp10, `expire_date`=:yp11, `active`=:yp12, `show_in_store`=:yp13, `ad_id`=:yp14, `is_featured`=:yp15, `is_premium`=:yp16, `is_top`=:yp17, `is_paid`=:yp18, `hot_ads`=:yp19, `hot_ads_start_date`=:yp20, `hot_ads_end_date`=:yp21, `discount`=:yp22, `special_offer`=:yp23, `location`=:yp24, `latitude`=:yp25, `longitude`=:yp26, `price_end`=:yp27, `show_price`=:yp28, `country_code`=:yp29, `city`=:yp30, `package_type`=:yp31, `internet_speed`=:yp32, `youtube_speed`=:yp33, `bdix_speed`=:yp34, `ftp_link`=:yp35, `live_tv`=:yp36, `facebook_link`=:yp37, `website_link`=:yp38, `public_ip`=:yp39, `service_charge`=:yp40 WHERE `tbl_ads`.`id`=15
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:12 [trace] [system.db.ar.CActiveRecord] Register.findByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:12 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_register` `t` WHERE `t`.`id`=1185 LIMIT 1
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (15)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:12 [trace] [system.db.ar.CActiveRecord] Ads.update()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:12 [trace] [system.db.ar.CActiveRecord] Ads.updateByPk()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:15:12 [trace] [system.db.CDbCommand] Executing SQL: UPDATE `tbl_ads` SET `id`=:yp0, `user_id`=:yp1, `title`=:yp2, `image_url`=:yp3, `description`=:yp4, `ad_condition`=:yp5, `price`=:yp6, `price_type`=:yp7, `category_id`=:yp8, `create_date`=:yp9, `update_date`=:yp10, `expire_date`=:yp11, `active`=:yp12, `show_in_store`=:yp13, `ad_id`=:yp14, `is_featured`=:yp15, `is_premium`=:yp16, `is_top`=:yp17, `is_paid`=:yp18, `hot_ads`=:yp19, `hot_ads_start_date`=:yp20, `hot_ads_end_date`=:yp21, `discount`=:yp22, `special_offer`=:yp23, `location`=:yp24, `latitude`=:yp25, `longitude`=:yp26, `price_end`=:yp27, `show_price`=:yp28, `country_code`=:yp29, `city`=:yp30, `package_type`=:yp31, `internet_speed`=:yp32, `youtube_speed`=:yp33, `bdix_speed`=:yp34, `ftp_link`=:yp35, `live_tv`=:yp36, `facebook_link`=:yp37, `website_link`=:yp38, `public_ip`=:yp39, `service_charge`=:yp40 WHERE `tbl_ads`.`id`=18
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (18)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:42:39 [trace] [system.CModule] Loading "log" application component
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:42:41 [trace] [system.CModule] Loading "log" application component
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:42:43 [trace] [system.CModule] Loading "log" application component
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:42:43 [trace] [system.db.ar.CActiveRecord] Ads.findAll()
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:42:43 [trace] [system.CModule] Loading "db" application component
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:42:43 [trace] [system.db.CDbConnection] Opening DB connection
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:42:43 [trace] [system.db.CDbCommand] Querying SQL: SHOW FULL COLUMNS FROM `tbl_ads`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:42:43 [trace] [system.db.CDbCommand] Querying SQL: SHOW CREATE TABLE `tbl_ads`
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)
+2018/12/02 11:42:43 [trace] [system.db.CDbCommand] Querying SQL: SELECT * FROM `tbl_ads` `t` WHERE active=:active and expire_date is not :expire_date
+in F:\xampp\htdocs\sellads\protected\commands\ExpireAdCommand.php (9)
+in F:\xampp\htdocs\sellads\cron.php (14)

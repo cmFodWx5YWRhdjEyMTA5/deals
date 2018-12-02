@@ -47,7 +47,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
 							});
 						}
 					</script>
-					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQqbBbs1HWgNbA05QG1sjHZXmrOLoSTPc&callback=initMap">
+					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChulrZC9AgEryAjjE00obcM_2sZCgEqAg&callback=initMap">
                     </script>
 				</div>
 				<!-- End Map -->

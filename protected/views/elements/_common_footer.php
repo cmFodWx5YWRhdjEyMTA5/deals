@@ -86,7 +86,7 @@ if($requested_country){
                             <h2>Further information</h2>
                             <ul class="footer-menu-box">
                                 <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/contact-us');?>">Contact Us</a></li>
-                                <li><a href="#">Terms & Conditions</a></li>
+                                <li><a href="<?php echo Yii::app()->createUrl('/terms-&-conditions');?>" target="_blank">Terms & Conditions</a></li>
                             </ul>
                         </div>
                     </div>
@@ -94,7 +94,7 @@ if($requested_country){
                         <div class="footer-box">
                             <h2>Contact Us</h2>
                             <ul class="footer-box-contact">
-                                <li><i class="fa fa-home"></i> 944 Upper Jessore Road (1st Floor),Joragate Moor,Khulna-9000,Bangladesh.</li>
+                                <li><i class="fa fa-home"></i> 944 Upper Jashore Road (1st Floor),Joragate Moor,Khulna-9000,Bangladesh.</li>
                                 <li><i class="fa fa-mobile"></i> 09639114455</li>
                                 <li><i class="fa fa-envelope"></i> <a href="mailto:support@bdbroadbanddeals.com">support@bdbroadbanddeals.com</a></li>
                             </ul>

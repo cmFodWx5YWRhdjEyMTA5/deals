@@ -56,13 +56,46 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 			'name' => 'country',
 			'value' => 'Generic::getCountryFromCountryId($data->country)["name"]',
 		),
-		'referral_id',
 		array(
 			'name' => 'otp_time',
 			'value' => 'Generic::getFormattedTime($data->otp_time)'
 		),
-		'user_status',
 		'register_type',
+		array(
+            'header'=>'Status',
+            'class'=>'CButtonColumn',
+            'template'=>'{deactivate}  {activate}',
+            'buttons'=>array(
+                'deactivate'=>array(
+                    'label'=>'Deactivate',
+                    'visible'=>'$data->user_status==1',
+                    'url'=>'Yii::app()->createUrl("site/ChangeUserStatus?id=$data->id&active=0")',
+                    'options'=>array('confirm'=>'Are you sure want to Deactivate this user?'),
+                ),
+                'activate' =>array(
+                    'label' =>'Activate',
+                    'visible'=>'$data->user_status==0',
+                    'url'=>'Yii::app()->createUrl("site/ChangeUserStatus?id=$data->id&active=1")',
+                    'options'=>array('confirm'=>'Are you sure want to Activate this user?'),
+                ),
+            ),
+        ),
+        array(
+			'class'=>'CButtonColumn',
+		),
+        array(
+            'header'=>'Force Delete',
+            'class'=>'CButtonColumn',
+            'template'=>'{forcedelete}',
+            'buttons'=>array(
+                'forcedelete'=>array(
+                    'label'=>'Delete this User',
+                    'visible'=>'$data->user_status==1',
+                    'url'=>'Yii::app()->createUrl("site/CustomizedRegisterDelete?id=$data->id")',
+                    'options'=>array('confirm'=>'Are you sure want to Force Delete this user?'),
+                )
+            ),
+        ),
 		/*
 		'user_token',
 		'image',
@@ -73,8 +106,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'create_date',
 		'update_date',
 		*/
-		array(
-			'class'=>'CButtonColumn',
-		),
+		
 	),
+
 )); ?>

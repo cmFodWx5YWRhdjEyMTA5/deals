@@ -13,7 +13,7 @@ $facebook_link = (isset($store_details->facebook_link) && !empty($store_details-
 $twitter_link = (isset($store_details->twitter_link) && !empty($store_details->twitter_link)) ? $store_details->twitter_link : "#" ;
 $linkedin_link = (isset($store_details->linkedin_link) && !empty($store_details->linkedin_link)) ? $store_details->linkedin_link : "#" ;
 $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_details->google_plus_link)) ? $store_details->google_plus_link : "#" ;
-
+//Generic::_setTrace($user_location);
 ?>
 
 <div class="wrap">
@@ -31,14 +31,16 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
 		<div class="content-page">
 			<div class="container">
 				<div class="contact-map">
-					<div id="map" style="height: 300px; width: 100%;"></div>
+					<div id="map" style="height: 300px; width: 100%;">
+						<!-- <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q=<?php echo $user_location; ?>&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div><style>.mapouter{text-align:right;height:327px;width:600px;}.gmap_canvas {overflow:hidden;background:none!important;height:327px;width:600px;}</style></div> -->
+					</div>
 					<script>
 						lat = <?=$latitude?>;
 						lon = <?=$longitude?>;
 						function initMap() {
 							var uluru = {lat: lat, lng: lon};
 							var map = new google.maps.Map(document.getElementById('map'), {
-								zoom: 12,
+								zoom: 15,
 								center: uluru
 							});
 							var marker = new google.maps.Marker({

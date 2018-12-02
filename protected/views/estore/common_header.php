@@ -30,7 +30,7 @@
 						<div class="business_name"><?=$user_details->enterprise_name?></div>
 						<div style="clear: both;"></div>
 					</div>
-					<div class="col-md-4 col-sm-9 col-xs-12">
+					<!-- <div class="col-md-4 col-sm-9 col-xs-12">
 						<div class="smart-search smart-search6">
 							<div class="select-category">
 								<a class="category-toggle-link" href="#"><span>All Categories</span></a>
@@ -50,7 +50,7 @@
 								<input type="submit" value="">
 							</form>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

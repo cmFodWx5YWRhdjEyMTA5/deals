@@ -194,9 +194,26 @@ $image_file = ','.implode(',',$images);
                             </div>
                             <input type="hidden" id="show_price_option" name="show_price_option" value="<?php echo $ad_details['show_price'] ?>">
                             <input type="hidden" name="custom_column_number" value="<?php echo $custom_column_number; ?>" />
+                            <div class="row form-group show-price">
+                                <label class="col-sm-3 label-title">Special Product</label>
+                                <div class="col-sm-9 special_product_box">
+                                    <input type="radio" name="special_product" value="featured" <?php if($ad_details['is_featured']) { echo "checked"; } ?>> Featured Product
+                                    <br>
+                                    <input type="radio" name="special_product" value="premium" <?php if($ad_details['is_premium']) { echo "checked"; } ?>> Premium Product
+                                    <br>
+                                    <input type="radio" name="special_product" value="top" <?php if($ad_details['is_top']) { echo "checked"; } ?>> Top Product
+                                </div>
+                            </div>
+                            <div style="clear: both;"></div>
+                            <label class="col-sm-3 label-title">Want to Show in eStore?</label>
+                                            <div class="col-sm-9">
+                                                    <input class="" type="checkbox" name="show_in_estore" <?php if($ad_details['show_in_store']) { echo "checked='checked'"; } ?> />
+                                                
+                                            </div>
+                            <div style="clear: both;"></div>
                         </div><!-- section -->
 
-                        <div class="section seller-info">
+                        <!-- <div class="section seller-info">
                             <h4>Saler Information</h4>
                             <div class="row form-group">
                                 <div class="col-sm-9">
@@ -208,85 +225,7 @@ $image_file = ','.implode(',',$images);
                                 </div>
                             </div>
 
-                        </div><!-- section -->
-
-                        <div class="section payment_option">
-                            <h4>Make your Ad Premium </h4>
-                            <div class="row form-group col-sm-7">
-                                <?php if ($ad_details['show_in_store'] != 1){?>
-                                <div class="row col-sm-12">
-                                    <label class="col-sm-3 label-title">Paid:</label>
-                                    <div class="col-sm-9">
-                                        <label class="switch">
-                                            <?php if($ad_details['is_paid'] == 1){?>
-                                            <input class="cboxes_paid switch-input" rel="<?=$featured_price?>"  id="cbox2" type="checkbox" name="paid" checked />
-                                                <input type="hidden" id="is_paid" name="is_paid" value="1">
-                                            <?php } else {?>
-                                                <input class="cboxes_paid switch-input" rel="<?=$featured_price?>"  id="cbox2" type="checkbox" name="paid" />
-                                                <input type="hidden" id="is_paid" name="is_paid" value="">
-                                            <?php } ?>
-                                            <span class="switch-label" onmouseover="showFeaturedAdsImage()" data-on="On" data-off="Off"></span>
-                                            <span class="switch-handle"></span>
-                                            <div class="tinybox" style="">
-                                                <img src="<?=$baseUrl?>/images/featured/featured.png" alt="tinypic2" id="tinypic2" style="display:none;">
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <?php } else {
-                                    $checked = 'checked';
-                                    $value = 1;
-                                    ?>
-                                <div class="row col-sm-12">
-                                    <label class="col-sm-3 label-title">Featured:</label>
-                                    <div class="col-sm-9">
-                                        <label class="switch">
-                                            <input class="cboxes_featured switch-input" rel="<?=$featured_price?>"  id="cbox2" type="checkbox" name="ad_premium" <?php if($ad_details['is_featured'] == 1){ echo $checked;}?>/>
-                                            <input type="hidden" id="is_featured" name="is_featured" value="<?php if($ad_details['is_featured'] == 1){ echo $value;}?>">
-
-                                            <span class="switch-label" onmouseover="showFeaturedAdsImage()" data-on="On" data-off="Off"></span>
-                                            <span class="switch-handle"></span>
-                                            <div class="tinybox" style="">
-                                                <img src="<?=$baseUrl?>/images/featured/featured.png" alt="tinypic2" id="tinypic2" style="display:none;">
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row col-sm-12">
-                                    <label class="col-sm-3 label-title">Premium:</label>
-                                    <div class="col-sm-9">
-                                        <label class="switch">
-                                            <input class="cboxes_premium switch-input" rel="<?=$premium_price?>" type="checkbox" name="ad_premium" <?php if($ad_details['is_premium'] == 1){ echo $checked;}?>/>
-                                            <input type="hidden" id="is_premium" name="is_premium" value="<?php if($ad_details['is_premium'] == 1){ echo $value;}?>">
-                                            <span class="switch-label" onmouseover="showPremiumAdsImage()" data-on="On" data-off="Off"></span>
-                                            <span class="switch-handle"></span>
-                                            <div class="tinybox" style="">
-                                                <img src="<?=$baseUrl?>/images/featured/premium.png" alt="tinypic2" id="tinypic2" style="display:none;">
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row col-sm-12">
-                                    <label class="col-sm-3 label-title">Top:</label>
-                                    <div class="col-sm-9">
-                                        <label class="switch">
-                                            <input class="cboxes_top switch-input" rel="<?=$top_price?>" type="checkbox" name="ad_premium" <?php if($ad_details['is_top'] == 1){ echo $checked;}?>/>
-                                            <input type="hidden" id="is_top" name="is_top" value="<?php if($ad_details['is_top'] == 1){ echo $value;}?>">
-                                            <span class="switch-label" onmouseover="showTopAdsImage()"  data-on="On" data-off="Off"></span>
-                                            <span class="switch-handle"></span>
-                                            <div class="tinybox" style="">
-                                                <img src="<?=$baseUrl?>/images/featured/top.png" alt="tinypic2" id="tinypic2" style="display:none;">
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <?php } ?>
-                            </div>
-                            <div class="image-container col-sm-5"></div>
-                            <!--<div class="price-container"></div>-->
-                            <div style="clear:both"></div>
-
-                        </div><!-- section -->
+                        </div> --><!-- section -->
 
                         <div class="checkbox section agreement">
                          <!--   <label for="send">
@@ -438,7 +377,9 @@ $image_file = ','.implode(',',$images);
         -moz-transition: All 0.3s ease;
         -o-transition: All 0.3s ease;
     }
-
+    .special_product_box input {
+        display: inline !important;
+    }
 
 </style>
 <script type="text/javascript">

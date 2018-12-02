@@ -145,11 +145,27 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                         <div class="detail-info">
                                             <h2 class="title-detail"><?=$title?></h2>
                                             <div class="col-md-12">
-                                             <!--<a class="link-wishlist favorite <?=$favorites_class?>" title="<?=$favorites_title?>"  href="javascript:void(0);" onclick="ChangeFavoriteStatus(<?=$fav_params;?>)"></a><label> Liked : <span id="favourite"><?=$favorite_counter?></span></label> -->
+                                             <!-- <a class="link-wishlist favorite <?=$favorites_class?>" title="<?=$favorites_title?>"  href="javascript:void(0);" onclick="ChangeFavoriteStatus(<?=$fav_params;?>)"></a><label> Liked : <span id="favourite"><?=$favorite_counter?></span></label> --> 
                                                 <div class="product-view">
                                                         <i class="fa fa-eye"></i> <label> Total Views: </label> <span><?=$view_count?></span>
                                                 </div>
-
+                                                <?php if(!empty($ad_details['service_charge']) && $ad_details['service_charge'] != 0){ ?>
+                                                    <div class="product-price-type">
+                                                        <label>Service Charge/OTC: </label>
+                                                            <span>
+                                                                &#2547; <?php
+                                                                  echo $ad_details['service_charge']
+                                                                ?>
+                                                            </span>
+                                                    </div>
+                                                <?php } else { ?>
+                                                    <div class="product-price-type">
+                                                        <label>Service Charge/OTC: </label>
+                                                            <span>
+                                                                Free
+                                                            </span>
+                                                    </div>
+                                                <?php } ?>
                                                 <div class="product-price-type">
                                                     <?php if(isset($ad_details['package_type']) && !empty($ad_details['package_type'])){ ?>
                                                     <label>Package Type: </label>
@@ -585,7 +601,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                     <span><?php echo $loggedin_user->phone_number ?></span>
                                     <input type="hidden" class="form-control" name="sender_phone" id="sender_phone" value="<?php echo $loggedin_user->phone_number ?>" />
                                 <?php } else { ?>
-                                    <input type="tel" class="form-control" name="sender_phone" id="sender_phone" placeholder="Your Phone" required />
+                                    <input type="tel" class="form-control number_input" name="sender_phone" id="sender_phone" placeholder="Your Phone" required />
                                 <?php } ?>
                             </div>
                         </div>
@@ -674,7 +690,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                     <span><?php echo $loggedin_user->phone_number ?></span>
                                     <input type="hidden" class="form-control" name="sender_phone" id="sender_phone" value="<?php echo $loggedin_user->phone_number ?>" />
                                 <?php } else { ?>
-                                    <input type="tel" class="form-control" name="sender_phone" id="sender_phone" placeholder="Your Phone" required />
+                                    <input type="tel" class="form-control number_input" name="sender_phone" id="sender_phone" placeholder="Your Phone" required />
                                 <?php } ?>
                             </div>
                         </div>
@@ -778,6 +794,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
             $(this).removeClass('btn-red');
             $(this).addClass('btn-red-hover');
         });
+        
     });
     $('#enquiry-form').on('submit',function () {
         name = $('#sender_name').val();
@@ -788,6 +805,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
         if(name == '' || email == '' || phone == '' || details == ''){
             return false;
         }
+        
 
         $.ajax({
             type : 'POST',
@@ -808,7 +826,14 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
 
     });
 
-
+    $('#order-send').on('click',function(){
+        var phone_number = $('#sender_phone').val();
+        if(phone_number.length < 11){
+            alert("Please enter a valid phone number");
+            return false;
+        }
+        return true;
+    });
 
 
     $('.buttons').on('click', function () {

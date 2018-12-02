@@ -71,6 +71,142 @@ class ProfileController extends Controller
 
 	}
 
+    public function actionUpdateThanaList()
+    {
+        $user_details = (object) $this->checkUserDetails();
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'user_id = :user_id';
+        $criteria->params = array(':user_id' => $user_details->profile_data['id']);
+        $store_details = Estore::model()->find($criteria);
+        
+
+        if(Yii::app()->request->getParam('selected_hidden_thana') != null){
+            $thana_selection = Yii::app()->request->getParam('selected_hidden_thana');
+            $thana_selection = trim($thana_selection,',');
+            
+            $thana_selection_list = explode(',', $thana_selection);
+            // delete old records of this user
+            $registered_user_thana_criteria = new CDbCriteria();
+            $registered_user_thana_criteria->condition = "user_id = :user_id";
+            $registered_user_thana_criteria->params = array(':user_id' => $user_details->profile_data['id']);
+            $thana_list = Registered_user_location::model()->findAll($registered_user_thana_criteria);
+            foreach ($thana_list as $value) {
+                $value->delete();
+            }
+            // update new record of this user
+            foreach ($thana_selection_list as $single_thana) {
+                $single_district_thana = $this->getDistrictFromThana($single_thana);
+                
+                if(isset($single_district_thana['district'])){
+                    $single_division = $this->getDivisionFromDistrict($single_district_thana['district']);
+                }
+
+                $register_user_location = new Registered_user_location();
+                $register_user_location->user_id = $user_details->profile_data['id'];
+                $register_user_location->division_id = $single_division;
+                $register_user_location->district_id = $single_district_thana['district'];
+                $register_user_location->thana_id = $single_district_thana['thana'];
+                $register_user_location->create_date = date('y-m-d');
+                $register_user_location->save();
+            }
+
+            $store_details->active = 0;
+            $store_details->update();
+
+            // sending mail to admin and sales
+            $message_line_spacing_single = '<br>';
+            $message_line_spacing_double = '<br><br>';
+            $to_email = Yii::app()->params['adminEmail'];
+            $subject = 'Request for Thana Update';
+            $message = '<h3>Following registered ISP Company requested for update their coverage area with following details:</h3>';
+            $message .= $message_line_spacing_double . '<p><strong>Business Name</strong>: ' . $user_details->profile_data['enterprise_name'] . '</p>';
+            $message .= $message_line_spacing_double . '<p><strong>Contact Person Name</strong>: ' . $user_details->profile_data['user_name'] . '</p>';
+            $message .= $message_line_spacing_single . '<p><strong>Contact Person Email</strong>: ' . $user_details->profile_data['email'] . '</p>';
+            $message .= $message_line_spacing_single . '<p><strong>Contact Person Phone</strong>: ' . $user_details->profile_data['phone_number'] . '</p>';
+
+            Generic::sendMail($message, $subject,$to_email);
+
+            $to_email = Yii::app()->params['businessEmail'];
+            Generic::sendMail($message, $subject,$to_email);
+
+            $this->redirect(Yii::app()->request->baseUrl . '/my-profile/dashboard');
+        }
+
+        
+
+        $registered_user_thana_criteria = new CDbCriteria();
+        $registered_user_thana_criteria->condition = "user_id = :user_id";
+        $registered_user_thana_criteria->params = array(':user_id' => $user_details->profile_data['id']);
+        $thana_list = Registered_user_location::model()->findAll($registered_user_thana_criteria);
+        
+        $selected_thana_value = '';
+        $selected_thana_list = [];
+        foreach ($thana_list as $item) {
+            $thana_details = Thana::model()->findByAttributes(['thana_id'=>$item->thana_id,'district_id' => $item->district_id]);
+            $selected_thana_list[] = $thana_details;
+            $selected_thana_value .= ','.$thana_details->id;
+        }
+
+        $divisions = Division::model()->findAll();
+        $districts = District::model()->findAll(array('order' => 'district ASC'));
+        //Generic::_setTrace($districts);
+        if($user_details->profile_data['isp_type'] != '1'){
+            
+        $isp_mapping['2']['district'] = [26,33,67];
+        $isp_mapping['3']['district'] = [12,19,68,13,51,75,30,15,22,46,3,84];
+        $isp_mapping['4']['district'] = [90,91,36,58,89,39,72,61,48,93,59,56,67,33];
+        $isp_mapping['5']['district'] = [65,47,87,1,6,9,42,79,4,78,82,29,35,54,86];
+        $isp_mapping['6']['district'] = [27,77,73,94,52,49,85,32,10,38,81,69,64,76,88,70];
+        $isp_mapping['7']['district'] = [26];
+        $isp_mapping['8']['district'] = [6,47,15,81,85,91];
+        $isp_mapping['9']['district'] = [1,3,4,9,13,10,12,70,18,19,22,27,29,30,32,33,35,36,39,41,42,
+            44,38,46,48,49,50,51,54,52,55,56,57,58,59,61,64,65,67,68,69,72,73,75,76,77,78,79,82,84,
+            85,86,87,88,89,90,93,94,6,47,15,81,85,91,26];
+            
+            $registered_user_district_list = $isp_mapping[$user_details->profile_data['isp_type']]['district'];
+            $central_zone_thana_skip_list = [218,219,220,221,276,277,278,280];
+            $district_criteria = new CDbCriteria(array('order' => 'district ASC'));
+            $districts = District::model()->findAllByAttributes(['district_id' => $registered_user_district_list],$district_criteria);
+        }
+        
+        $thanas = Thana::model()->findAll(array('order' => 'thana ASC'));
+        $this->render('update-thana',array(
+            'user_name' => $user_details->user_name,
+            'register_type' => $user_details->register_type,
+            'profile_data' => $user_details->profile_data,
+            'sidebar_type' => $user_details->sidebar_type,
+            'business_status' => $user_details->business_status,
+            'store_url' => $user_details->store_url,
+            'divisions' => $divisions,
+            'districts' => $districts,
+            'thanas' => $thanas,
+            'isp_type' => $user_details->profile_data['isp_type'],
+            'selected_thana_value' => $selected_thana_value,
+            'selected_thana_list' => $selected_thana_list
+        ));
+    }
+
+    public function getDistrictFromThana($thana_id){
+        $thana_details = Thana::model()->findByPk($thana_id);
+        $district = '';
+        $thana = '';
+        if($thana_details) {
+            $district = $thana_details->district_id;
+            $thana = $thana_details->thana_id;
+        }
+        return ['district' => $district,'thana' => $thana];
+    }
+
+    public function getDivisionFromDistrict($district_id){
+        $district_details = District::model()->findAllByAttributes(['district_id' => $district_id]);
+        if($district_details){
+            return $district_details[0]->division_id;
+        } else {
+            return '';
+        }
+    }
+
 	public function actionList()
 	{
 		$this->render('index_list');
@@ -589,6 +725,38 @@ class ProfileController extends Controller
         ));
 	}
 
+
+    public function actionEditJob() {
+        $user_details = (object) $this->checkUserDetails();
+
+        $job_id = urldecode(base64_decode(Yii::app()->request->getParam('job_id')));
+        $job_details = Jobs::model()->findByPk($job_id);
+
+        $company_criteria = new CDbCriteria();
+        $company_criteria->condition = "user_id = :user_id";
+        $company_criteria->params = array(':user_id' => $job_details->user_id);
+        $company_details = Estore::model()->findAll($company_criteria);
+        
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
+        
+        $info_array = array(
+            'user_details' => $user_details,
+            'job_details' => $job_details,
+            'user_name' => $user_details->user_name,
+            'register_type' => $user_details->register_type,
+            'profile_data' => $user_details->profile_data,
+            'sidebar_type' => $user_details->sidebar_type
+        );
+        if($company_details){
+            $info_array['company_details'] = $company_details;
+        }
+
+        $this->render('update-job',$info_array);
+    }
+
     public function actionAddPackage()
     {
         $user_details = (object) $this->checkUserDetails();
@@ -621,12 +789,12 @@ class ProfileController extends Controller
             $this->redirect($user_details->base_url.'/my-profile/dashboard');
         }
         
-
         $this->render('add-jobs',array(
             'user_name' => $user_details->user_name,
             'register_type' => $user_details->register_type,
             'profile_data' => $user_details->profile_data,
-            'sidebar_type' => $user_details->sidebar_type
+            'sidebar_type' => $user_details->sidebar_type,
+            'business_status' => $user_details->business_status
         ));
     }
 
@@ -1127,6 +1295,12 @@ class ProfileController extends Controller
             $short_desc_block = '';
             $short_desc_block .= '<h4>Short Information</h4>';
 
+            if($ad_details->service_charge != 0 && !empty($ad_details->service_charge)){
+                $short_desc_block .= '<p>Service Charge/OTC: <strong>&#2547; '.$ad_details->service_charge.'</strong></p>';
+            } else {
+                $short_desc_block .= '<p>Service Charge/OTC: <strong>Free</strong></p>';
+            }
+
             if($ad_details->package_type != ''){
                 $short_desc_block .= '<p>Package Type: <strong>'.ucwords($ad_details->package_type).'</strong></p>';
             }
@@ -1285,6 +1459,7 @@ class ProfileController extends Controller
                  'r' => '0'
               );
             $ads = Generic::getAdDetailsFromAddTable($user_id,$limit,$offset);
+            //Generic::_setTrace($ads);
             $user_details = Register::model()->findByPk($user_id);
 
             $ad_update_type = '/update-ad';
@@ -1371,28 +1546,39 @@ class ProfileController extends Controller
               );
 
            $criteria = new CDbCriteria();
-            $criteria->condition = 'user_id = :user_id and active = :active';
-            $criteria->params = [':user_id' => $user_id, ':active' => 1];
+            $criteria->condition = 'user_id = :user_id';
+            $criteria->params = [':user_id' => $user_id];
             $jobs = Jobs::model()->findAll($criteria);
 
             $baseUrl = Yii::app()->getBaseUrl(true);
             $loaded_html = "";
                 foreach($jobs as $job){
-                    
+                    $deadline_date = new \DateTime($job->deadline);
+                    if($job['active']== 1){
+
+                       $ad_without_date_block = ' <div class="verified-tag" style="font-size: 14px; padding-left: 0px;" title="Approved"><i class="fa fa-check" aria-hidden="true"></i> Approved</div>';
+                   }else{
+                       $ad_without_date_block = '<div class="unverified-tag" style="font-size: 14px;" title="Pending"><i class="fa fa-cog" aria-hidden="true"></i> Pending</div>';
+
+                   }
                     $loaded_html .= '<div class="items-list">
-                                <article class="item-spot">
+                                <article class="item-spot" style="padding-left:25px !important;">
                                 <div class="item-content">
                                     <header>
                                         <h6><a href="javascript:void(0)" class="tc" data-item="'.$job->id.'">'.$job->title.'</a></h6>
                                         <ul class="item-info">
                                             <div class="price-tag">BDT '.$job->salary.'</div>
                                         </ul>
+                                        <ul class="item-info">
+                                            <div class="">Deadline: '.$deadline_date->format('d M Y').'</div>
+                                        </ul>
+                                        '.$ad_without_date_block.'
                                     </header>
 
                                     <div class="item-admin-actions text-center">
                                         <ul>
                                             <li><a class="tc" title="View" href="javascript:void(0)" onclick="showAdPreviewModal('.$job->id.')" data-item="'.$job->id.'"><i class="adicon-eye"></i></a></li>
-                                            <li><a class="tc6-hover" title="Edit" href="'.$baseUrl."/update-job?job_id=".urlencode(base64_encode($job->id)).'"><i class="adicon-edit"></i></a></li>
+                                            <li><a class="tc6-hover" title="Edit" href="'.$baseUrl."/my-profile/update-job?job_id=".urlencode(base64_encode($job->id)).'"><i class="adicon-edit"></i></a></li>
                                             <li><a class="tc12-hover" title="Delete" href="javascript:void(0);" onclick="deleteItem(' . $job->id . ',\'' .$job->user_id.'\')"><i class="adicon-recyclebin"></i></a></li>
                                         </ul>
                                     </div>
@@ -1577,8 +1763,6 @@ class ProfileController extends Controller
         $criteria->condition = 'estore_id = :estore_id and status != :status';
         $criteria->params = array(':estore_id' => $user_details->estore_id, ':status' => 0);
         $order_data = EstoreOrder::model()->findAll($criteria);
-
-
 
         $this->render('order-management',array(
             'user_name' => $user_details->user_name,

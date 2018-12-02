@@ -67,7 +67,7 @@ echo $this->renderPartial($sidebar_type,array(
                     <tbody>
 
 
-                   <?php if (isset($order_data) && count($order_data)>1){
+                   <?php if (!empty($order_data)){
                        $i=0;
 
                        foreach($order_data as $individual_data){

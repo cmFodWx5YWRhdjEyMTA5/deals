@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . "/../extensions/phpexcel/PHPExcel/Writer/Excel2
 class SiteController extends Controller {
 
     public $layout = 'frontend';
-    public $description = "The Largest deal site in broadband marketplace.";
+    public $description = "The Largest internet deal site in broadband marketplace";
     public $title = "bdbroadbanddeals.com";
 
     /**
@@ -119,8 +119,10 @@ class SiteController extends Controller {
         
         $divisions = Division::model()->findAll(array('order'=>'division'));
         //Generic::_setTrace($divisions);
-        $districts = District::model()->findAll(array('order'=>'district'));
-        $thanas = Thana::model()->findAll(array('order'=>'thana'));
+        //$districts = District::model()->findAll(array('order'=>'district'));
+        //$thanas = Thana::model()->findAll(array('order'=>'thana'));
+        $districts = [];
+        $thanas = [];
        
         //Generic::_setTrace($estore_ads);
         //$this->createHeader();
@@ -277,7 +279,7 @@ class SiteController extends Controller {
         $referral_id = '';
         $license_number = '';
         $district = '';
-        $thanas = '';
+        $thanas = $isp_category_type = '';
         $all_thanas = [];
         $multiple_divisions = $store_categories  = [];
         if ($register_type == 'individual') {
@@ -290,7 +292,7 @@ class SiteController extends Controller {
         } else if ($register_type == 'business') {
             $user_type = 'business';
             $contact_number = Yii::app()->request->getParam('phone_number_business', '');
-            
+            $isp_category_type = Yii::app()->request->getParam('business_category_id', '');
            
             if($nationwide_thanas != ''){
                 $division = null;
@@ -355,6 +357,7 @@ class SiteController extends Controller {
             $register->user_token = $token;
             $register->phone_number = $contact_number;
             $register->enterprise_name = $enter_prise_name;
+            $register->isp_type = $isp_category_type;
             $register->business_category_id = $business_category_id;
             $register->address = $address;
             $register->country = '18'; // country code of bangladesh
@@ -644,8 +647,8 @@ class SiteController extends Controller {
         $google_oauthV2 = new Google_Oauth2Service($gClient);
         $google_authUrl = $gClient->createAuthUrl();
         $divisions = Division::model()->findAll();
-        $districts = District::model()->findAll();
-        $thanas = Thana::model()->findAll();
+        $districts = District::model()->findAll(array('order' => 'district ASC'));
+        $thanas = Thana::model()->findAll(array('order' => 'thana ASC'));
         $this->render('sign-in', array(
             'return_url' => $return_url,
             'fb_login_url' => $fb_login_url,
@@ -1160,6 +1163,7 @@ class SiteController extends Controller {
         $description = Yii::app()->request->getParam('ads_description', '');
         $condition = Yii::app()->request->getParam('ads_condition', '');
         $price = Yii::app()->request->getParam('ads_price', '');
+        $service_charge = Yii::app()->request->getParam('service_charge', 0);
         $price_end = Yii::app()->request->getParam('ads_price_end', '');
         $show_price_option = Yii::app()->request->getParam('show_price_option', 1);
 
@@ -1225,7 +1229,7 @@ class SiteController extends Controller {
             $expiration_dates = new \DateTime($estore_plan_details[0]->expiration_date);
         } else {
             $expiration_dates = new \DateTime();
-            $expiration_dates->modify('1 month');
+            $expiration_dates->modify('10 day');
         }
         
         $ad = new Ads();
@@ -1243,12 +1247,17 @@ class SiteController extends Controller {
         $ad->create_date = $creation_date->format('Y-m-d H:i:s');
         $ad->update_date = $creation_date->format('Y-m-d H:i:s');
         $ad->active = 0;
-        $ad->expire_date = (isset($expiration_date)) ? $expiration_dates->format('Y-m-d') : NULL;
+        $ad->expire_date = $expiration_dates->format('Y-m-d');
         $ad->is_featured = $is_featured;
         $ad->is_premium = $is_premium;
         $ad->is_top = $is_top;
         $ad->is_paid = $is_paid;
-        $ad->show_in_store = $show_in_store;
+        
+        if($user_data['register_type'] == 'store'){
+            $ad->show_in_store = $show_in_store;
+        } else {
+            $ad->show_in_store = 1;
+        }
         $ad->location = $user_data['district'];
         $ad->latitude = $latitude;
         $ad->longitude = $longitude;
@@ -1282,6 +1291,9 @@ class SiteController extends Controller {
         }
         if($public_ip) {
             $ad->public_ip = $public_ip;
+        }
+        if($service_charge) {
+            $ad->service_charge = $service_charge;
         }
 
         if ($ad->save()) {
@@ -1336,6 +1348,7 @@ class SiteController extends Controller {
         $description = Yii::app()->request->getParam('ads_description', '');
         $condition = Yii::app()->request->getParam('ads_condition', '');
         $price = Yii::app()->request->getParam('ads_price', '');
+        $service_charge = Yii::app()->request->getParam('service_charge', 0);
         $price_end = Yii::app()->request->getParam('ads_price_end', '');
         $show_price_option = Yii::app()->request->getParam('show_price_option', 1);
 
@@ -1427,6 +1440,9 @@ class SiteController extends Controller {
         if($public_ip) {
             $ad->public_ip = $public_ip;
         }
+        
+        $ad->service_charge = $service_charge;
+        
 
         if ($ad->update()) {
             Generic::saveMetaData($category_id, $ad_id, $custom_fields_array);
@@ -1443,6 +1459,7 @@ class SiteController extends Controller {
 
     public function actionSaveJobFromProfile() {
         
+        $job_id = Yii::app()->request->getParam('job_id','');
         $job_title = Yii::app()->request->getParam('job_title');
         $user_id = Yii::app()->request->getParam('user_id');
         $job_vacancy = Yii::app()->request->getParam('job_vacancy');
@@ -1458,7 +1475,13 @@ class SiteController extends Controller {
         $additional_requirement = Yii::app()->request->getParam('additional_requirement', 1);
 
         $creation_date = new \DateTime();
-        $job = new Jobs();
+        
+        if($job_id != ''){
+            $job = Jobs::model()->findByPk($job_id);
+        } else {
+            $job = new Jobs();
+        }
+        
         $job->title = $job_title;
         $job->user_id = $user_id;
         $job->vacancy = $job_vacancy;
@@ -1472,11 +1495,18 @@ class SiteController extends Controller {
         $job->additional = $additional_requirement;
         $job->job_req = $job_requirement;
         $job->job_location = $job_location;
-        $job->active = 0;
-        $job->create_date = $creation_date->format('Y-m-d');
-        $job->create_date = $creation_date->format('Y-m-d');
         
-        if ($job->save()) {
+        if($job_id != ''){
+            $job->active = 0;
+            $update_datetime = new \DateTime();
+            $job->update_date = $update_datetime->format('Y-m-d');
+            $job_save_result = $job->update();
+        } else {
+            $job->active = 0;
+            $job->create_date = $creation_date->format('Y-m-d');
+            $job_save_result = $job->save();
+        }
+        if ($job_save_result) {
             //$this->sendApprovalRequestToSupport($user_data['id']);
             $response['status'] = 'success';
             $response['message'] = 'Successfully saved job details';
@@ -1492,8 +1522,8 @@ class SiteController extends Controller {
         $this->render('update-ad');
     }
 
-
     public function actionUpdateAd() {
+
         $response = array();
         $ad_id = Yii::app()->request->getParam('ad_id');
         $title = Yii::app()->request->getParam('ads_title', '');
@@ -1512,6 +1542,7 @@ class SiteController extends Controller {
         $description = Yii::app()->request->getParam('ads_description', '');
         $condition = Yii::app()->request->getParam('ads_condition', '');
         $price = Yii::app()->request->getParam('ads_price', '');
+        //$service_charge = Yii::app()->request->getParam('service_charge', 0);
         $price_end = Yii::app()->request->getParam('ads_price_end', '');
         $price_type = Yii::app()->request->getParam('price_type', '');
         $show_price_option = Yii::app()->request->getParam('show_price_option', 1);
@@ -1521,7 +1552,34 @@ class SiteController extends Controller {
         $is_featured = Yii::app()->request->getParam('is_featured', 0);
         $is_premium = Yii::app()->request->getParam('is_premium', 0);
         $is_top = Yii::app()->request->getParam('is_top', 0);
+
+        $special_product = Yii::app()->request->getParam('special_product', 0);
+
+        switch ($special_product) {
+            case 'featured':
+                $is_featured = 1;
+                $is_premium = 0;
+                $is_top = 0;
+                break;
+            case 'premium':
+                $is_featured = 0;
+                $is_premium = 1;
+                $is_top = 0;
+                break;
+            case 'top':
+                $is_featured = 0;
+                $is_premium = 0;
+                $is_top = 1;
+                break;
+            default:
+                $is_featured = 0;
+                $is_premium = 0;
+                $is_top = 0;
+                break;
+        }
+
         $is_paid = Yii::app()->request->getParam('is_paid', 0);
+        
         $special_offer = Yii::app()->request->getParam('special_offer', 0);
         $custom_fields_array = array();
         $custom_field_number = Yii::app()->request->getParam('custom_column_number', 0);
@@ -1557,6 +1615,18 @@ class SiteController extends Controller {
         $ad->latitude = $latitude;
         $ad->longitude = $longitude;
         $ad->show_price = $show_price_option;
+        $show_in_store = Yii::app()->request->getParam('show_in_estore', 'off');
+        if($user_data['register_type'] == 'store'){
+            if($show_in_store == 'on'){
+                $ad->show_in_store = 1;
+            } else {
+                $ad->show_in_store = 0;
+            }
+        } else {
+            $ad->show_in_store = 1;
+        }
+        
+                
         $ad->active = 0;
         if(!empty($category_id)){
             $ad->category_id = $category_id;
@@ -1667,9 +1737,9 @@ class SiteController extends Controller {
 
         $ad_update_type = '/update-job';
         if($user_details->register_type == 'business'){
-            $ad_update_type = '/my-profile/update-isp-job';
+            $ad_update_type = '/my-profile/update-job';
         } else if($user_details->register_type == 'store'){
-            $ad_update_type = '/my-profile/update-estore-job';
+            $ad_update_type = '/my-profile/update-job';
         } 
 
         //$ad_meta_delete = Generic::deleteAdDetailsFromAdMetaTable($ad_id);
@@ -1684,7 +1754,14 @@ class SiteController extends Controller {
             $baseUrl = Yii::app()->getBaseUrl(true);
             $loaded_html = "";
                 foreach($jobs as $job){
-                    
+                    $deadline_date = new \DateTime($job->deadline);
+                    if($job['active']== 1){
+
+                       $ad_without_date_block = ' <div class="verified-tag" style="font-size: 14px; padding-left: 0px;" title="Approved"><i class="fa fa-check" aria-hidden="true"></i> Approved</div>';
+                   }else{
+                       $ad_without_date_block = '<div class="unverified-tag" style="font-size: 14px;" title="Pending"><i class="fa fa-cog" aria-hidden="true"></i> Pending</div>';
+
+                   }
                     $loaded_html .= '<div class="items-list">
                                 <article class="item-spot">
                                 <div class="item-content">
@@ -1693,12 +1770,16 @@ class SiteController extends Controller {
                                         <ul class="item-info">
                                             <div class="price-tag">BDT '.$job->salary.'</div>
                                         </ul>
+                                        <ul class="item-info">
+                                            <div class="">Deadline: '.$deadline_date->format('d M Y').'</div>
+                                        </ul>
+                                        '.$ad_without_date_block.'
                                     </header>
 
                                     <div class="item-admin-actions text-center">
                                         <ul>
                                             <li><a class="tc" title="View" href="javascript:void(0)" onclick="showAdPreviewModal('.$job->id.')" data-item="'.$job->id.'"><i class="adicon-eye"></i></a></li>
-                                            <li><a class="tc6-hover" title="Edit" href="'.$baseUrl."/update-job?job_id=".urlencode(base64_encode($job->id)).'"><i class="adicon-edit"></i></a></li>
+                                            <li><a class="tc6-hover" title="Edit" href="'.$baseUrl."/my-profile/update-job?job_id=".urlencode(base64_encode($job->id)).'"><i class="adicon-edit"></i></a></li>
                                             <li><a class="tc12-hover" title="Delete" href="javascript:void(0);" onclick="deleteItem(' . $job->id . ',\'' .$job->user_id.'\')"><i class="adicon-recyclebin"></i></a></li>
                                         </ul>
                                     </div>
@@ -2600,6 +2681,7 @@ class SiteController extends Controller {
         $sender_id = Yii::app()->request->getParam('sender', NULL);
         $receiver_id = Yii::app()->request->getParam('receiver', '');
         $ad_id = base64_decode(urldecode(Yii::app()->request->getParam('ad_id', '')));
+        $receiver_details = Register::model()->findByPk($receiver_id);
 
         $current_time = new \DateTime();
 
@@ -2615,6 +2697,7 @@ class SiteController extends Controller {
         $message->is_starred = 0;
         $message->read_status = 0;
         $message->reply_of = NULL;
+
         if ($message->save()) {
 
             /* ------------------- Add a notification --------------------- */
@@ -2637,6 +2720,18 @@ class SiteController extends Controller {
             $message_own->read_status = 0;
             $message_own->reply_of = NULL;
             $message_own->save();
+            $message_line_spacing_single = '<br>';
+        $message_line_spacing_double = '<br><br>';
+        $to_email = $receiver_details->email;
+        $subject = 'Ad enquiry from bdbroadbanddeals.com';
+        $message = '<h3>A message has been sent with following details:</h3>';
+        $message .= $message_line_spacing_double . '<p><strong>Sender Name</strong>: ' . $name . '</p>';
+        $message .= $message_line_spacing_double . '<p><strong>Sender Email</strong>: ' . $email . '</p>';
+        $message .= $message_line_spacing_single . '<p><strong>Sender Phone</strong>: ' . $phone . '</p>';
+        $message .= $message_line_spacing_single . '<p><strong>Message</strong>: ' . $details . '</p>';
+
+        Generic::sendMail($message, $subject,$to_email);
+        
             $response['status'] = 'success';
         } else {
             $response['status'] = 'failure';
@@ -2754,7 +2849,10 @@ class SiteController extends Controller {
         $division = Yii::app()->request->getParam('division', '');
         $district = Yii::app()->request->getParam('district', '');
         $thana = Yii::app()->request->getParam('thana', '');
-        $condition_array = ['register_type' => 'business', 'user_status' => 1];
+        $condition_array = array(
+            'active'=> array(1)
+        );
+        //$condition_array = ['register_type' => 'business', 'user_status' => 1];
        /* if($division != '' && $division != 0){
             $condition_array['division'] = $division;
         }
@@ -2769,10 +2867,22 @@ class SiteController extends Controller {
         foreach ($member_list as $member) {
             $members[] = $member->id;
         }*/
+        $minimum_price = 1;
+        $maximum_price = 1;
+        $ad_details = Generic::getAllAdsForHomePageSearch('1',"tbl_ads",0,0,false,false,false,false,[$condition_array],false,false,false,false,[],false,$division,$district,$thana);
+        foreach ($ad_details as $key => $value) {
+            if($value['price'] > $maximum_price) {
+                $maximum_price = $value['price'];
+            } else if ($value['price'] < $minimum_price){
+                $minimum_price = $value['price'];
+            }
+        }
         $this->render('find-package-result', array(
             'division' => $division,
             'district' => $district,
-            'thana' => $thana
+            'thana' => $thana,
+            'maximum_price' => $maximum_price,
+            'minimum_price' => $minimum_price
         ));
     }
 
@@ -3762,8 +3872,14 @@ class SiteController extends Controller {
      */
     public function actionGetDistricts() {
         $division_id = Yii::app()->request->getParam('division_id');
+        $no_select = Yii::app()->request->getParam('no_select','');
+        
         $district_objects = District::model()->findAllByAttributes(['division_id' => $division_id,'status' => 1]);
-        $option_string = '<option value="0">Select District</option>';
+        $option_string = '';
+        if($no_select != '1'){
+            $option_string .= '<option value="0">Select District</option>';
+        }
+        
         foreach($district_objects as $district){
             $option_string.= '<option value="'.$district->district_id.'">'.$district->district.'</option>';
         }
@@ -3822,7 +3938,7 @@ class SiteController extends Controller {
         $isp_mapping['8']['district'] = [6,47,15,81,85,91];
         $isp_mapping['9']['district'] = [1,3,4,9,13,10,12,70,18,19,22,27,29,30,32,33,35,36,39,41,42,
             44,38,46,48,49,50,51,54,52,55,56,57,58,59,61,64,65,67,68,69,72,73,75,76,77,78,79,82,84,
-            85,86,87,88,89,90,93,94];
+            85,86,87,88,89,90,93,94,6,47,15,81,85,91,26];
         $districts_info = "";
         $thanas_info = "";
         $isp_category_id = Yii::app()->request->getParam('isp_category_id');
@@ -3842,8 +3958,11 @@ class SiteController extends Controller {
             }
         } else {
             $districts_info = '<option value="0">Select District</option>';
-            $districts = District::model()->findAllByAttributes(array("district_id" => $isp_mapping[$isp_category_id]['district']));
-            $thanas = Thana::model()->findAllByAttributes(array("district_id" => $isp_mapping[$isp_category_id]['district']));
+            $district_criteria = new CDbCriteria(array('order'=>'district ASC'));
+            $districts = District::model()->findAllByAttributes(array("district_id" => $isp_mapping[$isp_category_id]['district']),$district_criteria);
+                        
+            $thana_criteria = new CDbCriteria(array('order'=>'thana ASC'));
+            $thanas = Thana::model()->findAllByAttributes(array("district_id" => $isp_mapping[$isp_category_id]['district']),$thana_criteria);
             foreach($districts as $district){
                 $districts_info .= '<option value="'.$district->district_id.'">'.$district->district.'</option>';
             }
@@ -3864,10 +3983,12 @@ class SiteController extends Controller {
         $isp_mapping[4]['district'] = [90,91,36,58,89,39,72,61,48,93,59,56,67,33];
         $isp_mapping[5]['district'] = [65,47,87,1,6,9,42,79,4,78,82,29,35,54,86];
         $isp_mapping[6]['district'] = [27,77,73,94,52,49,85,32,10,38,81,69,64,76,88,70];
-
-        foreach ($isp_mapping[$zone_id]['district'] as $district_id) {
-            $district_details = District::model()->findAllByAttributes(['district_id' => $district_id]);
-            $districts_info .= '<option value="'.$district_details[0]->district_id.'">'.$district_details[0]->district.'</option>';
+        $district_criteria = new CDbCriteria(array('order' => 'district ASC'));
+        $district_details = District::model()->findAllByAttributes(['district_id' => $isp_mapping[$zone_id]['district']],$district_criteria);
+        //Generic::_setTrace($district_details);
+        foreach ($district_details as $single_district) {
+            
+            $districts_info .= '<option value="'.$single_district->district_id.'">'.$single_district->district.'</option>';
         }
 
         //Generic::_setTrace($districts_info);
@@ -3916,6 +4037,16 @@ class SiteController extends Controller {
         $ad_details = Generic::getAddDetailsFromAddTable($ad_id);
         $message = '';
         if($user_type == 'business'){
+            if(!empty($ad_details['service_charge']) && $ad_details['service_charge'] != 0){
+                $message .= '<p>
+                                <strong>Service Charge: </strong> <span>&#2547; '.$ad_details['service_charge'].'</span>
+                            </p>';
+            } else {
+                $message .= '<p>
+                                <strong>Service Charge: </strong> <span>Free</span>
+                            </p>';
+            }
+            
             $message .= '<p>
                                             <strong>Package Type: </strong> <span>'.ucwords($ad_details['package_type']).'</span>
                                         </p>';
@@ -3984,5 +4115,62 @@ class SiteController extends Controller {
             'status' => 'success',
             'html' => $message
         ]);
+    }
+
+    public function actionChangeUserStatus(){
+        $user_id = Yii::app()->request->getParam('id');
+        $user_status = Yii::app()->request->getParam('active');
+
+        $user_details = Register::model()->findByPk($user_id);
+        $user_details->user_status = $user_status;
+        try {
+            if(!$user_status){
+                $ad_criteria = new CDbCriteria();
+                $ad_criteria->condition = 'user_id = :user_id';
+                $ad_criteria->params = array(':user_id' => $user_id);
+                $ads_details = Ads::model()->findAll($ad_criteria);
+                $company_details = Estore::model()->findAll($ad_criteria);
+                foreach ($ads_details as $ad) {
+                    $ad->active = 0;
+                    $ad->update();
+                }
+                if($company_details){
+                    $company_details->active = 0;
+                    $company_details->update();
+                }
+            }
+            $user_details->update();
+        } catch (Exception $e) {
+            Generic::_setTrace('User update failed, Please contact site admin');
+        }
+        
+
+        $this->redirect($base_url . '/admin/register/admin');
+        //Generic::_setTrace($user_details);
+    }
+
+    public function actionCustomizedRegisterDelete(){
+
+        $register_id = Yii::app()->request->getParam('id');
+        $user_details = Register::model()->findByPk($register_id);
+        
+            if($user_details){
+                $ad_criteria = new CDbCriteria();
+                $ad_criteria->condition = 'user_id = :user_id';
+                $ad_criteria->params = array(':user_id' => $register_id);
+                $ads_details = Ads::model()->findAll($ad_criteria);
+                $company_details = Estore::model()->findAll($ad_criteria);
+                if(!empty($ads_details)){
+                    foreach ($ads_details as $ad) {
+                        $ad->delete();
+                    }
+                }
+                if($company_details){
+                    $company_details[0]->delete();
+                }
+                $user_details->delete();
+            }
+            
+        $this->redirect(Yii::app()->getBaseUrl(true) . '/admin/register/admin');
     }
 }

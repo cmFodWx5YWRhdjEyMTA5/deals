@@ -341,6 +341,12 @@ echo $this->renderPartial($sidebar_type,array(
 
     $('#payment-confirmation-form').on('submit',function(){
         if($('input[name="payment"]:checked').val()){
+            var payment_amount_given = $('#advanced_payment').val();
+            var payment_amount = $('#order_amount').val();
+            if(payment_amount_given > payment_amount){
+                alert('Please enter amount correctly');
+                return false;
+            }
             return true;
         } else {
             alert('Please select a payment method');

@@ -143,6 +143,13 @@ $image_file = ','.implode(',',$images);
                                                 <input type="hidden" id="special_offer" name="special_offer" value="0">
                                             </div>
                                         </div>
+                                        <div class="row form-group select-price">
+                                            <label class="col-sm-3 label-title">Service Charge/OTC</label>
+                                            <div class="col-sm-9">
+                                                <span>BDT</span>
+                                                <input type="text" id="service_charge" name="service_charge" class="form-control number_input" value="<?php echo $ad_details->service_charge ?>" >
+                                            </div>
+                                        </div>
                                         <div class="row form-group">
                                             <label class="col-sm-3 label-title">Package Type<span class="required">*</span></label>
                                             <div class="col-sm-9">

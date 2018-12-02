@@ -51,6 +51,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'job_category',
 		'description',
 		'educational_req',
+		'salary',
+		'deadline',
+		'create_date',
+		array(
+			'name'=>'active',
+			'value'=>'Generic::getActiveStatus($data->active)',
+		),
 		/*
 		'experiment_req',
 		'salary',

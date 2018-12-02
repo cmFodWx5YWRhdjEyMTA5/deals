@@ -97,6 +97,8 @@ class UrlRules {
                     'my-profile/landing-page-management'=>'profile/ManageLandingPage',
                     'my-profile/jobs'=>'profile/ManageJobs',
                     'my-profile/add-job'=>'profile/AddJobs',
+                    'my-profile/update-job' => 'profile/EditJob',
+                    'my-profile/update-coverage-area' => 'profile/UpdateThanaList',
                     
                     'e-store/estore-order-confirm' => 'estore/OrderConfirmation',
                     'e-store/<company_name>/all-products' => 'estore/AllProducts',

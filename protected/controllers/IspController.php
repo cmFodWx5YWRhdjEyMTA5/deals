@@ -153,7 +153,8 @@ class IspController extends Controller
 			'latitude'=>$latitude,
 			'longitude'=>$longitude,
 			'thanks_message' => $thanks_message,
-			'locale' => $locale
+			'locale' => $locale,
+			'user_location' => urlencode($user_location)
 		));
 	}
 	public function actionAbout($country_code = '',$company_name)

@@ -1260,6 +1260,7 @@ class Generic
             ->select("category_name,sub_category_slug,category_id")
             ->from('tbl_category')
             ->where('parent_id=:category_id', array(':category_id' => $category_id))
+            ->order(array('category_name asc'))
             ->queryAll();
         return $data_result;
 
@@ -1958,8 +1959,11 @@ class Generic
         if($thana != '' && $thana != 0){
             $register_condition_array['thana_id'] = [$thana,'*'];
         }
-        $member_list = Registered_user_location::model()->findAllByAttributes($register_condition_array);
-
+        
+        $member_list = [];
+        if(!empty($register_condition_array)){
+            $member_list = Registered_user_location::model()->findAllByAttributes($register_condition_array);
+        }
         $members = [];
         foreach ($member_list as $member) {
             $members[] = $member->user_id;
@@ -3099,7 +3103,7 @@ class Generic
         $sub_categories_id = Generic::getSubcategoryId($all_sub_category_id);
         $condition_array = array(
             'active'=> array(1),
-
+            'show_in_store' => array(1)
         );
 
         $ad_details = Generic::getAdDetailsFromCategory($sub_categories_id, $condition_array, $table,$country_code, $limit, false);
@@ -3624,7 +3628,7 @@ class Generic
 <p>Package includes:</p>
 '.$pricing_details['details'].'
 </div>
-<div style="width:800px; height:95px; background:url(/images/pad_bottom.jpg) no-repeat; background-size:100%;"></div>
+<div style="width:800px; height:95px; background:url(/images/pad_bottom.png) no-repeat; background-size:100%;"></div>
 ';
             }
         }
@@ -3749,7 +3753,7 @@ class Generic
 			<div style="clear:both"></div>
 			<span>Originated ip:'.$remote_ip.'</span>
 			</div>
-            <div style="width:800px; height:95px; background:url(/images/pad_bottom.jpg) no-repeat; background-size:100%;"></div>
+            <div style="width:800px; height:95px; background:url(/images/pad_bottom.png) no-repeat; background-size:100%;"></div>
 '.$second_page.'
 	</body>
 </html>';
@@ -3956,7 +3960,7 @@ class Generic
             <div style="clear:both"></div>
             <span>Originated ip:'.$remote_ip.'</span>
             </div>
-            <div style="width:800px; height:95px; background:url(/images/pad_bottom.jpg) no-repeat; background-size:100%;"></div>
+            <div style="width:800px; height:95px; background:url(/images/pad_bottom.png) no-repeat; background-size:100%;"></div>
 '.$second_page.'
     </body>
 </html>';
@@ -4202,7 +4206,7 @@ class Generic
 
 <span>Originated ip:'.$remote_ip.'</span>
 </div>
-<div style="width:800px; height:95px; background:url(/images/pad_bottom.jpg) no-repeat; background-size:100%;"></div>
+<div style="width:800px; height:95px; background:url(/images/pad_bottom.png) no-repeat; background-size:100%;"></div>
 </body>
 </html>';
         $from = $registered_user->email;
@@ -4785,6 +4789,64 @@ class Generic
             return implode(',', $division_list);
         }
         return '';
+    }
+
+    public static function getActiveStatus($status){
+        if($status){
+            return "Active";
+        } else {
+            return "Deactive";
+        }
+    }
+
+    /**
+    * get all favorite counts for ad id
+    */
+    public static function getTotalFavoriteCount($ad_id){
+        $favorite_criteria = new CDbCriteria();
+        $favorite_criteria->condition = 'ad_id = :ad_id';
+        $favorite_criteria->params = array(':ad_id' => $ad_id);
+        $favorites = Favorites::model()->findAll($favorite_criteria);
+        return count($favorites);
+    } 
+
+    /**
+    * get isp category name from category id
+    */
+    public static function getISPCategoryName($category_id){
+        $category_name = '';
+        switch ($category_id) {
+            case 1:
+                $category_name = 'NationWide';
+                break;
+            case 2:
+                $category_name = 'Central Zone';
+                break;
+            case 3:
+                $category_name = 'South-East Zone';
+                break;
+            case 4:
+                $category_name = 'North-East Zone';
+                break;
+            case 5:
+                $category_name = 'South-West Zone';
+                break;
+            case 6:
+                $category_name = 'North-West Zone';
+                break;
+            case 7:
+                $category_name = 'Category-A';
+                break;
+            case 8:
+                $category_name = 'Category-B';
+                break;
+            case 9:
+                $category_name = 'Category-C';
+                break;
+            default:
+                break;
+        }
+        return $category_name;
     }
 
 }

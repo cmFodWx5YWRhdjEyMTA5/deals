@@ -62,13 +62,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
                 'deactivate'=>array(
                     'label'=>'Deactivate',
                     'visible'=>'$data->active==1',
-                    'url'=>'Yii::app()->createUrl("estore/changestatus",array("id"=>$data->id,"active"=>0))',
+                    'url'=>'Yii::app()->createUrl("estore/changestatus?id=$data->id&active=0")',
                     'options'=>array('confirm'=>'Are you sure want to Deactivate this company?'),
                 ),
                 'activate' =>array(
                     'label' =>'Activate',
                     'visible'=>'$data->active==0',
-                    'url'=>'Yii::app()->createUrl("estore/changestatus",array("id"=>$data->id,"active"=>1))',
+                    'url'=>'Yii::app()->createUrl("estore/changestatus?id=$data->id&active=1")',
                     'options'=>array('confirm'=>'Are you sure want to Approve this company?'),
                 ),
             ),

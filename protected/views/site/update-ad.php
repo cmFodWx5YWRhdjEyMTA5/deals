@@ -225,7 +225,7 @@ $top_price = $price_config['top']['amount'];
 
                         </div><!-- section -->
 
-                        <div class="section payment_option">
+                        <!-- <div class="section payment_option">
                             <h4>Make your Ad Premium </h4>
                             <div class="row form-group col-sm-7">
                                 <?php if ($ad_details['show_in_store'] != 1){?>
@@ -298,10 +298,9 @@ $top_price = $price_config['top']['amount'];
                                 <?php } ?>
                             </div>
                             <div class="image-container col-sm-5"></div>
-                            <!--<div class="price-container"></div>-->
                             <div style="clear:both"></div>
 
-                        </div><!-- section -->
+                        </div> --><!-- section -->
 
                         <div class="checkbox section agreement">
                          <!--   <label for="send">

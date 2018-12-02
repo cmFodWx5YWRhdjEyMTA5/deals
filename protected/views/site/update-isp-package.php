@@ -156,6 +156,13 @@ $top_price = $price_config['top']['amount'];
                                     </div>
                                 </div>
                             </div>
+                            <div class="row form-group select-price">
+                                <label class="col-sm-3 label-title">Srvice Charge/OTC<span class="required">*</span></label>
+                                <div class="col-sm-9">
+                                    <h5 class="col-sm-2" style="margin-top: 10px;">BDT</h5>
+                                    <input type="text" id="service_charge" name="service_charge" class="form-control col-sm-4" value="<?=$ad_details['service_charge']?>" data-container="body" data-toggle="popover" data-trigger="focus" data-content="One time Service Charge prior connection">
+                                </div>
+                            </div>
                             <div class="row form-group show-price">
                                 <label class="col-sm-3 label-title">Show Price</label>
                                 <div class="col-sm-3">

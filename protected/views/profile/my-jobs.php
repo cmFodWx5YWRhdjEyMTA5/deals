@@ -49,7 +49,7 @@ echo $this->renderPartial($sidebar_type,array(
                     </div>
                     <div class="col-xs-12 col-sm-7 col-md-6">
                         <?php
-                        $this->renderPartial("/elements/notification",array('register_type' => $register_type));
+                        //$this->renderPartial("/elements/notification",array('register_type' => $register_type));
                         ?>
                     </div>
                 </div>

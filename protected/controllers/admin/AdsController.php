@@ -61,7 +61,7 @@ class AdsController extends Controller
 		{
 			$model->attributes=$_POST['Ads'];
 			if(!$model->attributes['active']) {
-				$model->expire_date = NULL;
+				//$model->expire_date = NULL;
 			}
 			if($model->save())
 			{

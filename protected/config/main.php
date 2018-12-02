@@ -20,7 +20,7 @@ return array(
 		'application.components.*',
         'application.config.*'
 	),
-
+	'timeZone' => 'Asia/Dhaka',
 	'defaultController'=>'site',
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool

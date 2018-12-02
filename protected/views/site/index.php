@@ -240,8 +240,9 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 																$ad_views = Generic::getTotalAdView($individual_product['id']);
 																$view_count = array_sum(array_column($ad_views, 'view_count'));
 
-																$favorite_counter = 0;
-																//$favorites = Favorites::model()->findAll();
+																/*$favorite_counter = 0;
+																
+																$favorite_counter = Generic::getTotalFavoriteCount($individual_product['id']);*/
 
 																$discount = round($individual_product['discount']);
 																$total_price = (int)$individual_product['price'];
@@ -287,7 +288,7 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 
 																				<i class="fa fa-eye" style="color: #0083c9"> </i> <span><?=$view_count?></span>
 
-																				<i class="fa fa-heart" style="color: #0083c9;margin-left:10px"></i> <span class="favourite"> <?=$favorite_counter?></span>
+																				<!-- <i class="fa fa-heart" style="color: #0083c9;margin-left:10px"></i> <span class="favourite"> <?=$favorite_counter?></span> -->
 
 
 																				<meta itemprop="worstRating" content="0"/>

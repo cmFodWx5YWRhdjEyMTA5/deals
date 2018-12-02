@@ -475,6 +475,8 @@ Yii::app()->clientScript->registerMetaTag($og_image,'twitter:image');
                 ?>
                 <div class="row col-sm-12">
                     <div class="col-sm-6">
+                        <div class="row" id="send_message_confirmation">
+                        </div>
                         <div class="row form-group item-description" title="Name">
                             <label class="col-sm-3 label-title">Name</label>
                             <div class="col-sm-9">

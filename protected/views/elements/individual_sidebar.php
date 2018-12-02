@@ -31,7 +31,7 @@ $action = Yii::app()->controller->action->id;
                                         My Ads
                                     </a>
                                 </li>
-                                <li class="bg7-icon-wrap <?php if($action == 'MyAds') { echo "active"; } ?>">
+                                <li class="bg7-icon-wrap <?php if($action == 'PostAd') { echo "active"; } ?>">
                                     <a href="<?php echo Yii::app()->createUrl('/add-post-details'); ?>">
                                        <span><i class="adicon-alarm"></i></span>
                                        Post an Ad

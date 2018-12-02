@@ -1932,7 +1932,7 @@ class CategoryController extends Controller
             $list_view ="display: none" ;
 
         }
-        $favorite_ads = Generic::getAllFavoritesAds();
+        //$favorite_ads = Generic::getAllFavoritesAds();
         foreach ($ad_details as $ad) {
 
             $ads_id = $ad['id'];
@@ -1971,11 +1971,11 @@ class CategoryController extends Controller
             if ($expire_date >= $current_date) {
                 $favorites_class = "";
                 $favorites_title = "Ad as favorite";
-                if(in_array($ads_id,$favorite_ads)){
+                /*if(in_array($ads_id,$favorite_ads)){
                     $favorites_class = "favorite-active";
                     $favorites_title = "Remove From favorite";
 
-                }
+                }*/
                 if($ad['show_price']) {
                     if ($ad_type == 'ads') {
                         if ($ad['ad_condition']) {
@@ -2003,14 +2003,14 @@ class CategoryController extends Controller
                 $ad_views = Generic::getTotalAdView($ad_id);
                 $view_count = array_sum(array_column($ad_views, 'view_count'));
 
-                $favorite_counter = 0;
+                /*$favorite_counter = 0;
                 $favorites = Favorites::model()->findAll();
                 foreach ($favorites as $favorite) {
                     $ad_array = explode(',',$favorite->ad_id);
                     if(in_array($ad_id,$ad_array)) {
                         $favorite_counter++;
                     }
-                }
+                }*/
 
                 $opt_list = array(
                     'w' => '300',
@@ -2019,7 +2019,15 @@ class CategoryController extends Controller
                     'r' => '0'
                 );
 
-                $package_info_details = '<div class="product-code">
+                if(!empty($ad['service_charge']) && $ad['service_charge'] != 0){
+                    $package_info_details = '<div class="product-code">
+                            <label>Service Charge/OTC: </label>&#2547; <span>'.$ad['service_charge'].'</span>
+                        </div>';
+                } else {
+                    $package_info_details = '<div class="product-code">
+                            <label>Service Charge/OTC: </label> Free</div>';
+                }
+                $package_info_details .= '<div class="product-code">
                                             <label>Package Type: </label> <span>'.ucwords($ad['package_type']).'</span>
                                         </div>';
                 $package_info_details .= '<div class="product-code">

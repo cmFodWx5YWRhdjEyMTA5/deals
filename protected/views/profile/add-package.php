@@ -137,7 +137,7 @@ echo $this->renderPartial($sidebar_type,array(
                                             </div>
                                         </div>
                                         <?php } ?>
-                                        <div class="row form-group select-price"  title="Don't know what price to put? Balance out how much you want for what you're offering with how much you think users are willing to pay.">
+                                        <div class="row form-group select-price"  title="">
                                             <label class="col-sm-3 label-title">Price<span class="required">*</span></label>
                                             <div class="col-sm-9">
                                                 <span>BDT</span>
@@ -152,6 +152,13 @@ echo $this->renderPartial($sidebar_type,array(
                                                 <input type="radio" name="price_type" value="0" id="negotiable">
                                                 <label for="negotiable">Negotiable </label>
                                             </div>
+                                        </div>
+                                        <div class="row form-group select-price"  title="">
+                                            <label class="col-sm-3 label-title">Service Charge/OTC</label>
+                                            <div class="col-sm-9">
+                                                <span>BDT</span>
+                                                <input type="text" id="service_charge" name="service_charge" class="form-control">
+                                            </div>    
                                         </div>
                                         <div class="row form-group show-price">
                                             <label class="col-sm-3 label-title">Show Price</label>

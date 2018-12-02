@@ -8,11 +8,18 @@ $category_id = isset($profile_data['business_category_id']) ? $profile_data['bus
 //$result = Yii::app()->db->createCommand( "SELECT * FROM tbl_category  WHERE parent_id LIKE '$category_id'")->queryAll();
 $user_id = isset($profile_data['id']) ? $profile_data['id'] : '';
 $result = Yii::app()->db->createCommand( "SELECT categories FROM tbl_estore  WHERE user_id LIKE '$user_id'")->queryAll();
+
 $individual_category_id = explode(',',$result[0]['categories']);
 
-foreach($individual_category_id as $id){
+/*foreach($individual_category_id as $id){
     $category_name[] = Category::model()->findByPk($id);
-}
+}*/
+
+$category_criteria = new CDbCriteria();
+$category_criteria->addInCondition('category_id', $individual_category_id);
+$category_criteria->order ='category_name ASC';
+$category_name = Category::model()->findAll($category_criteria);
+
 
 $expire_date =Subscription_plan ::model()->findByAttributes(array('user_id' => $user_id));
 
@@ -188,7 +195,7 @@ echo $this->renderPartial($sidebar_type,array(
                                                         <label class="switch">
                                                             <input class="cboxes_featured switch-input" rel=""  id="cbox2" type="checkbox" name="ad_premium" />
                                                             <input type="hidden" id="is_featured" name="is_featured" value="">
-                                                            <span class="switch-label" onmouseover="showFeaturedAdsImage()" data-on="On" data-off="Off"></span>
+                                                            <span class="switch-label" data-on="On" data-off="Off"></span>
                                                             <span class="switch-handle"></span>
                                                             <div class="tinybox" style="">
                                                                 <img src="<?=$baseUrl?>/images/featured_store.png" alt="tinypic2" id="tinypic2" style="display:none;">
@@ -219,7 +226,7 @@ echo $this->renderPartial($sidebar_type,array(
                                                         <label class="switch">
                                                             <input class="cboxes_premium switch-input" rel="" type="checkbox" name="ad_premium" />
                                                             <input type="hidden" id="is_premium" name="is_premium" value="">
-                                                            <span class="switch-label" onmouseover="showPremiumAdsImage()" data-on="On" data-off="Off"></span>
+                                                            <span class="switch-label" data-on="On" data-off="Off"></span>
                                                             <span class="switch-handle"></span>
                                                             <div class="tinybox" style="">
                                                                 <img src="<?=$baseUrl?>/images/premium_store.png" alt="tinypic2" id="tinypic2" style="display:none;">
@@ -248,7 +255,7 @@ echo $this->renderPartial($sidebar_type,array(
                                                         <label class="switch">
                                                             <input class="cboxes_top switch-input" rel="" type="checkbox" name="ad_premium" />
                                                             <input type="hidden" id="is_top" name="is_top" value="">
-                                                            <span class="switch-label" onmouseover="showTopAdsImage()"  data-on="On" data-off="Off"></span>
+                                                            <span class="switch-label" data-on="On" data-off="Off"></span>
                                                             <span class="switch-handle"></span>
                                                             <div class="tinybox" style="">
                                                                 <img src="<?=$baseUrl?>/images/top_store.png" alt="tinypic2" id="tinypic2" style="display:none;">

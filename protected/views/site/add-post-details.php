@@ -242,7 +242,7 @@ $category_list = Generic::getAllCategory();
 							<!--	<br clear="all"><br clear="all">-->
 							<div align="left" id="ad_status"></div>
 							<!--	<br clear="all"><br clear="all">-->
-							<button id="ad_submit1" type="button" class="btn btn-theme" style="width: 100%">Post Your Ad</button>
+							<button id="ad_submit" type="button" class="btn btn-theme" style="width: 100%">Post Your Ad</button>
 							<div class="modal fade" id="myModal_for_ad_post" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog" style="width: 400px">
 									<div class="modal-content" style="position: relative;">
@@ -645,8 +645,9 @@ $category_list = Generic::getAllCategory();
 		});
 	}
 
-	$('#ad_submit1').on('click', function () {
-		$('#myModal_for_ad_post').modal('show');
+	$('#ad_submit').on('click', function () {
+		//$('#myModal_for_ad_post').modal('show');
+		$('#ad-form').submit();
 	});
 
 	$('#yes').on('click', function () {

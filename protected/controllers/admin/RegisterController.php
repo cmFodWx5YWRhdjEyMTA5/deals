@@ -51,8 +51,44 @@ class RegisterController extends Controller
 	 */
 	public function actionView($id)
 	{
+		$division_array = $district_array = $thana_array = $division = $district = $thana = [];
+		$user_details = Register::model()->findByPk($id);
+		
+		if($user_details->register_type == 'business'){
+			$user_criteria = new CDbCriteria();
+			$user_criteria->condition = 'user_id = :user_id';
+			$user_criteria->params = array(':user_id' => $id);
+			$user_thana_mapping = Registered_user_location::model()->findAll($user_criteria);
+			
+			foreach ($user_thana_mapping as $single_mapping) {
+				$division_array[] = $single_mapping->division_id;
+				$district_array[] = $single_mapping->district_id;
+				$thana_array[] = $single_mapping->thana_id;
+				
+			}
+
+			$division = Division::model()->findAllByAttributes(['division_id' => array_unique($division_array)]);
+			$district = District::model()->findAllByAttributes(['district_id' => array_unique($district_array)]);
+			
+			$thana = Thana::model()->findAllByAttributes(['district_id' => array_unique($district_array),'thana_id' => array_unique($thana_array)]);
+
+			$division = array_map(function($item){
+				return $item->division;
+			}, $division);
+			$district = array_map(function($item){
+				return $item->district;
+			}, $district);
+			$thana = array_map(function($item){
+				return $item->thana;
+			}, $thana);
+		}
+
+		//Generic::_setTrace($division);
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
+			'division' => $division,
+			'district' => $district,
+			'thana' => $thana,
 		));
 	}
 

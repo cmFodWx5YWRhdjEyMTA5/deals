@@ -272,7 +272,7 @@ $active_menu = Yii::app()->controller->action->id;
                         window.location = SITE_URL+'sign-in';
                 }
                 else if(data.status==='login'){
-                    if(data.register_type == 'business'){
+                    if(data.register_type == 'business' || data.register_type == 'store'){
                         window.location = SITE_URL+'my-profile/add-job';
                     }
                 }

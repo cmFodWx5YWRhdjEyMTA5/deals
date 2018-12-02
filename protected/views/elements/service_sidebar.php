@@ -6,6 +6,7 @@ if($profile_data['image']) {
 }
 $controller = Yii::app()->controller->id;
 $action = Yii::app()->controller->action->id;
+
 ?>
 
 <section id="main" class="clearfix category-page">
@@ -35,6 +36,12 @@ $action = Yii::app()->controller->action->id;
                                     <a href="<?php echo Yii::app()->createUrl('/my-profile/update-isp'); ?>">
                                         <span><i class="adicon-alarm"></i></span>
                                         Update Company Page
+                                    </a>
+                                </li>
+                                <li class="bg8-icon-wrap <?php if($action == 'UpdateThanaList') { echo "active"; } ?>">
+                                    <a href="<?php echo Yii::app()->createUrl('/my-profile/update-coverage-area'); ?>">
+                                        <span><i class="adicon-alarm"></i></span>
+                                        Update Coverage Area
                                     </a>
                                 </li>
                                 

@@ -29,6 +29,7 @@
  * @property integer $user_status
  * @property string $referral_id
  * @property string $license_number
+ * @property string $isp_type
  */
 class Register extends CActiveRecord
 {
@@ -54,7 +55,7 @@ class Register extends CActiveRecord
 			array('oauth_token, otp_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, register_type, user_name, email, password, designation, phone_number, user_token, image, enterprise_name, business_category_id, country, division, district,thana,package_type, address, create_date, update_date, oauth_token, otp, otp_time, user_status, referral_id, license_number', 'safe', 'on'=>'search'),
+			array('id, register_type, user_name, email, password, designation, phone_number, user_token, image, enterprise_name, business_category_id, country, division, district,thana,package_type, address, create_date, update_date, oauth_token, otp, otp_time, user_status, referral_id, license_number, isp_type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,7 +100,8 @@ class Register extends CActiveRecord
 			'otp_time' => 'Otp Time',
 			'user_status' => 'User Status',
 			'referral_id' => 'Referral Id',
-			'license_number' => 'License Number'
+			'license_number' => 'License Number',
+			'isp_type' => 'ISP Category Type'
 		);
 	}
 
@@ -146,6 +148,7 @@ class Register extends CActiveRecord
 		$criteria->compare('user_status',$this->user_status);
 		$criteria->compare('referral_id',$this->referral_id);
 		$criteria->compare('license_number',$this->license_number);
+		$criteria->compare('isp_type',$this->isp_type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

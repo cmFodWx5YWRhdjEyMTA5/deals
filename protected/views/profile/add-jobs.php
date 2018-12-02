@@ -30,7 +30,7 @@ echo $this->renderPartial($sidebar_type,array(
     tinyMCE.init({
         theme : "modern",
         mode: "exact",
-        elements : "ad_description_business",
+        elements : "job_description,educational_requirement,experience_requirement,additional_requirement,job_requirement",
         theme_advanced_toolbar_location : "top",
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,"
         + "justifyleft,justifycenter,justifyright,justifyfull,formatselect,"
@@ -303,6 +303,13 @@ echo $this->renderPartial($sidebar_type,array(
         -moz-transition: All 0.3s ease;
         -o-transition: All 0.3s ease;
     }
+    .ui-widget-content {
+        background: #c0bcb9;
+    }
+
+    .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+        background: #fff !important;
+    }
 
 
 </style>
@@ -386,4 +393,10 @@ echo $this->renderPartial($sidebar_type,array(
     $('.popover-dismiss').popover({
         trigger: 'focus'
     })
+</script>
+<script src="<?php echo Yii::app()->baseUrl ?>js/jquery-ui.js"></script>
+<script>
+    $( function() {
+        $( "#job_deadline" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    } );
 </script>

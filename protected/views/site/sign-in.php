@@ -256,7 +256,7 @@ foreach ($districts as $district) {
                                     </fieldset>
 
                                     <!-- Business Registration -->
-                                    <fieldset id="input-business" style="display:none">
+                                    <fieldset id="input-business" style="display: none;">
                                         <p><input type="text"  placeholder="ISP Name" name="enterprise_name_business" id="enterprise_name_business" /></p><span style="display: none" id="isp_name_block"></span>
                                         <p><input type="text"  placeholder="License Number" name="license_number" id="license_number" /></p><span style="display: none" id="license_block"></span>
                                         <div class="form-group">
@@ -430,7 +430,7 @@ foreach ($districts as $district) {
                                         <p><input type="text" id="designation_isp" name="designation_isp"  placeholder="Your Designation" /></p>
                                         <p><input type="text" id="phone_number_business" name="phone_number_business" class="number_input" placeholder="contact number" value=""/></p>
                                         <p><textarea class="form-control" id="address" rows="4" placeholder="Address" name="address_business"></textarea></p>
-                                        <input type="checkbox" id="agreeBusiness" name="agree2" checked required/> <label for="agreeBusiness">I agree all the <a href="#" target="_blank" a>Terms & Conditions</a></label>
+                                        <input type="checkbox" id="agreeBusiness" name="agree2" checked required/> <label for="agreeBusiness">I agree all the <a href="<?php echo Yii::app()->createUrl('/terms-&-conditions'); ?>" target="_blank" a>Terms & Conditions</a></label>
                                         <div align="left" class="register_status"></div>
                                         <input type="button" class="btn back-btn" value="Back" />
 
@@ -730,7 +730,7 @@ foreach ($districts as $district) {
                     type: 'POST',
                     async: false,
                     url: SITE_URL + "site/GetDistricts",
-                    data: {division_id: selected_division_value},
+                    data: {division_id: selected_division_value,no_select:1},
                     cache: false,
                     success: function (result) {
                         $('#nationwide_district').html(result);

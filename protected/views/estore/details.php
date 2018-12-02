@@ -561,7 +561,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                     <span><?php echo $loggedin_user->phone_number ?></span>
                                     <input type="hidden" class="form-control" name="sender_phone" id="sender_phone" value="<?php echo $loggedin_user->phone_number ?>" />
                                 <?php } else { ?>
-                                    <input type="tel" class="form-control" name="sender_phone" id="sender_phone" placeholder="Your Mobile Number i.e 8801XXXXXXXXX" required />
+                                    <input type="tel" class="form-control number_input" name="sender_phone" id="sender_phone" placeholder="Your Mobile Number i.e 8801XXXXXXXXX" required />
                                 <?php } ?>
                             </div>
                         </div>
@@ -650,7 +650,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                     <span><?php echo $loggedin_user->phone_number ?></span>
                                     <input type="hidden" class="form-control" name="sender_phone" id="sender_phone" value="<?php echo $loggedin_user->phone_number ?>" />
                                 <?php } else { ?>
-                                    <input type="tel" class="form-control" name="sender_phone" id="sender_phone" placeholder="Your Phone" required />
+                                    <input type="tel" class="form-control number_input" name="sender_phone" id="sender_phone" placeholder="Your Phone" required />
                                 <?php } ?>
                             </div>
                         </div>
@@ -855,7 +855,14 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
 
     });
 
-
+    $('#order-send').on('click',function(){
+        var phone_number = $('#sender_phone').val();
+        if(phone_number.length < 11){
+            alert("Please enter a valid phone number");
+            return false;
+        }
+        return true;
+    });
 
 
     $('.buttons').on('click', function () {

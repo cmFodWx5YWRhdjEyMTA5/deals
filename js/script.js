@@ -287,7 +287,8 @@ else{$.ajax({type:'POST',url:SITE_URL+"site/UpdateISPPackage",data:data,cache:fa
     $('#ad-form-business').on('submit',function(e){businessAdsInsert();});
 $('#update-form-business').on('submit',function(e){businessAdsUpdate();});
     $(".number_input").keydown(function(e){if($.inArray(e.keyCode,[46,8,9,27,13,110,190])!==-1||(e.keyCode===65&&(e.ctrlKey===true||e.metaKey===true))||(e.keyCode>=35&&e.keyCode<=40)){return;}
-    if((e.shiftKey||(e.keyCode<48||e.keyCode>57))&&(e.keyCode<96||e.keyCode>105)){e.preventDefault();}});function hotAdsRequest(){var data=$('#hot_ads_submit').serialize();var start_date=$("#start_date").val();var end_date=$("#end_date").val();if(start_date=="")
+    if((e.shiftKey||(e.keyCode<48||e.keyCode>57))&&(e.keyCode<96||e.keyCode>105)){e.preventDefault();}});
+    function hotAdsRequest(){var data=$('#hot_ads_submit').serialize();var start_date=$("#start_date").val();var end_date=$("#end_date").val();if(start_date=="")
 {$("#hot_ads_status").html('<div class="info">Please enter your start date to proceed !</div>');$("#start_date").focus();}
 else if(end_date=="")
 {$("#hot_ads_status").html('<div class="info">Please enter your end date to go !</div>');$("#start_date").focus();}

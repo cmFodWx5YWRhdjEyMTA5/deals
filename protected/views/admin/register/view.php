@@ -35,11 +35,29 @@ $this->menu=array(
 			'value'=>$country['name'],
 			'type' => 'raw',
 		),
-		'division',
-		'district',
+		array(
+			'name'=>'division',
+			'value'=>implode(',',$division),
+			'type' => 'raw',
+		),
+		array(
+			'name'=>'district',
+			'value'=>implode(',',$district),
+			'type' => 'raw',
+		),
+		array(
+			'name'=>'thana',
+			'value'=>implode(',',$thana),
+			'type' => 'raw',
+		),
 		'address',
 		'create_date',
 		'update_date',
 		'referral_id',
+		array(
+			'name'=>'isp_type',
+			'value'=>Generic::getISPCategoryName($model->isp_type),
+			'type' => 'raw',
+		)
 	),
 )); ?>
