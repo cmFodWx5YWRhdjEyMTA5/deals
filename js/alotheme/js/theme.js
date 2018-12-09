@@ -727,7 +727,26 @@ jQuery(document).ready(function(){
 				navigationText:['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>']
 			});
 		});
-	}	
+	}
+	//Homepage Slider Ads
+	if($('.home-brand-slider').length>0){
+		$('.home-brand-slider').each(function(){
+			$(this).find('.wrap-item').owlCarousel({
+				items: 1,
+				itemsCustom: [ 
+				[0, 1], 
+				[480, 1], 
+				[768, 1], 
+				[992, 1], 
+				[1200, 1] 
+				],
+				pagination: false,
+				navigation: true,
+				autoPlay:true,
+				navigationText:['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>']
+			});
+		});
+	}		
 	//Widget Adv
 	if($('.widget-adv').length>0){
 		$('.widget-adv').each(function(){

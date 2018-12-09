@@ -38,7 +38,7 @@ class AdSpecial extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, create_date', 'required'),
+			array('create_date', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('title, banner_image, banner_position, banner_url, page_alias_ad_special, latitude, longitude, country_code, city', 'length', 'max'=>255),
 			array('description, page_content, update_date', 'safe'),

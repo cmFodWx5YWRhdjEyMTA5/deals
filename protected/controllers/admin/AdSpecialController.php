@@ -68,47 +68,27 @@ class AdSpecialController extends Controller
 		if(isset($_POST['AdSpecial']))
 		{
 
-			$model->attributes=$_POST['AdSpecial'];
+			$file_name = time() + 1;
+      		$file_size =$_FILES['AdSpecial']['size']['banner_image'];
+      		$file_tmp =$_FILES['AdSpecial']['tmp_name']['banner_image'];
+      		$file_type=$_FILES['AdSpecial']['type']['banner_image'];
+      		$file_name_parts = explode('.',$_FILES['AdSpecial']['name']['banner_image']);
+      		$file_ext=strtolower(end($file_name_parts));
+      
+      		$expensions= array("jpeg","jpg","png");
 
-			$imageInstance = Generic::validateUploadImage($model,'banner_image');
+      		if(in_array($file_ext,$expensions) === false){
+		        $variable = "extension not allowed, please choose a JPEG or PNG file.";
+		    } else {
+		    	$model->attributes=$_POST['AdSpecial'];
 
-			if($imageInstance){
-				$imageName = time() + 1;
-				if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAIRWFUJGOJ46XGJYA');
-				if (!defined('awsSecretKey')) define('awsSecretKey', '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');
-				$s3 = new S3(awsAccessKey, awsSecretKey);
-				$allowed_image_type = Generic::getAllowedImage();
-				$image_type = $imageInstance->getExtensionName();
-				if(!in_array($image_type, $allowed_image_type)){
-
-					return 'Invalid image type';
-				}
-				$image = $_FILES['AdSpecial']['tmp_name']['banner_image'];
-				//Generic::_setTrace($image);
-
-				$image_name = $imageName.".".$image_type;
-
-
-				//if($imageSaveName = Generic::uploadImage($imageInstance, $imageName,'topRightSide', $image_width, $image_height)){
-					if($imageSaveName = $s3->putObjectFile($image,"ad-dwit-a",$image_name,S3::ACL_PUBLIC_READ)){
-						$model->banner_image = "http://ad-dwit-a.s3.amazonaws.com/".$image_name;
-				}
-			}
-
-			$str = $_FILES['AdSpecial']['name']['page_alias_ad_special'];
-
-			if($str){
-				$banner_file = file_get_contents($_FILES['AdSpecial']['tmp_name']['page_alias_ad_special']);
-				$value = str_replace(".html","",$str);
-				$model->page_content = $banner_file;
-				$model->page_alias_ad_special= $value;
-			}
-			$model->create_date=date('y-m-d');
-			if($country_details){
-				$model->country_code = $country_details->sortname;
-			}
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$model->banner_image = Yii::app()->getBaseUrl(true)."/uploads/".$file_name.".".$file_ext;
+				move_uploaded_file($file_tmp,__DIR__."/../../../uploads/".$file_name.".".$file_ext);
+				$model->create_date=date('y-m-d');
+				$model->country_code = 'BD';
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->id));
+			    }
 		}
 
 		$this->render('create',array(
@@ -132,41 +112,31 @@ class AdSpecialController extends Controller
 		{
 
 			$old_image_name = $model->banner_image;
+
 			$model->attributes=$_POST['AdSpecial'];
-			$imageInstance = Generic::validateUploadImage($model,'banner_image');
+			
+			$file_name = time() + 1;
+			$file_size =$_FILES['AdSpecial']['size']['banner_image'];
+      		$file_tmp =$_FILES['AdSpecial']['tmp_name']['banner_image'];
+      		$file_type=$_FILES['AdSpecial']['type']['banner_image'];
+      		$file_name_parts = explode('.',$_FILES['AdSpecial']['name']['banner_image']);
+      		$file_ext=strtolower(end($file_name_parts));
 
-			if($imageInstance){
-				$imageName = time() + 1;
-				if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAIRWFUJGOJ46XGJYA');
-				if (!defined('awsSecretKey')) define('awsSecretKey', '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');
-				$s3 = new S3(awsAccessKey, awsSecretKey);
-				$allowed_image_type = Generic::getAllowedImage();
-				$image_type = $imageInstance->getExtensionName();
-				if(!in_array($image_type, $allowed_image_type)){
+      		$new_file_name = Yii::app()->getBaseUrl(true)."/uploads/".$file_name.".".$file_ext;
 
-					return 'Invalid image type';
-				}
-				$image = $_FILES['AdSpecial']['tmp_name']['banner_image'];
-				//Generic::_setTrace($image);
-
-				$image_name = $imageName.".".$image_type;
-
-				if(!empty($model->banner_image)){
-					$s3->deleteObject("ad-dwit-a",$old_image_name);
-				}
-
-
-				if($imageSaveName = $s3->putObjectFile($image,"ad-dwit-a",$image_name,S3::ACL_PUBLIC_READ)){
-					$model->banner_image = "http://ad-dwit-a.s3.amazonaws.com/".$image_name;
-
-				}
-			}
-			if(!trim($model->banner_image)){
+      		$expensions= array("jpeg","jpg","png");
+      		$model->banner_image = $new_file_name;
+			if(empty($file_ext)){
 				$model->banner_image = $old_image_name;
 			}
-			$model->update_date=date('y-m-d');
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			if(in_array($file_ext,$expensions) === false){
+		        $variable = "extension not allowed, please choose a JPEG or PNG file.";
+		    } else {
+				move_uploaded_file($file_tmp,__DIR__."/../../../uploads/".$file_name.".".$file_ext);
+				$model->update_date=date('y-m-d');
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 		$this->render('update',array(
 			'model'=>$model,

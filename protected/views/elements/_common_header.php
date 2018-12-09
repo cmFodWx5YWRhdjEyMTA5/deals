@@ -155,13 +155,13 @@ $active_menu = Yii::app()->controller->action->id;
             <div class="container">
                 <div class="header-main">
                     <div class="row">
-                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="col-md-3 col-sm-12 col-xs-12">
                             <div class="logo">
                                 <a class="navbar-brand" href="/<?php echo $requested_country->sortname ?>"><img src="/images/logo.jpg"></a>
 
                             </div>
                         </div>
-                        <div class="col-md-7 col-sm-12 col-xs-7">
+                        <div class="col-md-7 col-sm-12 col-xs-12">
                             <nav class="main-nav">
                                 <ul>
                                     <li class="<?php if($active_menu == 'index') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="/index.php">Home</a></li>
@@ -177,11 +177,11 @@ $active_menu = Yii::app()->controller->action->id;
                                     <li  class="<?php if($active_menu == 'help') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/help');?>">FAQs</a></li>
                                     <li  class="<?php if($active_menu == 'contact') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/contact-us');?>">Contact Us</a></li>
                                 </ul>
-                                <a href="#" class="toggle-mobile-menu"><span>Menu</span></a>
+                                <a href="#" class="toggle-mobile-menu"><span>&nbsp;</span></a>
                             </nav>
                             <!-- End Main Navigation -->
                         </div>
-                        <div class="col-md-2 col-sm-2 col-xs-12 hidden-xs">
+                        <div class="col-md-2 col-sm-12 col-xs-12 hidden-xs">
                             <div class="mini-cart-button">
                                 <a href="javascript:void(0);" onclick="CheckLogin('<?php echo $requested_country->sortname ?>')" class="mini-cart-view">Post Your Ad</a>
                             </div>

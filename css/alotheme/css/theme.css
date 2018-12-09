@@ -1904,6 +1904,7 @@ blockquote {
     height: 14px;
     line-height: 14px;
     padding: 0 13px;
+    color: #348c34;
 }
 .super-deal-header {
     background: none repeat scroll 0 0 #ef0303;
@@ -2120,6 +2121,9 @@ blockquote {
     color: #ef0303;
     font-size: 18px;
     width: 25px;
+}
+.footer-box-contact a{
+    color: #348c34;
 }
 .footer-box-contact a:hover{
 	color: #ef0303;
@@ -14988,7 +14992,7 @@ ol.list-post-comment {
     .header-nav { margin: 20px 0 30px; border-bottom: 1px solid #e5e5e5 }
     .main-nav { position: relative; background: transparent !important }
     .main-nav > ul { display: none; position: absolute; right: 0; top: 100%; width: 290px; z-index: 999; background: #fff; border: 1px solid #e5e5e5 }
-    .toggle-mobile-menu { display: block; height: 40px; line-height: 40px }
+    .toggle-mobile-menu { display: block; height: 40px; line-height: 40px; margin-top: 15px; width: 50%; }
     .toggle-mobile-menu > span { color: #333; display: block; font-weight: 700; margin-left: -30px; text-transform: uppercase }
     .no-vertical-menu .toggle-mobile-menu > span { margin: 0 }
     .main-nav > ul > li { display: block; margin: 0 15px }

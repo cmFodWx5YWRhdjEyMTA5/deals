@@ -29,9 +29,6 @@ $list = CHtml::listData($registered_business_user, 'id', 'user_name');
 
 	<div class="row">
 		<input type="hidden" id="update_value" value="">
-		<?php echo $form->labelEx($model,'user_id'); ?>
-		<?php echo $form->dropDownList($model,'user_id',$list) ?>
-		<?php echo $form->error($model,'user_id'); ?>
 	</div>
 
 	<div class="row">
@@ -81,12 +78,7 @@ $list = CHtml::listData($registered_business_user, 'id', 'user_name');
 		<?php echo $form->textField($model,'banner_url',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'banner_url'); ?>
 	</div>
-	<div class="row">
-		<?php echo $form->labelEx($model,'Select Page'); ?>
-		<?php echo $form->fileField($model,'page_alias_ad_special'); ?>
-		<?php echo $form->error($model,'page_alias_ad_special'); ?>
-	</div>
-
+	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

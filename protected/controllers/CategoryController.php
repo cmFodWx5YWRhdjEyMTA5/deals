@@ -1932,6 +1932,10 @@ class CategoryController extends Controller
             $list_view ="display: none" ;
 
         }
+        if(is_array($ad_details) && count($ad_details) > 1){
+            shuffle($ad_details);
+        }
+        
         //$favorite_ads = Generic::getAllFavoritesAds();
         foreach ($ad_details as $ad) {
 

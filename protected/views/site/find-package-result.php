@@ -141,27 +141,15 @@ $phone_number = isset($profile_data['phone_number']) ? $profile_data['phone_numb
                             <strong>Special Offer</strong>
                         </h2>
                         <div class="wrap-item">
+                            <?php foreach ($package_result_left_banner as $slider_banner) { ?>
                             <div class="item">
                                 <div class="item-widget-adv">
                                     <div class="adv-widget-thumb">
-                                        <a href="#"><img src="<?=$baseUrl?>/images/grid/sl1.jpg" alt="" /></a>
+                                        <a href="#"><img src="<?php if(isset($slider_banner['banner_image'])){ echo $slider_banner['banner_image']; } else { echo ""; } ?>" alt="<?php if(isset($slider_banner['title'])) { echo $slider_banner['title']; }else { echo "";} ?>"></a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="item">
-                                <div class="item-widget-adv">
-                                    <div class="adv-widget-thumb">
-                                        <a href="#"><img src="<?=$baseUrl?>/images/grid/sl2.jpg" alt="" /></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="item">
-                                <div class="item-widget-adv">
-                                    <div class="adv-widget-thumb">
-                                        <a href="#"><img src="images/grid/sl3.jpg" alt="" /></a>
-                                    </div>
-                                </div>
-                            </div> -->
+                            <?php } ?>
                         </div>
                     </div>
                     <!-- End special week offer -->

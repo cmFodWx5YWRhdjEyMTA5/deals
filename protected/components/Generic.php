@@ -2175,6 +2175,7 @@ class Generic
             'details_page' => 'Details Page',
             'data_ads_page_public' => 'Data Ads Page (Public)',
             'star_exclusive' => 'Star  Exclusive',
+            'find_package_result_page' => 'Find Package Result Page',
         );
     }
 
@@ -2188,8 +2189,15 @@ class Generic
                 'promotion_hm' => 'Promotion HM',
                 'mid_right_panel' => 'Mid Right Panel',
                 'bottom_right_panel' => 'Bottom Right Panel',
+                'find_package_bottom_banner' => 'Find Package Bottom',
+                'estore_left_slider_banner' => 'Estore Left Slider',
+                'estore_right_slider_banner' => 'Estore Right Slider',
+                'isp_left_slider_banner' => 'ISP Left Slider',
+                'isp_right_slider_banner' => 'ISP Right Slider',
             ),
-
+            'find_package_result_page' => array(
+                'package_result_left_banner' => 'Left Side Slider',
+            ),
             'search_result_page' => array(
                 'left_panel_rb' => 'Left Panel RB',
                 'left_panel_rx' => 'Left panel RX',

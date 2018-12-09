@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . "/../extensions/phpexcel/PHPExcel/Writer/Excel2
 class SiteController extends Controller {
 
     public $layout = 'frontend';
-    public $description = "The Largest internet deal site in broadband marketplace";
+    public $description = "The Largest deal site in broadband marketplace.";
     public $title = "bdbroadbanddeals.com";
 
     /**
@@ -78,6 +78,12 @@ class SiteController extends Controller {
 
 
         $home_page_slider_ads = Generic::getHomePageRightSideAds('home_top_banner', 0, 0, $country_code);
+        $find_package_bottom_slider_ads = Generic::getHomePageRightSideAds('find_package_bottom_banner', 0, 0, $country_code);
+        $estore_left_slider_ads = Generic::getHomePageRightSideAds('estore_left_slider_banner', 0, 0, $country_code);
+        $estore_right_slider_ads = Generic::getHomePageRightSideAds('estore_right_slider_banner', 0, 0, $country_code);
+        $isp_left_slider_ads = Generic::getHomePageRightSideAds('isp_left_slider_banner', 0, 0, $country_code);
+        $isp_right_slider_ads = Generic::getHomePageRightSideAds('isp_right_slider_banner', 0, 0, $country_code);
+        //Generic::_setTrace($home_page_slider_ads);
         //if(is_array($home_page_slider_ads) && count($home_page_slider_ads) > 1){shuffle($home_page_slider_ads);}
 
         $count_promotion_hb = count(Generic::getHomePageRightSideAds('promotion_hb', 0, 0, $country_code));
@@ -140,6 +146,11 @@ class SiteController extends Controller {
             'mega_sell_ads' => $mega_sell_ads,
             'bottom_right_ads' => $bottom_right_ads,
             'home_page_slider_ads' => $home_page_slider_ads,
+            'find_package_bottom_slider_ads' =>$find_package_bottom_slider_ads,
+            'estore_left_slider_ads' => $estore_left_slider_ads,
+            'estore_right_slider_ads' => $estore_right_slider_ads,
+            'isp_left_slider_ads' => $isp_left_slider_ads,
+            'isp_right_slider_ads' => $isp_right_slider_ads,
             'promotion_hb_ads' => $promotion_hb_ads,
             'discount_ads' => $discount_ads,
             'fashion_featured_ads' => $fashion_featured_ads,
@@ -2852,21 +2863,7 @@ class SiteController extends Controller {
         $condition_array = array(
             'active'=> array(1)
         );
-        //$condition_array = ['register_type' => 'business', 'user_status' => 1];
-       /* if($division != '' && $division != 0){
-            $condition_array['division'] = $division;
-        }
-        if($district != '' && $district != 0){
-            $condition_array['district'] = $district;
-        }
-        if($thana != '' && $thana != 0){
-            $condition_array['thana'] = $thana;
-        }
-        $member_list = Register::model()->findAllByAttributes($condition_array);
-        $members = [];
-        foreach ($member_list as $member) {
-            $members[] = $member->id;
-        }*/
+        $package_result_left_banner = Generic::getHomePageRightSideAds('package_result_left_banner', 0, 0, $country_code);
         $minimum_price = 1;
         $maximum_price = 1;
         $ad_details = Generic::getAllAdsForHomePageSearch('1',"tbl_ads",0,0,false,false,false,false,[$condition_array],false,false,false,false,[],false,$division,$district,$thana);
@@ -2881,6 +2878,7 @@ class SiteController extends Controller {
             'division' => $division,
             'district' => $district,
             'thana' => $thana,
+            'package_result_left_banner' => $package_result_left_banner,
             'maximum_price' => $maximum_price,
             'minimum_price' => $minimum_price
         ));

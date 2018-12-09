@@ -142,14 +142,13 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 				</div>
 			</div>
 		</div>
-        <div class="category-brand-slider banner-ad-slider">
+        <div class="home-brand-slider banner-ad-slider">
 			<div class="wrap-item">
-				<div class="item">
-					<img src="images/banner_ads/banner_ad2.jpg" alt="banner ad 2">
-				</div>
-				<div class="item">
-					<img src="images/banner_ads/banner_ad1.jpg" alt="banner ad 1">
-				</div>
+				<?php foreach ($find_package_bottom_slider_ads as $slider_banner) { ?>
+					<div class="item">
+						<img src="<?php if(isset($slider_banner['banner_image'])){ echo $slider_banner['banner_image']; } else { echo ""; } ?>" alt="<?php if(isset($slider_banner['title'])) { echo $slider_banner['title']; }else { echo "";} ?>">
+					</div>				
+				<?php } ?>
 			</div>
 		</div>
 		<div class="clear"></div>
@@ -342,16 +341,22 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 
 				<div class="box-adv-col2">
 					<div class="row">
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<div class="item-adv-simple" style="background: #2647b9;">
-								<a href="javascript:void()" style="height: 150px; width: 580px; text-align: center; color: #ffffff; padding-top: 48px; font-size: 27px;">Your Advertisement Goes Here</a>
-								<!-- <a href="#"><img width="580" height="150" src="<?=$baseUrl?>/images/home1/ad3.png" alt="" /></a> -->
+						<div class="home-brand-slider col-md-6 col-sm-12 col-xs-12">
+							<div class="wrap-item">
+								<?php foreach ($estore_left_slider_ads as $slider_banner) { ?>
+									<div class="item-adv-simple">
+										<a href="#"><img src="<?php if(isset($slider_banner['banner_image'])){ echo $slider_banner['banner_image']; } else { echo ""; } ?>" alt="<?php if(isset($slider_banner['title'])) { echo $slider_banner['title']; }else { echo "";} ?>"></a>
+									</div>				
+								<?php } ?>
 							</div>
 						</div>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<div class="item-adv-simple" style="background: #93891c;">
-								<a href="javascript:void()" style="height: 150px; width: 580px; text-align: center; color: #ffffff; padding-top: 48px; font-size: 27px;">Your Advertisement Goes Here</a>
-								<!-- <a href="#"><img width="580" height="150" src="<?=$baseUrl?>/images/home1/ad4.png" alt="" /></a> -->
+						<div class="home-brand-slider col-md-6 col-sm-12 col-xs-12">
+							<div class="wrap-item">
+								<?php foreach ($estore_right_slider_ads as $slider_banner) { ?>
+									<div class="item-adv-simple">
+										<a href="#"><img src="<?php if(isset($slider_banner['banner_image'])){ echo $slider_banner['banner_image']; } else { echo ""; } ?>" alt="<?php if(isset($slider_banner['title'])) { echo $slider_banner['title']; }else { echo "";} ?>"></a>
+									</div>				
+								<?php } ?>
 							</div>
 						</div>
 					</div>
@@ -747,16 +752,22 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 				<!-- banner section Starts   -->
 				<div class="box-adv-col2">
 					<div class="row">
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<div class="item-adv-simple" style="background: #2647b9;">
-								<a href="javascript:void()" style="height: 150px; width: 580px; text-align: center; color: #ffffff; padding-top: 48px; font-size: 27px;">Your Advertisement Goes Here</a>
-								<!-- <a href="#"><img width="580" height="150" src="<?=$baseUrl?>/images/home1/ad3.png" alt="" /></a> -->
+						<div class="home-brand-slider col-md-6 col-sm-6 col-xs-12">
+							<div class="wrap-item">
+								<?php foreach ($isp_left_slider_ads as $slider_banner) { ?>
+									<div class="item-adv-simple">
+										<a href="#"><img src="<?php if(isset($slider_banner['banner_image'])){ echo $slider_banner['banner_image']; } else { echo ""; } ?>" alt="<?php if(isset($slider_banner['title'])) { echo $slider_banner['title']; }else { echo "";} ?>"></a>
+									</div>				
+								<?php } ?>
 							</div>
 						</div>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<div class="item-adv-simple" style="background: #93891c;">
-								<a href="javascript:void()" style="height: 150px; width: 580px; text-align: center; color: #ffffff; padding-top: 48px; font-size: 27px;">Your Advertisement Goes Here</a>
-								<!-- <a href="#"><img width="580" height="150" src="<?=$baseUrl?>/images/home1/ad4.png" alt="" /></a> -->
+						<div class="home-brand-slider col-md-6 col-sm-6 col-xs-12">
+							<div class="wrap-item">
+								<?php foreach ($isp_right_slider_ads as $slider_banner) { ?>
+									<div class="item-adv-simple">
+										<a href="#"><img src="<?php if(isset($slider_banner['banner_image'])){ echo $slider_banner['banner_image']; } else { echo ""; } ?>" alt="<?php if(isset($slider_banner['title'])) { echo $slider_banner['title']; }else { echo "";} ?>"></a>
+									</div>				
+								<?php } ?>
 							</div>
 						</div>
 					</div>
