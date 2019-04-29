@@ -1,0 +1,1 @@
+insert into tbl_division(division_id,division,status,create_date) values ('10','BARISAL DIVISION','1','2018-05-13'),('20','CHITTAGONG DIVISION','1','2018-05-13'),('30','DHAKA DIVISION','1','2018-05-13'),('40','KHULNA DIVISION','1','2018-05-13'),('50','RAJSHAHI DIVISION','1','2018-05-13'),('55','RANGPUR DIVISION','1','2018-05-13'),('60','SYLHET DIVISION','1','2018-05-13');
