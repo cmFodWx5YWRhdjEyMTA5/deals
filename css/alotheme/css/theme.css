@@ -64,6 +64,14 @@ blockquote {
     padding: 0 30px;
 }
 
+.logo img{
+    transition: height .5s;
+}
+
+.navbar-brand {
+    float: none !important;
+}
+
 /*  Custom checkbox
 		========================== */
 
@@ -454,7 +462,8 @@ blockquote {
 }
 .mini-cart-button {
     display: table;
-
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
     text-align: center;
     text-transform: uppercase;
     width: 100%;
@@ -523,7 +532,7 @@ blockquote {
 }
 .header-main {
 /*    margin-top: 30px;*/
-    padding:20px 0;
+    padding:10px 0 5px;
 }
 .header-nav{
 	margin-top:28px;
@@ -664,7 +673,8 @@ blockquote {
     margin: auto;
 }
 .main-nav {
-    background: #348c34 none repeat scroll 0 0;
+    /*background: #348c34 none repeat scroll 0 0;*/
+    padding-left: 28px;
 }
 .no-vertical-menu .main-nav{
     margin: 0;
@@ -694,6 +704,7 @@ blockquote {
 .main-nav>ul>li{
 	display:inline-block;
 	font-size:14px;
+    background: #348c34;
 }
 .main-nav>ul>li.menu-item-has-children{
 	position:relative;
@@ -738,7 +749,7 @@ blockquote {
     font-weight: 700;
     height: 40px;
     line-height: 40px;
-    padding: 0 18px;
+    padding: 0 19px;
     text-transform: uppercase;
 	-webkit-transition:all 0.3s ease-out 0s;
 	transition:all 0.3s ease-out 0s;
@@ -803,6 +814,29 @@ blockquote {
 	margin-top: 0px;
 	visibility: visible;
 }
+
+/*.sidebar{
+    position: relative;
+}
+
+.find-right-package-ad {
+    width: 270px;
+    z-index: 9999;
+}
+
+.find-right-package-ad-fixed{
+    position: absolute;
+    left: 15px;
+    bottom: -780px;
+}
+
+.find-right-package-ad-static {
+    position: fixed;
+    left: 90px;
+    bottom: -120px;
+}*/
+
+
 .mega-menu-title {
     border-bottom: 1px solid #e5e5e5;
     font-size: 20px;
@@ -1081,6 +1115,15 @@ blockquote {
 .product-info {
     padding: 20px;
 }
+
+.product-info a{
+    color: #348c34;
+}
+
+.product-info a:hover{
+    color: #ef0303;
+}
+
 .product-rating {
     background: rgba(0, 0, 0, 0) url("/images/grid/bg-rate.png") repeat-x scroll 0 0;
     height: 14px;
@@ -7502,7 +7545,7 @@ ol.list-post-comment {
     font-weight: 700;
     height: 50px;
     padding: 0 20px;
-    /*text-transform: uppercase;*/
+    text-transform: capitalize;
     width: 100%;
 }
 .form-my-account input[type="text"]:focus{
@@ -7616,7 +7659,8 @@ ol.list-post-comment {
 }
 
 .btn-theme:hover {
-    background-color: #f9bc02;
+    background-color: #348c34;
+    color: #fff;
 }
 
 .form-my-account > p:last-child {
@@ -7634,8 +7678,12 @@ ol.list-post-comment {
     border: 1px solid #e5e5e5;
     color: #999;
     padding: 10px 15px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     width: 100%;
+    font-weight: 700;
+}
+.form-my-account textarea::placeholder {
+    color: #999;
 }
 .ship-address > label {
     font-size: 18px;
@@ -14420,10 +14468,15 @@ ol.list-post-comment {
 }
 
 .list-service-box {
-    background: url(../../../images/find_package_bg.png) no-repeat;
+    background: url(../../../images/find_package_bg.png) no-repeat 0px 0px;
     background-size: cover;
     padding: 10px 0 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: absolute;
+    top: 41%;
+    left: 15%;
+    z-index: 99;
+    width: 68%;
 }
 
 .list-service-box h3 {
@@ -14439,6 +14492,7 @@ ol.list-post-comment {
 
 .slider_wrapper{
     background: aliceblue;
+    position: relative;
 }
 
 .callbacks_nav.callbacks1_nav.prev {
@@ -14601,7 +14655,13 @@ ol.list-post-comment {
     .title-category-dropdown > span { display: none }
     .list-cat-childrent > li { width: auto }
     .main-nav.main-nav8 { margin: 0 }
+    .main-nav > ul > li > a{ font-size: 10px !important;}
+    .form-my-account select { font-size: 10px; padding: 0 8px !important; }
+    .sticky .main-nav { width: 91% !important; }
+    .sticky .main-nav > ul > li > a { font-size: 9px !important; }
+    .sticky .mini-cart-button a{ font-size: 11px !important; }
     .content-top8 .box-trending8 { margin: 0 }
+    .category-home-label span{ font-size: 14px !important; }
     .featured-product2 .main-featured-product::after { display: none }
     .featured-product2 .adv-featured-product { margin-right: 0px; }
     .item-blog5 .from-blog-thumb a { width: 70px }
@@ -17533,6 +17593,10 @@ a.link.link-pink {
     background: #f95858 !important;
 }
 
+.bg13, .bg13-icon-wrap:hover span, .bg13-icon-wrap.active span {
+    background: #ff0000 !important;
+}
+
 /* line 126, ../sass/partials/_general.scss */
 .tc1, .tc1-hover:hover {
     color: #4693d3 !important;
@@ -17604,6 +17668,71 @@ a.link.link-pink {
     background: #ffffff;
     padding: 0 25px;
 }
+
+.black_list_buttons {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.black_list_buttons a{
+    padding: 12px 25px;
+    border-radius: 6px;
+    background: #348c34;
+    color: #fff;
+}
+
+.black_list_buttons a:hover{
+    background:#115911;
+}
+
+.black_list_action {
+    color: #ff0000;
+}
+
+#verify_btn {
+    border:none;
+    border-radius: 6px;
+    background: #FF0000;
+    color: #fff;
+    text-align: center;
+    padding: 10px 25px;
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+#add-blacklist-form input[type="text"], #add-blacklist-form textarea{
+    margin-bottom: 10px;
+}
+
+#add-blacklist-form input[type="submit"]{
+    border:none;
+    border-radius: 6px;
+    background: #FF0000;
+    color: #fff;
+    text-align: center;
+    padding: 10px 25px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#add-blacklist-form label{
+    padding-top: 10px; 
+}
+
+.flash-success {
+    color:#115911;
+    font-size: 16px;
+}
+
+.flash-error {
+    color:#ff0000;
+    font-size: 16px;
+}
+
+.red {
+    color: #ff0000 !important;
+}
+
 @media (max-width: 767px) {
     /* line 166, ../sass/partials/_general.scss */
     .basic-card {

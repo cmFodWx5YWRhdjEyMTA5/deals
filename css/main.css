@@ -53,7 +53,7 @@ input:focus, textarea:focus, select:focus, .form-control:focus {
 }
 
 .form-control:focus {
-	border-color: #fe9c00;
+	border-color: #348c34;
 }
 
 .parallax-section {
@@ -123,6 +123,10 @@ textarea {
 	-ms-transition: all 0.3s ease-in-out;
 	-o-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;
+}
+
+.navbar-brand {
+	padding: 0px 20px;
 }
 
 @media only screen and (max-width: 1203px) {
