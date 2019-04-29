@@ -29,8 +29,8 @@ $this->breadcrumbs=array(
 			<h2>Corporate Info</h2>
 			<address>
 				<p><i  class="fa fa-home"></i>944 Upper Jashore Road (1st Floor),<br> Joragate Moor, Khulna-9000</p>
-				<p><i  class="fa fa-mobile"></i><a href="#">+88-09639114455</a></p>
-				<p><i  class="fa fa-envelope"></i><a href="#">support@bdbroadbanddeals.com</a></p>
+				<p><i  class="fa fa-mobile"></i><a href="javascript:void()">019610203060, 09639114455</a></p>
+				<p><i  class="fa fa-envelope"></i><a href="mailto:support@bdbroadbanddeals.com">support@bdbroadbanddeals.com</a></p>
 			</address>
 
 			<ul class="social">
@@ -42,7 +42,7 @@ $this->breadcrumbs=array(
 
 		<!-- gmap -->
 		<div class="map" style="margin-top: 30px">
-			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4373.051807724947!2d89.54925761242524!3d22.828995228934303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ff9aa084ca2b89%3A0xb71095284a1bff8b!2sJora+Gate+Mor!5e0!3m2!1sen!2sbd!4v1540128427726" width="359" height="272" frameborder="0" style="border:0" allowfullscreen></iframe>
+			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d919.3215455810862!2d89.54914682917315!3d22.828899235118666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDQ5JzQ0LjAiTiA4OcKwMzInNTguOSJF!5e0!3m2!1sen!2sbd!4v1553428224417" width="359" height="272" frameborder="0" style="border:0" allowfullscreen></iframe>
 		</div>
 
 

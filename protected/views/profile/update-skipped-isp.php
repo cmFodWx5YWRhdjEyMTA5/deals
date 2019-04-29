@@ -177,11 +177,11 @@ echo $this->renderPartial($sidebar_type,array(
 
                                             <textarea rows="20" cols="40" id="about_us" name="about_us" data-container="body" data-toggle="popover" data-trigger="focus" data-content="Write some description about your company / business."><?=$store_details->about_us?></textarea>
                                         </div>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label>Contact Us</label>
                                             <textarea rows="20" cols="40" id="contact_us" name="contact_us" data-container="body" data-toggle="popover" data-trigger="focus" data-content="Type your company / business contact information here."><?=$store_details->contact_us?></textarea>
 
-                                        </div>
+                                        </div> -->
                                         <div class="form-group">
                                             <label>Facebook Link</label>
                                             <input type="text" id="facebook_link" name="facebook_link" value="<?=$facebook_link?>"  class="form-control" >
@@ -198,6 +198,27 @@ echo $this->renderPartial($sidebar_type,array(
                                             <label>Google Plus Link</label>
                                             <input type="text" id="google_plus_link" name="google_plus_link" value="<?=$google_plus_link?>"  class="form-control" >
                                         </div>
+                                        <div class="form-group">
+                                            <label>Web Address</label>
+                                            <input type="text" id="web_address" name="web_address" value="<?=$web_address?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Company Email</label>
+                                            <input type="text" id="company_email" name="company_email" value="<?=$company_email?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sales Email</label>
+                                            <input type="text" id="sales_email" name="sales_email" value="<?=$sales_email?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sales Phone Number</label>
+                                            <input type="text" id="sales_phone_number" name="sales_phone_number" value="<?=$sales_phone_number?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Company Hotline Number</label>
+                                            <input type="text" id="company_hotline_number" name="company_hotline_number" value="<?=$company_hotline_number?>"  class="form-control" >
+                                        </div>
+                                        
                                         <div align="left" id="update_name_status"></div>
                                         <button type="submit" id="isp_update_submit"  class="btn btn-small btn-green">Update</button>
 

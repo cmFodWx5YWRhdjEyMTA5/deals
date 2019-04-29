@@ -45,6 +45,7 @@
  * @property string $website_link
  * @property integer $public_ip
  * @property string $service_charge
+ * @property string $migration_charge
  */
 class Ads extends CActiveRecord
 {
@@ -72,7 +73,7 @@ class Ads extends CActiveRecord
 			array('update_date, expire_date, hot_ads_start_date, hot_ads_end_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, title, image_url, description, ad_condition, price, price_end,price_type, category_id, create_date, update_date, expire_date, active, show_in_store, ad_id, is_featured, is_premium, is_top, is_paid, special_offer, hot_ads, show_price, hot_ads_start_date, hot_ads_end_date, discount, location, country_code, city, package_type, internet_speed, youtube_speed, bdix_speed, ftp_link, live_tv, facebook_link, website_link, public_ip, service_charge', 'safe', 'on'=>'search'),
+			array('id, user_id, title, image_url, description, ad_condition, price, price_end,price_type, category_id, create_date, update_date, expire_date, active, show_in_store, ad_id, is_featured, is_premium, is_top, is_paid, special_offer, hot_ads, show_price, hot_ads_start_date, hot_ads_end_date, discount, location, country_code, city, package_type, internet_speed, youtube_speed, bdix_speed, ftp_link, live_tv, facebook_link, website_link, public_ip, service_charge, migration_charge', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -133,8 +134,8 @@ class Ads extends CActiveRecord
 			'facebook_link' => 'Facebook Page',
 			'website_link' => 'Website',
 			'public_ip' => 'Public IP',
-			'service_charge' => 'Service Charge/OTC'
-			
+			'service_charge' => 'Service Charge/OTC',
+			'migration_charge' => 'Migration Charge'
 		);
 	}
 
@@ -197,7 +198,7 @@ class Ads extends CActiveRecord
 		$criteria->compare('website_link',$this->website_link,true);
 		$criteria->compare('public_ip',$this->public_ip,true);
 		$criteria->compare('service_charge',$this->service_charge,true);
-
+		$criteria->compare('migration_charge',$this->migration_charge,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

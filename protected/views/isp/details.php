@@ -114,10 +114,10 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                     <div class="col-md-5 col-sm-12 col-xs-12">
                                         <div class="detail-gallery">
                                             <div class="mid">
-                                                <img width="350" height="320" src="<?= $images[0]?>" alt=""/>
+                                                <img width="400" height="550" src="<?= $images[0]?>" alt=""/>
                                                 <p><i class="fa fa-search"></i> Mouse over to zoom in</p>
                                             </div>
-                                            <div class="carousel">
+                                            <!-- <div class="carousel">
                                                 <ul>
                                                     <?php
                                                     $counter = 0;
@@ -137,7 +137,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                             <div class="gallery-control">
                                                 <a href="#" class="prev"><i class="fa fa-angle-left"></i></a>
                                                 <a href="#" class="next"><i class="fa fa-angle-right"></i></a>
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <!-- End Gallery -->
                                     </div>
@@ -149,18 +149,28 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                                 <div class="product-view">
                                                         <i class="fa fa-eye"></i> <label> Total Views: </label> <span><?=$view_count?></span>
                                                 </div>
-                                                <?php if(!empty($ad_details['service_charge']) && $ad_details['service_charge'] != 0){ ?>
+                                                
+                                                <div class="product-price-type">
+                                                    <label>Service Charge/OTC: </label>
+                                                        <span>
+                                                            <?php
+                                                              echo Generic::renderServiceCharge($ad_details['service_charge'])
+                                                            ?>
+                                                        </span>
+                                                </div>
+                                                
+                                                <?php if(!empty($ad_details['migration_charge']) && $ad_details['migration_charge'] != 0){ ?>
                                                     <div class="product-price-type">
-                                                        <label>Service Charge/OTC: </label>
+                                                        <label>Migration Charge: </label>
                                                             <span>
                                                                 &#2547; <?php
-                                                                  echo $ad_details['service_charge']
+                                                                  echo $ad_details['migration_charge']
                                                                 ?>
                                                             </span>
                                                     </div>
                                                 <?php } else { ?>
                                                     <div class="product-price-type">
-                                                        <label>Service Charge/OTC: </label>
+                                                        <label>Migration Charge/OTC: </label>
                                                             <span>
                                                                 Free
                                                             </span>
@@ -181,7 +191,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                                     <label>Internet Speed: </label>
                                                         <span>
                                                             <?php
-                                                              echo $ad_details['internet_speed']." Mbps"
+                                                              echo $ad_details['internet_speed']
                                                             ?>
                                                         </span>
                                                     <?php } ?>
@@ -198,22 +208,23 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                                 </div>
                                                 <div class="product-price-type">
                                                     
-                                                    <?php if(isset($ad_details['package_type']) && !empty($ad_details['package_type']) && $ad_details['package_type'] != 'combo bandwidth'){ 
+                                                    <?php if(isset($ad_details['package_type']) && !empty($ad_details['package_type'])){ 
                                                             if(isset($ad_details['youtube_speed']) && !empty($ad_details['youtube_speed'])){
                                                         ?>
 
-                                                        <label>GGC/Youtube Speed: </label>
+                                                        <label>Youtube Speed: </label>
                                                         <span>
                                                             <?php
-                                                              echo $ad_details['youtube_speed']. " Mbps"
+                                                              echo $ad_details['youtube_speed']
                                                             ?>
                                                         </span>
+                                                        <br/>
                                                         <?php } ?>
                                                         <?php if(isset($ad_details['bdix_speed']) && !empty($ad_details['bdix_speed'])){ ?>
                                                             <label>BDIX Speed: </label>
                                                             <span>
                                                                 <?php
-                                                                  echo $ad_details['bdix_speed']. " Mbps"
+                                                                  echo $ad_details['bdix_speed']
                                                                 ?>
                                                             </span>
 
@@ -237,13 +248,13 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                                 <div class="product-price-type">
                                                     <?php if(isset($ad_details['facebook_link']) && !empty($ad_details['facebook_link'])){ ?>
                                                     <label>Facebook Page: </label>
-                                                        <?php echo $ad_details['facebook_link'] ?>
+                                                        <a href="<?php echo 'http://'.$ad_details['facebook_link'] ?>" target="_blank"><?php echo $ad_details['facebook_link'] ?></a>
                                                     <?php } ?>
                                                 </div>
                                                 <div class="product-price-type">
                                                     <?php if(isset($ad_details['website_link']) && !empty($ad_details['website_link'])){ ?>
                                                     <label>Website: </label>
-                                                        <span><?php echo $ad_details['website_link'] ?></span>
+                                                        <span><a href="<?php echo 'http://'.$ad_details['website_link'] ?>" target="_blank"><?php echo $ad_details['website_link'] ?></a></span>
                                                     <?php } ?>
                                                 </div>
                                             </div>

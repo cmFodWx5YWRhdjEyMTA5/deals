@@ -6,13 +6,17 @@
 		line-height: 71px;
 	}
 </style>
+<?php
+$active_menu = Yii::app()->controller->action->id;
+//Generic::_setTrace($active_menu);
+?>
 	<div id="header">
 		<div class="header5">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="contact-top">
-							<p><span><i class="fa fa-phone-square"></i></span> Call Center Support 24/7: <span><?=$user_details->phone_number?></span>
+							<p><span><i class="fa fa-phone-square"></i></span> Call Center Support 24/7: <span><?=$store_details->company_hotline_number?></span>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-12 col-xs-12">
@@ -60,9 +64,10 @@
 					<div class="col-md-11 col-sm-12 col-xs-6">
 						<nav class="main-nav main-nav6">
 							<ul>
-								<li><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>">Home</a></li>
-                                <li><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/all-products">Packages</a></li>
-                                <li><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/contact-us">Contact-us</a></li>
+								<li class="<?php if($active_menu == 'index') { echo "current-menu-item"; } else { echo ""; } ?>"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>">Home</a></li>
+                                <li class="<?php if($active_menu == 'AllProducts' || $active_menu == 'productDetails') { echo "current-menu-item"; } else { echo ""; } ?>"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/all-products">Packages</a></li>
+                                <li class="<?php if($active_menu == 'CoverageArea') { echo "current-menu-item"; } else { echo ""; } ?>"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/coverage-area">Coverage Area</a></li>
+                                <li class="<?php if($active_menu == 'Contact') { echo "current-menu-item"; } else { echo ""; } ?>"><a href="<?=$base_url.'/isp/'.$store_details->url_alias?>/contact-us">Contact-us</a></li>
 							<!--	<li><a href="<?/*=$current_url*/?>/contact-us">Contact Us</a></li>
 								<li><a href="<?/*=$current_url*/?>/about-us">About Us</a></li>-->
 							</ul>

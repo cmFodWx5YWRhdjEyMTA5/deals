@@ -198,16 +198,16 @@ $cs->registerCssFile($baseUrl . "/css/multiple-select.css", "screen");
                                         <p>
                                             <input id="business" type="radio" name="rgroup" value="business"  />
                                             <label for="business" class='radio lbl'></label>
-                                            <label for="business" class="lbl" data-toggle="popover" data-trigger="hover" data-content="I want to have service provider account">Internet Service Provider</label>
+                                            <label for="business" class="lbl" data-toggle="popover" data-trigger="hover" data-content="I want to create Internet Service Provider account">Internet Service Provider</label>
                                         </p>
                                         <p>
                                             <input id="store" type="radio" name="rgroup" value="store" />
                                             <label for="store" class='radio lbl'></label>
-                                            <label for="store" class="lbl" data-toggle="popover" data-trigger="hover" data-content="I want to promote my Store">E-Store</label>
+                                            <label for="store" class="lbl" data-toggle="popover" data-trigger="hover" data-content="I want to create Business E-Store account">E-Store</label>
                                         </p>
                                         <p><input id="individual" type="radio" name="rgroup" value="individual" />
                                             <label for="individual" class='radio lbl'></label>
-                                            <label for="individual" class="lbl" data-toggle="popover" data-trigger="hover" data-content="I want to get a new connection">Used Product</label>
+                                            <label for="individual" class="lbl" data-toggle="popover" data-trigger="hover" data-content="I want to post my personal product ad">Personal Store</label>
                                         </p>
                                         <div align="left" id="register_status_personal"></div>
                                         <p><input type="button" id="next-btn" class="" name="next_btn" value="Next" /></p>
@@ -452,7 +452,7 @@ foreach ($districts as $district) {
                                         </div>
                                         <div class="row form-group add-image">
                                             <div class="col-sm-12">
-                                                <h5><i class="fa fa-upload" aria-hidden="true"></i>Select File to Upload(Preferred size: 900x900 px)</p></span></h5>
+                                                <h5><i class="fa fa-upload" aria-hidden="true"></i>Upload estore logo(Preferred size: 220px(Width) X 55px(Height))</p></span></h5>
                                                 <div class="upload-section">
                                                     <input type="file" name="files[]" id="filer_input2" multiple="multiple">
                                                     <input type="hidden" name="image_file" value="" id="image_file" >

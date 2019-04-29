@@ -3,43 +3,7 @@
 <section id="main" class="clearfix contact-us">
     <div class="container">
         <div id="title-price" class="title"><img src="<?=$baseUrl?>/images/bg/price-pic.jpg"></div>
-        <div class="container"  style="border: 1px solid #fe9c00;">
-            <h3 style="border-bottom: 1px solid #c9c9c9; text-align: center;padding-bottom: 15px"><i>We accept payment methods</i></h3>
-            <div class="col-md-4">
-                <label style="text-decoration: underline">By Visa / Mastercard</label>
-                <p><span>All Debit / Credit card</span></p>
-                <img src="<?=$baseUrl?>/images/home1/p2.png" width="46" height="28">
-                <img src="<?=$baseUrl?>/images/home2/pay3.png" width="43" height="25">
-                <img src="<?=$baseUrl?>/images/home1/diners.jpg" width="70" height="40">
-            </div>
-            <div class="col-md-4" style="border-left: 1px solid #c9c9c9; border-right: 1px solid #c9c9c9">
-                <label style="text-decoration: underline">By Bank deposit</label>
-                <div class="form-group" id="bank_details_block">
-                    <br>
-                    <div>
-                        <label>A/C Name:</label>
-                        <span>DEWY IT LTD</span>
-                    </div>
-                    <div>
-                        <label>A/C Number:</label>
-                        <span>2001070143053</span>
-                    </div>
-                    <div>
-                        <label>Bank Name:</label>
-                        <span>Eastern Bank Ltd, Khulna Br.</span>
-                    </div>
-                    <div>
-                        <label>Swift Code:</label>
-                        <span>EBLDBDDH</span>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-4">
-                <label style="text-decoration: underline">By Direct payment</label>
-                <p><img src="<?=$baseUrl?>/images/home1/hand-in-cash.png?" style="padding:9px 0 0 120px"></p>
-            </div>
-        </div><br>
+        
         <div id="send_request_confirmation"></div>
         <div id="tabs">
             <section id="main" class="clearfix contact-us" style="padding: 0">

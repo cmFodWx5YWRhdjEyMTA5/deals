@@ -1295,10 +1295,14 @@ class ProfileController extends Controller
             $short_desc_block = '';
             $short_desc_block .= '<h4>Short Information</h4>';
 
-            if($ad_details->service_charge != 0 && !empty($ad_details->service_charge)){
-                $short_desc_block .= '<p>Service Charge/OTC: <strong>&#2547; '.$ad_details->service_charge.'</strong></p>';
+            
+            $short_desc_block .= '<p>Service Charge/OTC: <strong>'.Generic::renderServiceCharge($ad_details['service_charge']).'</strong></p>';
+            
+
+            if($ad_details->migration_charge != 0 && !empty($ad_details->migration_charge)){
+                $short_desc_block .= '<p>Migration Charge: <strong>&#2547; '.$ad_details->migration_charge.'</strong></p>';
             } else {
-                $short_desc_block .= '<p>Service Charge/OTC: <strong>Free</strong></p>';
+                $short_desc_block .= '<p>Migration Charge: <strong>Free</strong></p>';
             }
 
             if($ad_details->package_type != ''){
@@ -1306,7 +1310,7 @@ class ProfileController extends Controller
             }
 
             if($ad_details->internet_speed != ''){
-                $short_desc_block .= '<p>Interneed Speed: <strong>'.$ad_details->internet_speed.' Mbps</strong></p>';
+                $short_desc_block .= '<p>Interneed Speed: <strong>'.$ad_details->internet_speed.'</strong></p>';
             }
 
             if($ad_details->public_ip){
@@ -1314,11 +1318,11 @@ class ProfileController extends Controller
             }
 
             if($ad_details->youtube_speed != ''){
-                $short_desc_block .= '<p>GGC/Youtube Speed: <strong>'.$ad_details->youtube_speed.' Mbps</strong></p>';
+                $short_desc_block .= '<p>Youtube Speed: <strong>'.$ad_details->youtube_speed.'</strong></p>';
             }
 
             if($ad_details->bdix_speed != ''){
-                $short_desc_block .= '<p>BDIX Speed: <strong>'.$ad_details->bdix_speed.' Mbps</strong></p>';
+                $short_desc_block .= '<p>BDIX Speed: <strong>'.$ad_details->bdix_speed.'</strong></p>';
             }
 
             if($ad_details->ftp_link != ''){
@@ -1329,12 +1333,12 @@ class ProfileController extends Controller
                 $short_desc_block .= '<p>Live TV: <strong>Yes'.'</strong></p>';
             }
 
-            if($ad_details->facebook_link){
-                $short_desc_block .= '<p>Facebook Page: <strong>'.$ad_details->facebook_link.'</strong></p>';
+            if(!empty($ad_details->facebook_link)){
+                $short_desc_block .= '<p>Facebook Page: <strong><a href="https://'.$ad_details->facebook_link.'" target="_blank">'.$ad_details->facebook_link.'</a></strong></p>';
             }
 
-            if($ad_details->website_link){
-                $short_desc_block .= '<p>Facebook Page: <strong>'.$ad_details->website_link.'</strong></p>';
+            if(!empty($ad_details->website_link)){
+                $short_desc_block .= '<p>Website: <a href="http://'.$ad_details->website_link.'" target="_blank">'.$ad_details->website_link.'</a></p>';
             }
 
             foreach ($ad_meta_all as $ad_meta) {
@@ -1776,6 +1780,71 @@ class ProfileController extends Controller
 
     }
 
+    public function actionBanList(){
+        $user_details = (object) $this->checkUserDetails();
+
+        $black_list_data = [];
+        $message = "";
+        $national_id = Yii::app()->request->getParam('national_id','');
+        if(!empty($national_id)){
+
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'nid = :nid and status = :status';
+            $criteria->params = array(':nid' => $national_id,':status' => 1);
+            $black_list_data = Blacklist::model()->findAll($criteria);
+
+            if(empty($black_list_data)){
+                $message = "<h5>No blacklisted customer found with National ID = ".$national_id."</h5>";
+            }
+            
+        }
+        
+        //Generic::_setTrace($black_list_data);
+        $this->render('ban-list',array(
+            'user_name' => $user_details->user_name,
+            'register_type' => $user_details->register_type,
+            'profile_data' => $user_details->profile_data,
+            'sidebar_type' => $user_details->sidebar_type,
+            'business_status' => $user_details->business_status,
+            'store_url' => $user_details->store_url,
+            'black_list_data' => $black_list_data,
+            'message' => $message
+        ));
+    }
+
+    public function actionMyBanList(){
+        $user_details = (object) $this->checkUserDetails();
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'reported_by = :reported_by';
+        $criteria->params = array(':reported_by' => $user_details->estore_id);
+        $black_list_data = Blacklist::model()->findAll($criteria);
+        
+        $this->render('my-ban-list',array(
+            'user_name' => $user_details->user_name,
+            'register_type' => $user_details->register_type,
+            'profile_data' => $user_details->profile_data,
+            'sidebar_type' => $user_details->sidebar_type,
+            'business_status' => $user_details->business_status,
+            'store_url' => $user_details->store_url,
+            'black_list_data' => $black_list_data
+        ));
+    }
+
+    public function actionAddBanList(){
+        $user_details = (object) $this->checkUserDetails();
+        //Generic::_setTrace($user_details);
+        $this->render('add-ban-list',array(
+            'user_name' => $user_details->user_name,
+            'register_type' => $user_details->register_type,
+            'profile_data' => $user_details->profile_data,
+            'sidebar_type' => $user_details->sidebar_type,
+            'business_status' => $user_details->business_status,
+            'store_url' => $user_details->store_url,
+            'isp_id' => $user_details->estore_id
+        ));
+    }
+
 
     /*
      *  method for saving service request from service provider dashboard
@@ -2089,140 +2158,146 @@ class ProfileController extends Controller
         $payment_details = '';
         $success_indicator = '';
         $order_id = '';
-        if(isset(Yii::app()->session['orderID'])) {
-            $order_id = Yii::app()->session['orderID'];
+        // check if the user already applied for estore/isp
+        $business_info_array = json_decode($business_info_data,1);
+        $already_criteria = new CDbCriteria();
+        $already_criteria->condition = "user_id = :user_id";
+        $already_criteria->params = [':user_id' => $business_info_array['user_id']];
+        $existing_company = Estore::model()->find($already_criteria);
 
-//            $criteria = new CDbCriteria();
-//            $criteria->condition = 'transaction_id = :order_id';
-//            $criteria->params = array(':order_id' => $order_id);
-//            $payment_details = PaymentHistory::model()->find($criteria);
-            $payment_id = 1;
-        }
-        if($payment_id == 3 && $existing_seller){
-            if($user_details->register_type != 'personal'){
-                if($user_details->register_type == 'business'){
-                    $order_amount = Yii::app()->request->getParam('order_amount','');
-                    $payment_details = $this->createISPFromProfile($business_info_data,$ad_post_service,$payment_id,$seller_id,$deposit_amount,$isp_package_type,$isp_duration,$order_amount);
-                } else {
-                    $payment_details = $this->createEstoreFromProfile($business_info_data,$pricing_plan_id,$ad_post_service,$payment_id,$seller_id,$deposit_amount);
-                }
-
-            } else {
-                $payment_details = $this->saveIndividualPaidAd($individual_ad_information,$payment_id,$seller_id,$deposit_amount);
+        if(empty($existing_company)){
+            
+            if(isset(Yii::app()->session['orderID'])) {
+                $order_id = Yii::app()->session['orderID'];
+                $payment_id = 1;
             }
-            $payment_details->payment_status = 1;
-            $payment_details->update();
-            $payment_status = 'success';
-        } else if($payment_id == 1){
-            /* Todo: credit card payment actions will go here */
-            $result_indicator = Yii::app()->request->getParam('resultIndicator');
-            $success_indicator = Yii::app()->session['successIndicator'];
-
-            if(strcmp($result_indicator, $success_indicator) == 0){
+            if($payment_id == 3 && $existing_seller){
+                if($user_details->register_type != 'personal'){                   
+                    if($user_details->register_type == 'business'){
+                        $order_amount = Yii::app()->request->getParam('order_amount','');
+                        $payment_details = $this->createISPFromProfile($business_info_data,$ad_post_service,$payment_id,$seller_id,$deposit_amount,$isp_package_type,$isp_duration,$order_amount);
+                    } else {
+                        $payment_details = $this->createEstoreFromProfile($business_info_data,$pricing_plan_id,$ad_post_service,$payment_id,$seller_id,$deposit_amount);
+                    }
+                } else {
+                    $payment_details = $this->saveIndividualPaidAd($individual_ad_information,$payment_id,$seller_id,$deposit_amount);
+                }
+                $payment_details->payment_status = 1;
+                $payment_details->update();
                 $payment_status = 'success';
+            } else if($payment_id == 1){
+                /* Todo: credit card payment actions will go here */
+                $result_indicator = Yii::app()->request->getParam('resultIndicator');
+                $success_indicator = Yii::app()->session['successIndicator'];
 
-                if($user_details->register_type != 'personal'){
-                    $criteria = new CDbCriteria();
-                    $criteria->condition = 'transaction_id = :order_id';
-                    $criteria->params = array(':order_id' => $order_id);
-                    $payment_details = PaymentHistory::model()->find($criteria);
-                    if(!is_null($payment_details->service_promotion_id)){
+                if(strcmp($result_indicator, $success_indicator) == 0){
+                    $payment_status = 'success';
 
-                        $service = Service::model()->findByPk($payment_details->service_promotion_id);
+                    if($user_details->register_type != 'personal'){
+                        $criteria = new CDbCriteria();
+                        $criteria->condition = 'transaction_id = :order_id';
+                        $criteria->params = array(':order_id' => $order_id);
+                        $payment_details = PaymentHistory::model()->find($criteria);
+                        if(!is_null($payment_details->service_promotion_id)){
 
+                            $service = Service::model()->findByPk($payment_details->service_promotion_id);
+
+                            $payment_details->payment_status = 1;
+                            $payment_details->update();
+
+                            $service_plan_details = Service_config::model()->findByPk($service->plan_id);
+                            $pricing_details_service = array();
+                            $pricing_details_service['price'] = $service_plan_details->price;
+                            $pricing_details_service["name"] = $service_plan_details->name;
+                            $pricing_details_service["duration"] = $service_plan_details->duration.' month';
+
+                            Generic::sendInvoice($payment_details->user_id,$payment_details,$pricing_details_service,$service);
+                            //$this->sendEstoreRequestToSupport($service,$service_plan);
+                        } else {
+
+                            $registered_user_data = Yii::app()->session['registered_user_data'];
+                            $ad_post_service = Yii::app()->session['ad_post_service'];
+                            $pricing_plan_id = Yii::app()->session['pricing_plan_id'];
+
+                            $pricing_details = Generic::getBusinessPlanDetails($pricing_plan_id);
+
+                            $configArray = array();
+                            include dirname(__FILE__) . '/../extensions/card-processor/api_lib.php';
+                            include dirname(__FILE__) . '/../extensions/card-processor/configuration.php';
+                            include dirname(__FILE__) . '/../extensions/card-processor/connection.php';
+
+
+                            $merchantObj = new Merchant($configArray);
+
+                            $parserObj = new Parser($merchantObj);
+
+                            $requestUrl = $parserObj->FormRequestUrl($merchantObj);
+
+                            $request_assoc_array = array("apiOperation"=>"RETRIEVE_ORDER",
+                                "order.id"=>$order_id
+                            );
+
+                            $request = $parserObj->ParseRequest($merchantObj, $request_assoc_array);
+                            $response = $parserObj->SendTransaction($merchantObj, $request);
+
+                            $new_api_lib = new api_lib;
+                            $parsed_array = $new_api_lib->parse_from_nvp($response);
+                            $card_info = $parsed_array['sourceOfFunds.provided.card.number'];
+
+                            $payment_details = $this->createEstoreFromProfile($registered_user_data,$pricing_plan_id,$ad_post_service,$payment_id,'',0,'',$card_info);
+                            $service_plan = Subscription_plan::model()->findByPk($payment_details->subscription_id);
+                            $store = Estore::model()->findByPk($payment_details->store_id);
+
+                            Generic::sendInvoice($payment_details->user_id,$payment_details,$pricing_details,$service_plan);
+                            $this->sendEstoreRequestToSupport($store,$service_plan);
+                        }
+
+                    } else {
+                        $criteria = new CDbCriteria();
+                        $criteria->condition = 'transaction_id = :order_id';
+                        $criteria->params = array(':order_id' => $order_id);
+                        $payment_details = PaymentHistory::model()->find($criteria);
                         $payment_details->payment_status = 1;
                         $payment_details->update();
-
-                        $service_plan_details = Service_config::model()->findByPk($service->plan_id);
-                        $pricing_details_service = array();
-                        $pricing_details_service['price'] = $service_plan_details->price;
-                        $pricing_details_service["name"] = $service_plan_details->name;
-                        $pricing_details_service["duration"] = $service_plan_details->duration.' month';
-
-                        Generic::sendInvoice($payment_details->user_id,$payment_details,$pricing_details_service,$service);
-                        //$this->sendEstoreRequestToSupport($service,$service_plan);
-                    } else {
-
-                        $registered_user_data = Yii::app()->session['registered_user_data'];
-                        $ad_post_service = Yii::app()->session['ad_post_service'];
-                        $pricing_plan_id = Yii::app()->session['pricing_plan_id'];
-
-                        $pricing_details = Generic::getBusinessPlanDetails($pricing_plan_id);
-
-                        $configArray = array();
-                        include dirname(__FILE__) . '/../extensions/card-processor/api_lib.php';
-                        include dirname(__FILE__) . '/../extensions/card-processor/configuration.php';
-                        include dirname(__FILE__) . '/../extensions/card-processor/connection.php';
-
-
-                        $merchantObj = new Merchant($configArray);
-
-                        $parserObj = new Parser($merchantObj);
-
-                        $requestUrl = $parserObj->FormRequestUrl($merchantObj);
-
-                        $request_assoc_array = array("apiOperation"=>"RETRIEVE_ORDER",
-                            "order.id"=>$order_id
-                        );
-
-                        $request = $parserObj->ParseRequest($merchantObj, $request_assoc_array);
-                        $response = $parserObj->SendTransaction($merchantObj, $request);
-
-                        $new_api_lib = new api_lib;
-                        $parsed_array = $new_api_lib->parse_from_nvp($response);
-                        $card_info = $parsed_array['sourceOfFunds.provided.card.number'];
-
-                        $payment_details = $this->createEstoreFromProfile($registered_user_data,$pricing_plan_id,$ad_post_service,$payment_id,'',0,'',$card_info);
-                        $service_plan = Subscription_plan::model()->findByPk($payment_details->subscription_id);
-                        $store = Estore::model()->findByPk($payment_details->store_id);
-
-                        Generic::sendInvoice($payment_details->user_id,$payment_details,$pricing_details,$service_plan);
-                        $this->sendEstoreRequestToSupport($store,$service_plan);
+                        $pricing_details['price'] = $payment_details->payment_amount;
+                        Generic::sendInvoice($payment_details->user_id,$payment_details,$pricing_details,'');
                     }
 
-                } else {
-                    $criteria = new CDbCriteria();
-                    $criteria->condition = 'transaction_id = :order_id';
-                    $criteria->params = array(':order_id' => $order_id);
-                    $payment_details = PaymentHistory::model()->find($criteria);
-                    $payment_details->payment_status = 1;
-                    $payment_details->update();
-                    $pricing_details['price'] = $payment_details->payment_amount;
-                    Generic::sendInvoice($payment_details->user_id,$payment_details,$pricing_details,'');
                 }
 
-            }
+                unset(Yii::app()->session['successIndicator']);
+                unset(Yii::app()->session['orderID']);
+                unset(Yii::app()->session['registered_user_data']);
+                unset(Yii::app()->session['ad_post_service']);
+                unset(Yii::app()->session['pricing_plan_id']);
 
-            unset(Yii::app()->session['successIndicator']);
-            unset(Yii::app()->session['orderID']);
-            unset(Yii::app()->session['registered_user_data']);
-            unset(Yii::app()->session['ad_post_service']);
-            unset(Yii::app()->session['pricing_plan_id']);
+            } else if($payment_id == 2){
 
-        } else if($payment_id == 2){
+                $uploaded_bank_receipt = '';
+                if(isset($_FILES['bank_receipt'])){
+                    $imageName = time() + 1;
+                    $image_type = explode('.',$_FILES['bank_receipt']['name']);
+                    $image = $_FILES['bank_receipt']['tmp_name'];
 
-            $uploaded_bank_receipt = '';
-            if(isset($_FILES['bank_receipt'])){
-                $imageName = time() + 1;
-                $image_type = explode('.',$_FILES['bank_receipt']['name']);
-                $image = $_FILES['bank_receipt']['tmp_name'];
-
-                $image_name = $imageName.".".$image_type[1];
-                $uploaded_bank_receipt = "http://bdbroadbanddeals.com/uploads/".$image_name;
-            }
-
-            if($user_details->register_type != 'personal'){
-                if($request_for == 'service_promotion'){
-                    $payment_details = $this->createServicePromotion($business_info_data,$pricing_plan_id,$payment_id,'',0,$uploaded_bank_receipt,$request_for);
-                } else {
-                    $payment_details = $this->createEstoreFromProfile($business_info_data,$pricing_plan_id,$ad_post_service,$payment_id,'',0,$uploaded_bank_receipt);
+                    $image_name = $imageName.".".$image_type[1];
+                    $uploaded_bank_receipt = "http://bdbroadbanddeals.com/uploads/".$image_name;
                 }
-            } else {
-                $payment_details = $this->saveIndividualPaidAd($individual_ad_information,$payment_id,'',0,$uploaded_bank_receipt);
-            }
-            $payment_status = 'success';
-        } else if ($payment_id == 4) {
 
+                if($user_details->register_type != 'personal'){
+                    if($request_for == 'service_promotion'){
+                        $payment_details = $this->createServicePromotion($business_info_data,$pricing_plan_id,$payment_id,'',0,$uploaded_bank_receipt,$request_for);
+                    } else {
+                        $payment_details = $this->createEstoreFromProfile($business_info_data,$pricing_plan_id,$ad_post_service,$payment_id,'',0,$uploaded_bank_receipt);
+                    }
+                } else {
+                    $payment_details = $this->saveIndividualPaidAd($individual_ad_information,$payment_id,'',0,$uploaded_bank_receipt);
+                }
+                $payment_status = 'success';
+            } else if ($payment_id == 4) {
+
+            }
+        } else {
+            $this->redirect(Yii::app()->request->baseUrl . '/my-profile/dashboard');
         }
 
         if(!$existing_seller){
@@ -2241,6 +2316,7 @@ class ProfileController extends Controller
             } else {
                 $estore_url = $user_details->base_url . '/e-store/' . $estore_details->url_alias;
             }
+
             $this->render('transaction-success', array(
                 'user_name' => $user_details->user_name,
                 'register_type' => $user_details->register_type,

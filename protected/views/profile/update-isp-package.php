@@ -150,6 +150,13 @@ $image_file = ','.implode(',',$images);
                                                 <input type="text" id="service_charge" name="service_charge" class="form-control number_input" value="<?php echo $ad_details->service_charge ?>" >
                                             </div>
                                         </div>
+                                        <div class="row form-group select-price">
+                                            <label class="col-sm-3 label-title">Migration Charge</label>
+                                            <div class="col-sm-9">
+                                                <span>BDT</span>
+                                                <input type="text" id="migration_charge" name="migration_charge" class="form-control number_input" value="<?php echo $ad_details->migration_charge ?>" >
+                                            </div>
+                                        </div>
                                         <div class="row form-group">
                                             <label class="col-sm-3 label-title">Package Type<span class="required">*</span></label>
                                             <div class="col-sm-9">
@@ -183,7 +190,7 @@ $image_file = ','.implode(',',$images);
                                         <div class="row form-group" style="<?php if($ad_details->youtube_speed != "") { echo "display: block"; } else { echo "display: none"; } ?>" id="youtube_speed_block">
                                             <label class="col-sm-3 label-title">Youtube Speed</label>
                                              <div class="col-sm-9">
-                                                 <input type="text" name="youtube_speed_kbps" id="youtube_speed_kbps" placeholder="ex. 2 Mbps" value="<?php echo $ad_details->youtube_speed; ?>"></input>
+                                                 <input type="text" name="youtube_speed_kbps" id="youtube_speed_kbps" placeholder="ex. 2 Mbps/ Buffer Free/ 4K Video" value="<?php echo $ad_details->youtube_speed; ?>"></input>
                                              </div>
                                         </div>
                                         
@@ -199,7 +206,7 @@ $image_file = ','.implode(',',$images);
                                         <div class="row form-group" style="<?php if($ad_details->bdix_speed != "") { echo "display: block"; } else { echo "display: none"; } ?>" id="bdix_speed_block">
                                             <label class="col-sm-3 label-title">BDIX Speed<span class="required">*</span></label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="bdix_speed_kbps" id="bdix_speed_kbps" placeholder="ex. 2 Mbps" value="<?php echo $ad_details->bdix_speed; ?>"></input>
+                                                <input type="text" name="bdix_speed_kbps" id="bdix_speed_kbps" placeholder="ex. 2 Mbps/ Unlimited" value="<?php echo $ad_details->bdix_speed; ?>"></input>
                                             </div>
                                         </div>
                                         
@@ -531,6 +538,7 @@ $image_file = ','.implode(',',$images);
 
     $('input[id="bdix_speed_connected_no"]').on('click',function(){
         if($(this).is(':checked')){
+            $("#bdix_speed_kbps").val('');
             $("#bdix_speed_block").hide('slow');
         }
     });
@@ -543,6 +551,7 @@ $image_file = ','.implode(',',$images);
 
     $('input[id="youtube_cache_no"]').on('click',function(){
         if($(this).is(':checked')){
+            $("#youtube_speed_kbps").val('');
             $("#youtube_speed_block").hide('slow');
         }
     });

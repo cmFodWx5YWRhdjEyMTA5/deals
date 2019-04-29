@@ -22,16 +22,11 @@ $action = Yii::app()->controller->action->id;
     <meta name="description" content="<?=$this->description?>" />
 
     <title><?=$this->title?></title>
-    <!-- JS -->
-<!--    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>-->
 
 <?php
 
-//    $cs->registerCssFile($baseUrl."/css/sliding-msg.css","screen");
-
-    /*if($controller == 'site' && $action == 'index'){*/
-
+    $cs->registerCssFile($baseUrl."/css/slick.min.css","screen");
+    $cs->registerCssFile($baseUrl."/css/slick_slider.css","screen");
     $cs->registerCssFile($baseUrl."/css/alotheme/css/font-awesome.min.css","screen");
     $cs->registerCssFile($baseUrl."/css/alotheme/css/font-linearicons.css","screen");
     $cs->registerCssFile($baseUrl."/css/alotheme/css/bootstrap.css","screen");

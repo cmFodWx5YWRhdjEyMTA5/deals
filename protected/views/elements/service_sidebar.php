@@ -88,6 +88,12 @@ $action = Yii::app()->controller->action->id;
                                         Notifications
                                     </a>
                                 </li>
+                                <li class="bg13-icon-wrap <?php if($action == 'banList') { echo "active"; } ?>">
+                                    <a href="<?php echo Yii::app()->createUrl('/my-profile/black-list'); ?>">
+                                        <span><i class="fa fa-ban"></i></span>
+                                        Customer Blacklist
+                                    </a>
+                                </li>
                                 <li class="bg4-icon-wrap <?php if($action == 'settings') { echo "active"; } ?>">
                                     <a href="<?php echo Yii::app()->createUrl('/my-profile/settings'); ?>">
                                         <span><i class="adicon-settings"></i></span>

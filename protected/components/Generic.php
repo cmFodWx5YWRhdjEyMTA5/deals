@@ -165,25 +165,36 @@ class Generic
     public static function sendOTPMessage($otp,$phone){
         $phone = trim($phone,'+');
         // set 88 as prefix if not mentioned
-        if(substr($phone, 0, 2) !== '88'){
+        /*if(substr($phone, 0, 2) !== '88'){
             $phone = '88'.$phone;
-        }
-        $esms_endpoint = "http://esms.zubairitexpert.com/smsapi";
-        $api_key = "C20021175ba79dbcadc2e3.38549687";
-        $sender_id = "BDBroadband";
+        }*/
+        $esms_endpoint = 'https://portal.adnsms.com/api/v1/secure/send-sms';
+        $api_key = 'KEY-d13n84aob42hzfxmtkmwfr3dt031osbp';
+        $api_secret = 'u@IDtjt40qynSwED';
         $message = $otp." is your order verification code";
-        $otp_url = $esms_endpoint."?api_key=".$api_key."&type=text&contacts=".$phone."&senderid=".$sender_id."&msg=".urlencode($message);
+        
+        $post_fields = json_encode([
+            'api_key' => $api_key,
+            'api_secret' => $api_secret,
+            'request_type' => 'OTP',
+            'message_type' => 'TEXT',
+            'mobile' => $phone,
+            'message_body' => $message,
+        ]);
 
-        //file_get_contents($otp_url);
-        $curl = curl_init($otp_url);
-        curl_setopt($curl, CURLOPT_FAILONERROR, true);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);  
-        $result = curl_exec($curl); 
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $esms_endpoint,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS => $post_fields,
+          CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json"
+          ),
+        ));
 
-        //http://esms.zubairitexpert.com/smsapi?api_key=C20021175ba79dbcadc2e3.38549687&type=text&contacts=8801707565165&senderid=BDBroadband&msg=Hello+HAbib%2C+This+is+a+test+message
+        $result = curl_exec($curl);
     }
 
     public static function validateUploadImage($model, $attribute)
@@ -317,8 +328,22 @@ class Generic
     }
 
     public static function getPlanName($store_id){
-        $plan_name = '';
-        if($store_id){
+        $store_details = Estore::model()->findByPk($store_id);
+        $isp_company_id = $store_details->isp_company_id;
+        if(!empty($isp_company_id)){
+            $isp_details = ISP_details::model()->findByPk($store_details->isp_company_id);
+            if($isp_details->no_of_thana <= 3 && $isp_details->no_of_thana >=1){
+                return "Basic";
+            } elseif ($isp_details->no_of_thana <= 10 && $isp_details->no_of_thana >=4) {
+                return "Silver";
+            } elseif ($isp_details->no_of_thana <= 30 && $isp_details->no_of_thana >=11) {
+                return "Gold";
+            } else {
+                return "Diamond";
+            }
+        } else {
+            $plan_name = '';
+        
             $criteria = new CDbCriteria();
             $criteria->condition = 'estore_id = :estore_id';
             $criteria->params = array(':estore_id' => $store_id);
@@ -335,14 +360,20 @@ class Generic
                     break;
 
             }
+        
+            return $plan_name;
         }
-        return $plan_name;
-
     }
 
     public static function getPlanStatus($store_id){
-        $plan_status = 'Inactive';
-        if($store_id){
+
+        $store_details = Estore::model()->findByPk($store_id);
+        $isp_company_id = $store_details->isp_company_id;
+        if(!empty($isp_company_id)){
+            $isp_details = ISP_details::model()->findByPk($store_details->isp_company_id);
+            return $isp_details == 1 ? 'Active' : 'Inactive';
+        } else {
+            $plan_status = 'Inactive';
             $criteria = new CDbCriteria();
             $criteria->condition = 'estore_id = :estore_id';
             $criteria->params = array(':estore_id' => $store_id);
@@ -354,23 +385,30 @@ class Generic
                 case 2:
                     $plan_status = 'Active';
                     break;
-
             }
+            return $plan_status;
         }
-        return $plan_status;
     }
 
     public static function getPlanExpireDate($store_id){
-        $plan_expire_date = '';
-        if($store_id){
+        $store_details = Estore::model()->findByPk($store_id);
+        $isp_company_id = $store_details->isp_company_id;
+
+        if(!empty($isp_company_id)){
+            $isp_details = ISP_details::model()->findByPk($store_details->isp_company_id);
+            $plan_expire_date_object = new \DateTime($isp_details->expire_date);
+            $plan_expire_date = $plan_expire_date_object->format('d M,Y');
+            return $plan_expire_date;
+        } else {
+            $plan_expire_date = '';
             $criteria = new CDbCriteria();
             $criteria->condition = 'estore_id = :estore_id';
             $criteria->params = array(':estore_id' => $store_id);
             $plan_details = Subscription_plan::model()->find($criteria);
             $plan_expire_date_object = new \DateTime($plan_details->expiration_date);
             $plan_expire_date = $plan_expire_date_object->format('d M,Y');
-        }
-        return $plan_expire_date;
+            return $plan_expire_date;
+        } 
     }
 
     public static function getAdPostServiceStatus($store_id){
@@ -2176,6 +2214,7 @@ class Generic
             'data_ads_page_public' => 'Data Ads Page (Public)',
             'star_exclusive' => 'Star  Exclusive',
             'find_package_result_page' => 'Find Package Result Page',
+            'find_package_bottom_banner' => 'Find Package Bottom Banner',
         );
     }
 
@@ -2662,13 +2701,19 @@ class Generic
 
     public static function getLatitudeLongitude($user_location){
         $output = '';
-        $prepAddr = str_replace(' ','+',$user_location);
-        if($prepAddr){
+        //$prepAddr = str_replace(' ','+',$user_location);
+        if(strpos($user_location, 'Bangladesh') === false){
+            $user_location = $user_location.", Bangladesh";
+        }
+
+        $prepAddr = urlencode($user_location);
+        if(empty($prepAddr)){
             return '';
         }
         try{
-            $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
-            if(!$geocode) {
+            $address = 'https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false&key=AIzaSyChulrZC9AgEryAjjE00obcM_2sZCgEqAg';
+            $geocode=file_get_contents($address);
+            if(empty($geocode)) {
                 return '';
             }
             $output= json_decode($geocode);
@@ -2877,13 +2922,17 @@ class Generic
                     $ad_url = $baseUrl.'/e-store/'.$url_alias.'/product-details/'.$product_id;
                 }
             }
-
         }
-
         return $ad_url;
+    }
 
 
-
+    public static function getISPUrlFromAdId($product_id){
+        $ad_details = Ads::model()->findByPk($product_id);
+        $baseUrl = Yii::app()->getBaseUrl(true);
+        $url_alias = self::getStoreDetailsFromUserId($ad_details->user_id);
+        $store_url = $baseUrl.'/isp/'.$url_alias;
+        return $store_url;
     }
 
     public static function getUserIdFromAdId($product_id){
@@ -2913,7 +2962,7 @@ class Generic
     }
     public static function getStoreDetailsFromUserId($user_id){
 
-        $connection = Yii::app()->db;;
+        $connection = Yii::app()->db;
         $command = $connection->createCommand()
             ->select("url_alias")
             ->from('tbl_estore')
@@ -3722,7 +3771,7 @@ class Generic
 					<span>'.$transaction_date->format("d M Y").'</span>
 				</div>
 				<div style="padding: 0 3px;float: left; width:120px;">
-					<span>Invoice Id</span><br>
+					<span>Invoice ID</span><br>
 					<span>'.$payment_details->invoice_id.'</span>
 				</div>
 				<div style="clear:both"></div>
@@ -3759,7 +3808,7 @@ class Generic
 			</div>
 			
 			<div style="clear:both"></div>
-			<span>Originated ip:'.$remote_ip.'</span>
+			<span>Originated IP:'.$remote_ip.'</span>
 			</div>
             <div style="width:800px; height:95px; background:url(/images/pad_bottom.png) no-repeat; background-size:100%;"></div>
 '.$second_page.'
@@ -3894,8 +3943,8 @@ class Generic
 </style>
     </head>
     <body>
-        <div style="width:800px; height:90px; background:url(/images/pad_top.jpg) no-repeat; background-size:100%;"></div>
-        <div style="width:1000px; padding-top:70px; height:728px;">
+        <div style="width:800px; height:90px; background:url(/images/pad_top.jpg) left top no-repeat; background-size:100%;"></div>
+        <div style="width:1000px; padding-top:55px; height:723px;">
             <div style="float: left; width:45%; ">
                 <p>INVOICE TO</p>
                 <p>
@@ -3922,7 +3971,7 @@ class Generic
                     <span>'.$transaction_date->format("d M Y").'</span>
                 </div>
                 <div style="padding: 0 3px;float: left; width:120px;">
-                    <span>Invoice Id</span><br>
+                    <span>Invoice ID</span><br>
                     <span>'.$payment_details->invoice_id.'</span>
                 </div>
                 <div style="clear:both"></div>
@@ -3966,7 +4015,7 @@ class Generic
             </div>
             
             <div style="clear:both"></div>
-            <span>Originated ip:'.$remote_ip.'</span>
+            <span>Originated IP:'.$remote_ip.'</span>
             </div>
             <div style="width:800px; height:95px; background:url(/images/pad_bottom.png) no-repeat; background-size:100%;"></div>
 '.$second_page.'
@@ -4093,6 +4142,18 @@ class Generic
                                 <td>'.$registered_user->license_number.'</td>
                             </tr>';
         }
+
+        $company_type = $registered_user->register_type;
+        $isp_category_name = '';
+        if($company_type == "business"){
+            $company_type = "Internet Service Provider";
+            $isp_category_name = '<tr>
+                                <td width="200">ISP Type</td>
+                                <td align="left" class="shade_text">'.self::getISPCategoryName($registered_user->isp_type).'</td>
+                            </tr><tr>
+                            <td colspan="2" style="border:none">&nbsp;</td>
+                            </tr>';
+        }
         
         if($registered_user->business_category_id != ''){
             $enterprise_name_block = '<tr>
@@ -4174,13 +4235,14 @@ class Generic
 	</tr>
 	<tr>
 		<td width="200">Registration Type</td>
-		<td align="left" class="shade_text">'.ucwords($registered_user->register_type).'</td>
+		<td align="left" class="shade_text">'.ucwords($company_type).'</td>
 	</tr>
 	<tr>
 	<td colspan="2" style="border:none">&nbsp;</td>
 	</tr>
 	'.$enterprise_name_block.'
 	'.$type_of_business_block.'
+    '.$isp_category_name.'
 	<tr>
 		<td width="200">Address</td>
 		<td align="left" class="shade_text">'.$registered_user->address.', '.$registered_user->division.', '.$country_details->name.'</td>
@@ -4212,7 +4274,7 @@ class Generic
 <br>
 <br>
 
-<span>Originated ip:'.$remote_ip.'</span>
+<span>Originated IP:'.$remote_ip.'</span>
 </div>
 <div style="width:800px; height:95px; background:url(/images/pad_bottom.png) no-repeat; background-size:100%;"></div>
 </body>
@@ -4855,6 +4917,48 @@ class Generic
                 break;
         }
         return $category_name;
+    }
+
+    public static function getStatus($status){
+        return $status == 1 ? 'Blacklisted' : 'Non-blacklisted';
+    }
+
+    public static function getISPCompanyName($reported_id){
+        if(empty($reported_id)){
+            return false;
+        }
+        $isp_details = Estore::model()->findByPk($reported_id);
+        $user_details = Register::model()->findByPk($isp_details->user_id);
+        return $user_details->enterprise_name;
+    }
+
+    public static function getURLwithScheme($url){
+        $url_scheme = parse_url($url,PHP_URL_SCHEME);
+        if(empty($url_scheme)){
+            $url = 'https://'.$url;
+        }
+        return $url;
+    }
+
+    public static function renderServiceCharge($service_charge){
+        $service_charge_text = "";
+        if(empty($service_charge)){
+            $service_charge_text = "Free";
+        } else if(is_numeric($service_charge)){
+            $service_charge_text = "&#2547; ".$service_charge;
+        } else{
+            $service_charge_text = $service_charge;
+        }
+        return $service_charge_text;
+    }
+
+    public static function getSurveyLinks(){
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'status = :status';
+        $criteria->params = array(':status'=> 1);
+        $criteria->order = 'id desc';
+        $survey_links = SurveyList::model()->find($criteria);
+        return $survey_links;
     }
 
 }

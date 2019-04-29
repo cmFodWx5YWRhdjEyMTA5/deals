@@ -67,28 +67,33 @@ class AdSpecialController extends Controller
 
 		if(isset($_POST['AdSpecial']))
 		{
+			$model->attributes=$_POST['AdSpecial'];
 
-			$file_name = time() + 1;
-      		$file_size =$_FILES['AdSpecial']['size']['banner_image'];
-      		$file_tmp =$_FILES['AdSpecial']['tmp_name']['banner_image'];
-      		$file_type=$_FILES['AdSpecial']['type']['banner_image'];
-      		$file_name_parts = explode('.',$_FILES['AdSpecial']['name']['banner_image']);
-      		$file_ext=strtolower(end($file_name_parts));
-      
-      		$expensions= array("jpeg","jpg","png");
+			//Generic::_setTrace($_POST);
+			if(isset($_FILES['AdSpecial']['tmp_name']['banner_image']) && !empty($_FILES['AdSpecial']['tmp_name']['banner_image'])){
+				$file_name = time() + 1;
+	      		$file_size =$_FILES['AdSpecial']['size']['banner_image'];
+	      		$file_tmp =$_FILES['AdSpecial']['tmp_name']['banner_image'];
+	      		$file_type=$_FILES['AdSpecial']['type']['banner_image'];
+	      		$file_name_parts = explode('.',$_FILES['AdSpecial']['name']['banner_image']);
+	      		$file_ext=strtolower(end($file_name_parts));
+	      
+	      		$extensions= array("jpeg","jpg","png");
 
-      		if(in_array($file_ext,$expensions) === false){
-		        $variable = "extension not allowed, please choose a JPEG or PNG file.";
-		    } else {
-		    	$model->attributes=$_POST['AdSpecial'];
+	      		if(in_array($file_ext,$extensions) === false){
+			        $variable = "extension not allowed, please choose a JPEG or PNG file.";
+			    } else {
+					$model->banner_image = Yii::app()->getBaseUrl(true)."/uploads/".$file_name.".".$file_ext;
+					move_uploaded_file($file_tmp,__DIR__."/../../../uploads/".$file_name.".".$file_ext);
+				}
 
-				$model->banner_image = Yii::app()->getBaseUrl(true)."/uploads/".$file_name.".".$file_ext;
-				move_uploaded_file($file_tmp,__DIR__."/../../../uploads/".$file_name.".".$file_ext);
-				$model->create_date=date('y-m-d');
-				$model->country_code = 'BD';
-				if($model->save())
-					$this->redirect(array('view','id'=>$model->id));
-			    }
+			} 
+			//Generic::_setTrace($_POST);
+		    $model->create_date=date('y-m-d');
+			$model->country_code = 'BD';
+			//Generic::_setTrace($model);
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('create',array(

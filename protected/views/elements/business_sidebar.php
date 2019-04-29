@@ -1,12 +1,10 @@
-<?php 
-$baseUrl = Yii::app()->getBaseUrl(true);
+<?php $baseUrl = Yii::app()->getBaseUrl(true);
 $image = $baseUrl."/images/img/default.jpg";
 if($profile_data['image']) {
     $image = isset($profile_data['image']) ? $profile_data['image'] : '';
 }
 $controller = Yii::app()->controller->id;
 $action = Yii::app()->controller->action->id;
-
 ?>
 
 <section id="main" class="clearfix category-page">

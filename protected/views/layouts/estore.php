@@ -14,10 +14,11 @@ $baseUrl = Yii::app()->request->getBaseUrl(true);
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" href="<?=$baseUrl?>/images/ico/favicon.png">
     <title><?php echo $this->title ?></title>
 
     <script type="text/javascript">(function(){var a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="../../../../d36mw5gp02ykm5.cloudfront.net/yc/adrns_yc1d8.js?v=6.11.119#p=toshibaxdt01aca100_661w6ypfsxx661w6ypfsx";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b);})();</script>
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <?php
 

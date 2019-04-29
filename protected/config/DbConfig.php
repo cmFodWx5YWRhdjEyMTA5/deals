@@ -9,10 +9,10 @@
 class DbConfig {
      public static function dbConnection(){
          return array(
-             'connectionString' => 'mysql:host=localhost;dbname=dwit',
+             'connectionString' => 'mysql:host=localhost;dbname=bddeals_db',
              'emulatePrepare' => true,
-             'username' => 'root',
-             'password' => '',
+             'username' => 'bddeals_user',
+             'password' => 'bdde@ls2015',
              'charset' => 'utf8',
              //'tablePrefix' => 'tbl_',
          );

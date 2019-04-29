@@ -52,43 +52,118 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 	<div id="content">
 
 		<!-- slider starts -->
-
 		<div id="wrapper" class="slider_wrapper">
-			<div class="container">
-				<div class="row">
-				
-					<div class="col-xs-12 col-sm-12 col-md-12">
-						<div class="row">
-						
-							<div class="col-xs-12 col-sm-12 col-md-12" style="padding-left: 0px;">
-								<!-- slider here -->
-								<ul class="rslides" id="slider4">
-									<?php
-									if(isset($home_page_slider_ads) && !empty($home_page_slider_ads)){
-										$opt_home_page_slider = array( "height" => 415, "gravity" => "center", "radius" => 0,"fetch_format" => "jpg");
-										$counter = 1;
-										foreach($home_page_slider_ads as $individual_ads){
-											$image_name = $individual_ads['banner_image'];
-											?>
-											<li>
-												<?php if(isset($individual_ads['banner_url']) && !empty($individual_ads['banner_url']) && $individual_ads['banner_url'] != '#') { ?>
-													<a href="<?php echo $individual_ads['banner_url'] ?>" target="_blank">
-												<?php }
-													$image_helper->getScaledImageFromCloudinary($image_name,$opt_home_page_slider);
-												?>
-												<?php if(isset($individual_ads['banner_url']) && !empty($individual_ads['banner_url'])) { ?>
-													</a>
-												<?php } ?>
-											</li>
-											<?php $counter++; }}?>
-								</ul>
-							</div>
-						</div>
 
+			<div class="list-service-box">
+				<div class="container">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+					  		<h3 style="text-align: center;">Find The Right Internet Package </h3>
+					        <form class="form-my-account _search_form" action="site/FindTheRightPackage" method="GET">
+					            <div class="row">
+						            <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
+						            	<select name="division" class="form-control" id="division">
+						            		<?php
+	                                                echo '<option value="0">Select Division</option>';
+	                                                foreach ($divisions as $division) {
+	                                                    echo '<option value="' . $division->division_id . '">' . $division->division . '</option>';
+	                                                }
+	                                        ?>
+						            	</select>
+						        	</div>
+
+						        	<div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-md-offset-0.5 col-lg-offset-0.5">
+							            <select name="district" class="form-control" id="district">
+							            	<?php
+	                                                echo '<option value="0">Select District</option>';
+	                                                foreach ($districts as $district) {
+	                                                    echo '<option value="' . $district->district_id . '">' . $district->district . '</option>';
+	                                                }
+	                                         ?>
+							            </select>
+						        	</div>
+						        	<div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-md-offset-0.5 col-lg-offset-0.5">
+							            <select name="thana" id="thana" class="form-control">
+							            	<?php
+							            	echo '<option value="0">Select Thana</option>';
+											foreach ($thanas as $thana) {
+											    echo '<option value="' . $thana->thana_id . '">' . $thana->thana . '</option>';
+											}
+											?>
+							            </select>
+						        	</div>
+						            <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 col-md-offset-0 col-lg-offset-1 text-center">
+							            <input type="submit" class="js-submit-button"  value="Find Package" />
+						            </div>
+					        	</div>
+					        </form>
 					</div>
 				</div>
 			</div>
-
+			<section class="main-slider">
+			  <?php 
+			  $slider_count = 0;
+			  $opt_home_page_slider = array( "height" => 415, "gravity" => "center", "radius" => 0,"fetch_format" => "jpg");
+			  foreach ($home_page_slider_ads as $individual_ads) {
+			  	$image_name = $individual_ads['banner_image'];
+			  	$image_name = str_replace('http://bdbroadbanddeals.com', '', $image_name);
+			  	$banner_link = '';
+			  	$video_link = $individual_ads['video_link'];
+			  	$youtube_link = $individual_ads['youtube_link'];
+			  	$media_type = $individual_ads['media_type'];
+			  	if(isset($individual_ads['banner_url']) && !empty($individual_ads['banner_url']) && $individual_ads['banner_url'] != '#') {
+			  		$banner_link = $individual_ads['banner_url'];
+			  	}
+			  	if($media_type == 1){
+			  ?>
+			  <div class="item image">
+					<?php if($slider_count == 0){ ?>
+					<span class="loading">Loading...</span>
+					<?php } ?>
+					<figure>
+					  <div class="slide-image slide-media" style="background-image:url(<?php echo $image_name; ?>); background-repeat: no-repeat; background-position: center top; background-color: #fff; background-size: cover;">
+					  	<?php if(!empty($banner_link)){ ?>
+					  	<a href="<?php echo $banner_link ?>" target="_blank">
+					  	<?php } ?>
+					    	<img data-lazy="<?php echo $image_name; ?>" class="image-entity" />
+						<?php if(!empty($banner_link)){ ?>
+						</a>
+						<?php } ?>
+					  </div>
+					</figure>
+			  </div>
+			  <?php } else if($media_type == 2) { 
+				$video_link = str_replace('http://bdbroadbanddeals.com', '', $video_link);
+			  	?>
+			  	<div class="item video">
+				    <video class="slide-video slide-media" loop muted preload="metadata" poster="<?php echo $video_link; ?>">
+				      <source src="<?php echo $video_link; ?>" type="video/mp4" />
+				    </video>
+			  	</div> 
+			  <?php }else { ?>
+			  	<div class="item youtube">
+				    <iframe class="embed-player slide-media" width="980" height="520" src="<?php echo $youtube_link."?enablejsapi=1&controls=0&fs=0&iv_load_policy=3&rel=0&showinfo=0&loop=1&start=1"; ?>" frameborder="0" allowfullscreen></iframe> 
+				</div>
+			  	
+			  <?php
+			  		} 
+					$slider_count++;
+			   } 
+			  ?>
+			  <!-- <div class="item image">
+				    <figure>
+				      <div class="slide-image slide-media" style="background-image:url(images/Slider_Banner_3.jpg);">
+				        <img data-lazy="images/Slider_Banner_3.jpg" class="image-entity" />
+				      </div>
+				    </figure>
+			  </div>
+			  <div class="item image">
+				    <figure>
+				      <div class="slide-image slide-media" style="background-image:url(images/Slider_Banner_2.jpg);">
+				        <img data-lazy="images/Slider_Banner_2.jpg" class="image-entity" />
+				      </div>
+				    </figure>
+			  </div>-->
+			</section>
 		</div>
 
 		<!-- Slider ends -->
@@ -97,51 +172,6 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 		<div class="clear"></div>
 
 		
-		<div class="list-service-box">
-			<div class="container">
-				<div class="col-md-12 col-sm-12 col-xs-12">
-				  		<h3 style="text-align: center;">Find The Right Internet Package </h3>
-				        <form class="form-my-account _search_form" action="site/FindTheRightPackage" method="GET">
-				            <div class="row">
-					            <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
-					            	<select name="division" class="form-control" id="division">
-					            		<?php
-                                                echo '<option value="0">Select Division</option>';
-                                                foreach ($divisions as $division) {
-                                                    echo '<option value="' . $division->division_id . '">' . $division->division . '</option>';
-                                                }
-                                        ?>
-					            	</select>
-					        	</div>
-
-					        	<div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
-						            <select name="district" class="form-control" id="district">
-						            	<?php
-                                                echo '<option value="0">Select District</option>';
-                                                foreach ($districts as $district) {
-                                                    echo '<option value="' . $district->district_id . '">' . $district->district . '</option>';
-                                                }
-                                         ?>
-						            </select>
-					        	</div>
-					        	<div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
-						            <select name="thana" id="thana" class="form-control">
-						            	<?php
-						            	echo '<option value="0">Select Thana</option>';
-										foreach ($thanas as $thana) {
-										    echo '<option value="' . $thana->thana_id . '">' . $thana->thana . '</option>';
-										}
-										?>
-						            </select>
-					        	</div>
-					            <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3">
-						            <input type="submit" class="js-submit-button"  value="Find Package" />
-					            </div>
-				        	</div>
-				        </form>
-				</div>
-			</div>
-		</div>
         <div class="home-brand-slider banner-ad-slider">
 			<div class="wrap-item">
 				<?php foreach ($find_package_bottom_slider_ads as $slider_banner) { ?>
@@ -153,10 +183,10 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 		</div>
 		<div class="clear"></div>
 		<!-- End List Service -->
-		<div class="list-tab-product">
-			<div class="container">
 
-				<!-- Brand Showcase -->
+		<!-- Brand Showcase -->
+		<!-- <div class="list-tab-product">
+			<div class="container">
 				<section id="displayKSBrand-main" class="main-content">
 					<div class="">
 						<div id="displayKSBrand">
@@ -239,10 +269,6 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 																$ad_views = Generic::getTotalAdView($individual_product['id']);
 																$view_count = array_sum(array_column($ad_views, 'view_count'));
 
-																/*$favorite_counter = 0;
-																
-																$favorite_counter = Generic::getTotalFavoriteCount($individual_product['id']);*/
-
 																$discount = round($individual_product['discount']);
 																$total_price = (int)$individual_product['price'];
 																$discounted_total = $total_price - ($total_price * ((int)$discount/100));
@@ -286,10 +312,6 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 																			<div class="star_content clearfix">
 
 																				<i class="fa fa-eye" style="color: #0083c9"> </i> <span><?=$view_count?></span>
-
-																				<!-- <i class="fa fa-heart" style="color: #0083c9;margin-left:10px"></i> <span class="favourite"> <?=$favorite_counter?></span> -->
-
-
 																				<meta itemprop="worstRating" content="0"/>
 																				<meta itemprop="ratingValue" content="4"/>
 																				<meta itemprop="bestRating" content="5"/>
@@ -305,33 +327,24 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 																<div class="clearfix"></div>
 															</div>
 														</div>
-
 														<?php }?>
-
-
 													</div>
 												</div>
 												<?php }?>
 
 											</div>
 										</div>
-
 											<?php $counter++; } }?>
-
 									</div>
 								</div>
 							</div>
-
-
 						</div>
 					</div>
 					<div class="md-margin"></div>
 					<div class="clearfix"></div>
 				</section>
-
-
 			</div>
-		</div>
+		</div> -->
 
 <a name="isp_accessories" class="estore_pointer"></a>
 
@@ -799,6 +812,8 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 								foreach($estore_ads as $individual_ads){
 
 									$ad_url = Generic::getAdUrlFromAdId($individual_ads['id']);
+									$ad_owner_details = Register::model()->findByPk($individual_ads['user_id']);
+									$isp_url = Generic::getISPUrlFromAdId($individual_ads['id']);
 
 									$current_date = date('Y-m-d');
 									$expire_date = isset($single_product['expire_date']) ? $individual_ads['expire_date'] : '';
@@ -814,20 +829,8 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 
 										}
 
-										$word_count = 8;
-										$string = preg_replace('/(?<=\S,)(?=\S)/', ' ', strip_tags($individual_ads['description']));
-										$string = str_replace("\n", " ", $string);
-										$array = explode(" ", $string);
-									   if (count($array)<= $word_count)
-										{
-
-											$retval =  $string;
-										}
-										else
-										{
-											array_splice($array, $word_count);
-											$retval = implode(" ", $array);
-										}
+										
+									   
 
 
 										$discount = isset($individual_ads['discount']) ? (int)round($individual_ads['discount']) : 0;
@@ -859,7 +862,8 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 									</div>
 									<div class="product-info">
 										<h3 class="title-product"><a target="_blank" href="<?=$ad_url?>"><?=$individual_ads['title']?></a></h3>
-										<p class="desc"><?=$retval?></p>
+										<h6><b>ISP Name:</b> <a href="<?php echo $isp_url ?>" target="_blank"><?php echo $ad_owner_details->enterprise_name ?></a></h6>
+										<p class="desc"><?php echo "Package Type: ".ucwords($individual_ads['package_type']) ?></p>
 										<div class="info-price-deal">
 										<?php if($individual_ads['show_price']){ ?>
 											<div class="info-price">
@@ -881,7 +885,10 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 								</div>
 							</div>
 
-								<?php	}}?>
+							<?php	
+									}
+								}
+							?>
 
 
 
@@ -890,6 +897,7 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 						</div>
 
 					</div>
+					<p class="text-center"><a href="<?=$baseUrl?>/isp/packages" class="btn btn-theme" style="width: auto;">See More Packages...</a></p>
 				</div>
 				<!-- Super Deal section End -->
 
@@ -951,6 +959,7 @@ $this->renderPartial("/elements/ad_preview_modal");
 
 	.banner-ad-slider {
 		border:none !important;
+		overflow: hidden;
 	}
 
 </style>

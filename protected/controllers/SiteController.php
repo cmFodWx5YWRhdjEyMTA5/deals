@@ -59,6 +59,9 @@ class SiteController extends Controller {
 
         
         $top_estore = Generic::getEstore($country_code);
+        if(!empty($top_estore)){
+            shuffle($top_estore);
+        }
 
         $count = count(Generic::getAllHotAds(0, 0));
         $offset = rand(0, $count - 1);
@@ -78,6 +81,7 @@ class SiteController extends Controller {
 
 
         $home_page_slider_ads = Generic::getHomePageRightSideAds('home_top_banner', 0, 0, $country_code);
+        //Generic::_setTrace($home_page_slider_ads);
         $find_package_bottom_slider_ads = Generic::getHomePageRightSideAds('find_package_bottom_banner', 0, 0, $country_code);
         $estore_left_slider_ads = Generic::getHomePageRightSideAds('estore_left_slider_banner', 0, 0, $country_code);
         $estore_right_slider_ads = Generic::getHomePageRightSideAds('estore_right_slider_banner', 0, 0, $country_code);
@@ -1175,6 +1179,7 @@ class SiteController extends Controller {
         $condition = Yii::app()->request->getParam('ads_condition', '');
         $price = Yii::app()->request->getParam('ads_price', '');
         $service_charge = Yii::app()->request->getParam('service_charge', 0);
+        $migration_charge = Yii::app()->request->getParam('migration_charge', 0);
         $price_end = Yii::app()->request->getParam('ads_price_end', '');
         $show_price_option = Yii::app()->request->getParam('show_price_option', 1);
 
@@ -1306,6 +1311,9 @@ class SiteController extends Controller {
         if($service_charge) {
             $ad->service_charge = $service_charge;
         }
+        if($migration_charge) {
+            $ad->migration_charge = $migration_charge;
+        }
 
         if ($ad->save()) {
             $ad_id = $ad->id;
@@ -1360,6 +1368,7 @@ class SiteController extends Controller {
         $condition = Yii::app()->request->getParam('ads_condition', '');
         $price = Yii::app()->request->getParam('ads_price', '');
         $service_charge = Yii::app()->request->getParam('service_charge', 0);
+        $migration_charge = Yii::app()->request->getParam('migration_charge', 0);
         $price_end = Yii::app()->request->getParam('ads_price_end', '');
         $show_price_option = Yii::app()->request->getParam('show_price_option', 1);
 
@@ -1430,12 +1439,14 @@ class SiteController extends Controller {
         if($internet_speed){
             $ad->internet_speed = $internet_speed;
         }
-        if($youtube_speed){
+        $ad->youtube_speed = $youtube_speed;
+        $ad->bdix_speed = $bdix_speed;
+        /*if($youtube_speed){
             $ad->youtube_speed = $youtube_speed;
         }
         if($bdix_speed){
             $ad->bdix_speed = $bdix_speed;
-        }
+        }*/
         if($ftp_link){
             $ad->ftp_link = $ftp_link;
         }
@@ -1452,7 +1463,13 @@ class SiteController extends Controller {
             $ad->public_ip = $public_ip;
         }
         
-        $ad->service_charge = $service_charge;
+        if($service_charge){
+            $ad->service_charge = $service_charge;
+        }
+        if($migration_charge){
+            $ad->migration_charge = $migration_charge;
+        }
+        
         
 
         if ($ad->update()) {
@@ -4035,13 +4052,16 @@ class SiteController extends Controller {
         $ad_details = Generic::getAddDetailsFromAddTable($ad_id);
         $message = '';
         if($user_type == 'business'){
-            if(!empty($ad_details['service_charge']) && $ad_details['service_charge'] != 0){
+            
+            $message .= '<p><strong>Service Charge/OTC: </strong> <span>'.Generic::renderServiceCharge($ad_details['service_charge']).'</span></p>';
+
+            if(!empty($ad_details['migration_charge']) && $ad_details['migration_charge'] != 0){
                 $message .= '<p>
-                                <strong>Service Charge: </strong> <span>&#2547; '.$ad_details['service_charge'].'</span>
+                                <strong>Migration Charge: </strong> <span>&#2547; '.$ad_details['migration_charge'].'</span>
                             </p>';
             } else {
                 $message .= '<p>
-                                <strong>Service Charge: </strong> <span>Free</span>
+                                <strong>Migration Charge: </strong> <span>Free</span>
                             </p>';
             }
             
@@ -4049,7 +4069,7 @@ class SiteController extends Controller {
                                             <strong>Package Type: </strong> <span>'.ucwords($ad_details['package_type']).'</span>
                                         </p>';
                 $message .= '<p>
-                                            <strong>Internet Speed: </strong> <span>'.$ad_details['internet_speed'].' Mbps</span>
+                                            <strong>Internet Speed: </strong> <span>'.$ad_details['internet_speed'].'</span>
                                         </p>';
                 if($ad_details['public_ip']) {
                     $message .= '<p>
@@ -4061,19 +4081,18 @@ class SiteController extends Controller {
                                         </p>';
                 }
                 
-                if($ad_details['package_type'] != 'combo bandwidth'){
-                    if($ad['youtube_speed'] != ''){
-                        $message .= '<p>
-                                                <strong>GGC/Youtube Speed: </strong> <span>'.$ad_details['youtube_speed'].' Mbps</span>
-                                            </p>';
-                    }
-                    if($ad_details['bdix_speed'] != '') {
-                        $message .= '<p>
-                                                <strong>BDIX Speed: </strong> <span>'.$ad_details['bdix_speed'].' Mbps</span>
-                                            </p>';
-                    }
-                    
-                }                        
+                
+                if($ad_details['youtube_speed'] != ''){
+                    $message .= '<p>
+                                            <strong>GGC/Youtube Speed: </strong> <span>'.$ad_details['youtube_speed'].'</span>
+                                        </p>';
+                }
+                if($ad_details['bdix_speed'] != '') {
+                    $message .= '<p>
+                                            <strong>BDIX Speed: </strong> <span>'.$ad_details['bdix_speed'].'</span>
+                                        </p>';
+                }
+                                        
                 
                 if($ad_details['ftp_link'] != ''){
                     $message .= '<p>
@@ -4151,12 +4170,19 @@ class SiteController extends Controller {
 
         $register_id = Yii::app()->request->getParam('id');
         $user_details = Register::model()->findByPk($register_id);
-        
             if($user_details){
                 $ad_criteria = new CDbCriteria();
                 $ad_criteria->condition = 'user_id = :user_id';
                 $ad_criteria->params = array(':user_id' => $register_id);
                 $ads_details = Ads::model()->findAll($ad_criteria);
+                $registered_user_location_details = Registered_user_location::model()->findAll($ad_criteria);
+                
+                if($registered_user_location_details){
+                    foreach ($registered_user_location_details as $user_location) {
+                        $user_location->delete();
+                    }
+                }
+                
                 $company_details = Estore::model()->findAll($ad_criteria);
                 if(!empty($ads_details)){
                     foreach ($ads_details as $ad) {
@@ -4166,9 +4192,99 @@ class SiteController extends Controller {
                 if($company_details){
                     $company_details[0]->delete();
                 }
+
                 $user_details->delete();
             }
             
         $this->redirect(Yii::app()->getBaseUrl(true) . '/admin/register/admin');
     }
+
+    public function actionchangeBlacklistStatus(){
+        $blacklist_id = Yii::app()->request->getParam('id','');
+        if($blacklist_id){
+            $blacklist_details = Blacklist::model()->findByPk($blacklist_id);
+            $blacklist_details->status = !$blacklist_details->status;
+            $blacklist_details->update();
+            Yii::app()->user->setFlash('success', "Successfully changed blacklist status");
+        }
+        $this->redirect(Yii::app()->getBaseUrl(true) . '/my-profile/my-black-list');
+    }
+
+    public function actionAddBlackList(){
+        $customer_name = Yii::app()->request->getParam('customer_name','');
+        $national_id = Yii::app()->request->getParam('national_id','');
+        $phone = Yii::app()->request->getParam('phone','');
+        $address = Yii::app()->request->getParam('address','');
+        $reason = Yii::app()->request->getParam('reason','');
+        $reported_by = Yii::app()->request->getParam('reported_by','');
+        $todays_date = new \DateTime();
+        $blacklist_customer = new Blacklist();
+        $blacklist_customer->name = $customer_name;
+        $blacklist_customer->nid = $national_id;
+        $blacklist_customer->phone = $phone;
+        $blacklist_customer->address = $address;
+        $blacklist_customer->reason = $reason;
+        $blacklist_customer->reported_by = $reported_by;
+        $blacklist_customer->create_date = $todays_date->format('Y-m-d');
+        if($blacklist_customer->save()){
+            Yii::app()->user->setFlash('success', "Successfully added blacklist customer");
+            $this->redirect(Yii::app()->getBaseUrl(true) . '/my-profile/my-black-list'); 
+        } else {
+            Yii::app()->user->setFlash('error', "Error in adding blacklist customer");
+            $this->redirect(Yii::app()->getBaseUrl(true) . '/my-profile/add-black-list');
+        }
+        
+    }
+
+    public function actionListAllISP(){
+        $image_helper = new ImageHelper();
+
+        $isp_user_ids = [];
+        if(isset($_GET['submit']) && $_GET['submit'] == 'Search' ){
+            $isp_name = $_GET['isp_name'];
+            $isp_criteria = new CDbCriteria();
+            $isp_criteria->condition = 'register_type = :register_type AND user_status = :user_status AND enterprise_name LIKE :enterprise_name';
+            $isp_criteria->params = [':register_type' => 'business', ':user_status' => 1, ':enterprise_name' => '%'.$isp_name.'%'];
+            $isp_user_list = Register::model()->findAll($isp_criteria);
+            foreach ($isp_user_list as $user) {
+                $isp_user_ids[] = $user->id;
+            }
+            if(empty($isp_user_list)){
+                Yii::app()->user->setFlash('error', "No ISP found with given search keyword. Please find other available ISP below:");
+            }
+        }
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition(['active'=>1]);
+        $criteria->addCondition('isp_company_id IS NOT NULL');
+        if(!empty($isp_user_ids)){
+            $criteria->addInCondition('user_id',$isp_user_ids);
+        }
+        $isp_list = Estore::model()->findAll($criteria);
+        if(!empty($isp_list)){
+            shuffle($isp_list);
+        }
+        
+        $this->render('list_all_isp', array(
+            'image_helper' => $image_helper,
+            'isp_list' => $isp_list
+        ));
+    }
+
+    public function actionListAllPackages(){
+        $image_helper = new ImageHelper();
+
+        $isp_user_ids = [];
+        
+        $package_list = Generic::getEstoreProducts();
+
+        if (is_array($package_list) && count($package_list) > 1) {
+            shuffle($package_list);
+        }
+        
+        $this->render('list_all_isp_package', array(
+            'image_helper' => $image_helper,
+            'package_list' => $package_list
+        ));
+    }
+
 }

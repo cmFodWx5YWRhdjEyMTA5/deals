@@ -87,7 +87,7 @@ echo $this->renderPartial($sidebar_type,$info_array);
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Address</label>
+                                        <label>Contact Us</label>
                                         <input type="text" id="address" name="address" class="form-control" value="<?=$address?>">
                                     </div>
 

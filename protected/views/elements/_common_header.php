@@ -79,7 +79,7 @@ $image_helper = new ImageHelper();
 // }
 
 //Generic::_setTrace($uri_segments);
-
+$survey_links = Generic::getSurveyLinks();
 $active_menu = Yii::app()->controller->action->id;
 
 ?>
@@ -93,6 +93,35 @@ $active_menu = Yii::app()->controller->action->id;
         width: 100%;
         z-index: 999;
     }
+    .sticky  img {
+        max-width: 70%;
+    }
+
+    .sticky  .navbar-brand {
+        height: 32px;
+    }
+
+    .sticky .main-nav > ul > li > a{
+        line-height: 35px;
+        height: 35px;
+        font-size: 12px;
+        padding: 0 18px;
+    }
+
+    .sticky .mini-cart-button {
+        float: right;
+        width: 80%;
+    }
+
+    .sticky .mini-cart-button a {
+        line-height: 35px;
+        height: 35px;
+        font-size: 12px;
+    }
+    .sticky .main-nav {
+        width: 90%;
+        float: right;
+    }
     .latest_package_pointer {
         padding-top: 50px;
         -webkit-box-sizing: border-box;
@@ -101,6 +130,52 @@ $active_menu = Yii::app()->controller->action->id;
     }
     .estore_pointer {
         padding-top: 50px;
+    }
+
+    .survey_link {
+        animation-duration: 3s;
+        animation-name: changebgcolor;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+
+    .survey_link a {
+        animation-duration: 3s;
+        animation-name: changecolor;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+
+    @keyframes changecolor {
+      from {
+        color: #fff;
+      }
+
+      to {
+        color: #EFEFEF;
+      }
+    }
+
+    @keyframes changebgcolor {
+      0% {
+        background: red;
+      }
+
+      25% {
+        background: #77A3D3;
+      }
+
+      50% {
+        background: #188ba4;
+      }
+
+      75% {
+        background: #348c34;
+      }
+
+      100% {
+        background: #15C1D7;
+      }
     }
 </style>
 
@@ -128,7 +203,9 @@ $active_menu = Yii::app()->controller->action->id;
 
                         <ul class="top-info">
                             <?php if (!$session){ ?>
-
+                                <?php if(!empty($survey_links)){ ?>
+                                    <li class="survey_link"><a href="<?php echo $survey_links->survey_link; ?>" target="_blank"><?php echo $survey_links->survey_name; ?></a></li>
+                                <?php } ?>
                                 <li class="top-mobile sign-in"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/sign-in'); ?>" style="font-size: 13px;font-weight: bold;color: #fff"><i class="fa fa-sign-in"></i> Sign in</a></li>
                                 <li class="top-mobile create-account"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/sign-in'); ?>" style="font-size: 14px;font-weight: bold;color: #fff"><i class="fa fa-male"> Create Account</i> </a></li>
                             <?php } ?>
@@ -161,11 +238,11 @@ $active_menu = Yii::app()->controller->action->id;
 
                             </div>
                         </div>
-                        <div class="col-md-7 col-sm-12 col-xs-12">
+                        <div class="col-md-9 col-sm-12 col-xs-12">
                             <nav class="main-nav">
                                 <ul>
                                     <li class="<?php if($active_menu == 'index') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="/index.php">Home</a></li>
-                                    <li><a href="/index.php#super-deals">Latest Packages</a></li>
+                                    <li class="<?php if($active_menu == 'ListAllPackages') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="/index.php#super-deals">Latest Packages</a></li>
                                     <li class="<?php if($active_menu == 'store') { echo "current-menu-ancestor"; } else { echo ""; } ?>">
                                         <a href="/index.php#isp_accessories">EStore</a>
                                         <!-- <ul class="sub-menu">
@@ -174,19 +251,20 @@ $active_menu = Yii::app()->controller->action->id;
                                         </ul> -->
                                     </li>
                                     <li class="<?php if($active_menu == 'Career') {  echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl('career');?>">ISP Career</a></li>
-                                    <li  class="<?php if($active_menu == 'help') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/help');?>">FAQs</a></li>
+                                    <li class="<?php if($active_menu == 'ListAllISP') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl('/isp/list');?>" target="_blank">ISP List</a></li>
                                     <li  class="<?php if($active_menu == 'contact') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/contact-us');?>">Contact Us</a></li>
+                                    <li><a href="javascript:void(0);" onclick="CheckLogin('<?php echo $requested_country->sortname ?>')" class="mini-cart-view">Post Your Ad</a></li>
                                 </ul>
                                 <a href="#" class="toggle-mobile-menu"><span>&nbsp;</span></a>
                             </nav>
                             <!-- End Main Navigation -->
                         </div>
-                        <div class="col-md-2 col-sm-12 col-xs-12 hidden-xs">
+                        <!-- <div class="col-md-2 col-sm-12 col-xs-12 hidden-xs">
                             <div class="mini-cart-button">
-                                <a href="javascript:void(0);" onclick="CheckLogin('<?php echo $requested_country->sortname ?>')" class="mini-cart-view">Post Your Ad</a>
+                                
                             </div>
-                            <!-- End Mini Cart -->
-                        </div>
+                            
+                        </div> -->
                     </div>
                 </div>
             </div>

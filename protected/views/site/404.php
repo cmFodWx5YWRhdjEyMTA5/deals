@@ -21,7 +21,7 @@ $this->breadcrumbs=array(
                <div class="found-section section">
                     <h1>404</h1>
                     <h2>Page Not Found</h2>
-                    <p>The page you are looking for is not available at bdads24.com</p>
+                    <p>The page you are looking for is not available at bdbroadbanddeals.com</p>
                     <a href="<?php echo Yii::app()->request->getBaseUrl(true) ?>" class="btn btn-primary">Go to Home</a>
                </div>
             </div>
@@ -29,13 +29,4 @@ $this->breadcrumbs=array(
     </div>
 </section>
 </div>
-<script type="text/javascript">
-   //  $(document).ready(function () {
-
-   // });
-   //  setTimeout(function () {
-   //     window.location.href= SITE_URL;
-   // },15000);
-</script>
-
 

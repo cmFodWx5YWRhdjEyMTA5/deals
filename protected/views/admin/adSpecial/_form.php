@@ -8,7 +8,11 @@ $list = CHtml::listData($registered_business_user, 'id', 'user_name');
 
 
 ?>
-
+<style type="text/css">
+	#AdSpecial_media_type input, #AdSpecial_media_type label {
+		display: inline !important;
+	}
+</style>
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -45,9 +49,9 @@ $list = CHtml::listData($registered_business_user, 'id', 'user_name');
 
 	<div class="row">
 		<?php
-		if(!$model->isNewRecord){
-			echo Generic::showImageFromS3("ad-dwit-a", $model->banner_image);
-		}
+		// if(!$model->isNewRecord){
+		// 	echo Generic::showImageFromS3("ad-dwit-a", $model->banner_image);
+		//}
 		?>
 		<?php echo $form->labelEx($model,'banner_image'); ?>
 		<?php echo $form->fileField($model,'banner_image'); ?>
@@ -73,10 +77,24 @@ $list = CHtml::listData($registered_business_user, 'id', 'user_name');
 
 	</div>
 
+	<?php echo "<label>Media Type</label>"; ?>
+	<?php echo $form->radioButtonList($model, 'media_type', array('1'=>'Image', '2'=>'Local Video', '3' => 'Youtube Video')); ?>
+
 	<div class="row">
 		<?php echo $form->labelEx($model,'banner_url'); ?>
 		<?php echo $form->textField($model,'banner_url',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'banner_url'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'video_link'); ?>
+		<?php echo $form->textField($model,'video_link',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'video_link'); ?>
+	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'youtube_link'); ?>
+		<?php echo $form->textField($model,'youtube_link',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'youtube_link'); ?>
 	</div>
 	
 	<div class="row buttons">

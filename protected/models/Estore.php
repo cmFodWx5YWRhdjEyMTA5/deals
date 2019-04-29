@@ -29,6 +29,11 @@
  * @property string $update_date
  * @property string $country_code
  * @property string $city
+ * @property string $web_address
+ * @property string $company_email
+ * @property string $sales_email
+ * @property string $sales_phone_number
+ * @property string $company_hotline_number
  */
 class Estore extends CActiveRecord
 {
@@ -51,10 +56,10 @@ class Estore extends CActiveRecord
 			array('user_id, url_alias, create_date', 'required'),
 			array('user_id, active', 'numerical', 'integerOnly'=>true),
 			array('slogan, logo, banner, product_details, product_images, categories, country_code, city', 'length', 'max'=>255),
-			array('about_us, comment, contact_us, keyword, meta_description, update_date, slogan, logo, banner, categories', 'safe'),
+			array('about_us, comment, contact_us, keyword, meta_description, update_date, slogan, logo, banner, categories, web_address, company_email, sales_email, sales_phone_number, company_hotline_number', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, isp_company_id, slogan, logo, banner, categories, about_us, contact_us, comment, product_details, product_images, keyword, meta_description, active, create_date, update_date, country_code, city', 'safe', 'on'=>'search'),
+			array('id, user_id, isp_company_id, slogan, logo, banner, categories, about_us, contact_us, comment, product_details, product_images, keyword, meta_description, active, create_date, update_date, country_code, city, web_address, company_email, sales_email, sales_phone_number, company_hotline_number', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -100,7 +105,13 @@ class Estore extends CActiveRecord
 			'create_date' => 'Create Date',
 			'update_date' => 'Update Date',
 			'country_code' => 'Country Code',
-			'city' => 'City'
+			'web_address' => 'Web Address',
+			'company_email' => 'Company Email',
+			'sales_email' => 'Sales Email',
+			'sales_phone_number' => 'Sales Phone Number',
+			'company_hotline_number' => 'Company Hotline Number',
+			'city' => 'City',
+
 		);
 	}
 
@@ -154,6 +165,11 @@ class Estore extends CActiveRecord
 		$criteria->compare('update_date',$this->update_date,true);
 		$criteria->compare('country_code',$this->country_code,true);
 		$criteria->compare('city',$this->city,true);
+		$criteria->compare('web_address',$this->web_address,true);
+		$criteria->compare('company_email',$this->company_email,true);
+		$criteria->compare('sales_email',$this->sales_email,true);
+		$criteria->compare('sales_phone_number',$this->sales_phone_number,true);
+		$criteria->compare('company_hotline_number',$this->company_hotline_number,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

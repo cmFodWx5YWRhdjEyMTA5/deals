@@ -195,7 +195,7 @@ echo $this->renderPartial($sidebar_type,array(
                                                         <label class="switch">
                                                             <input class="cboxes_featured switch-input" rel=""  id="cbox2" type="checkbox" name="ad_premium" />
                                                             <input type="hidden" id="is_featured" name="is_featured" value="">
-                                                            <span class="switch-label" data-on="On" data-off="Off"></span>
+                                                            <span class="switch-label" onmouseover="showFeaturedAdsImage()" data-on="On" data-off="Off"></span>
                                                             <span class="switch-handle"></span>
                                                             <div class="tinybox" style="">
                                                                 <img src="<?=$baseUrl?>/images/featured_store.png" alt="tinypic2" id="tinypic2" style="display:none;">
@@ -226,7 +226,7 @@ echo $this->renderPartial($sidebar_type,array(
                                                         <label class="switch">
                                                             <input class="cboxes_premium switch-input" rel="" type="checkbox" name="ad_premium" />
                                                             <input type="hidden" id="is_premium" name="is_premium" value="">
-                                                            <span class="switch-label" data-on="On" data-off="Off"></span>
+                                                            <span class="switch-label" onmouseover="showPremiumAdsImage()" data-on="On" data-off="Off"></span>
                                                             <span class="switch-handle"></span>
                                                             <div class="tinybox" style="">
                                                                 <img src="<?=$baseUrl?>/images/premium_store.png" alt="tinypic2" id="tinypic2" style="display:none;">
@@ -255,7 +255,7 @@ echo $this->renderPartial($sidebar_type,array(
                                                         <label class="switch">
                                                             <input class="cboxes_top switch-input" rel="" type="checkbox" name="ad_premium" />
                                                             <input type="hidden" id="is_top" name="is_top" value="">
-                                                            <span class="switch-label" data-on="On" data-off="Off"></span>
+                                                            <span class="switch-label" onmouseover="showTopAdsImage()"  data-on="On" data-off="Off"></span>
                                                             <span class="switch-handle"></span>
                                                             <div class="tinybox" style="">
                                                                 <img src="<?=$baseUrl?>/images/top_store.png" alt="tinypic2" id="tinypic2" style="display:none;">

@@ -32,7 +32,7 @@
                             <div class="footer-box6 footer-contact6">
                                 <h2 class="estore">Contact Us</h2>
                                 <ul class="footer-box-contact">
-                                    <li><i class="fa fa-home estore"></i> Our business address is <?=$user_details->address?></li>
+                                    <li><i class="fa fa-home estore"></i> <?=$user_details->address?></li>
                                     <li><i class="fa fa-mobile estore"></i><?=$user_details->phone_number?></li>
                                     <li><i class="fa fa-envelope estore"></i> <a href="mailto:<?=$user_details->email?>" class="estore"><?=$user_details->email?></a></li>
                                 </ul>

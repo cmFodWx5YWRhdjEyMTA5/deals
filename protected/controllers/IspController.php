@@ -82,9 +82,10 @@ class IspController extends Controller
 
 		$lat_lon = Generic::getLatitudeLongitude($user_location);
 
-		if($lat_lon) {
+
+		if(!empty($lat_lon)) {
 			if($lat_lon->status != "OK"){
-				$user_location = $user_details->district;
+				$user_location = $user_details->address;
 				$lat_lon = Generic::getLatitudeLongitude($user_location);
 				$latitude = $lat_lon->results[0]->geometry->location->lat;
 				$longitude = $lat_lon->results[0]->geometry->location->lng;
@@ -96,6 +97,7 @@ class IspController extends Controller
 			$latitude = '22.872074';
 			$longitude = '89.520455';
 		}
+		//Generic::_setTrace($latitude);
 
 		$opt = array(
 
@@ -106,7 +108,11 @@ class IspController extends Controller
 
 		$thanks_message = '';
 		if(isset($_POST['submit'])){
-			$to = $user_details->email;
+			$contact_to_email = $user_details->email;
+			if(!empty($store_details->company_email) && $store_details->company_email != ''){
+				$contact_to_email = $store_details->company_email;
+			}
+			$to = $contact_to_email;
 			$from = $_POST['email'];
 			$name = $_POST['name'];
 			$phone_number = $_POST['phone_number'];
@@ -153,8 +159,7 @@ class IspController extends Controller
 			'latitude'=>$latitude,
 			'longitude'=>$longitude,
 			'thanks_message' => $thanks_message,
-			'locale' => $locale,
-			'user_location' => urlencode($user_location)
+			'locale' => $locale
 		));
 	}
 	public function actionAbout($country_code = '',$company_name)
@@ -331,6 +336,12 @@ class IspController extends Controller
 		$twitter_link = Yii::app()->request->getParam('twitter_link','#');
 		$linkedin_link = Yii::app()->request->getParam('linkedin_link','#');
 		$google_plus_link = Yii::app()->request->getParam('google_plus_link','#');
+		
+		$web_address = Yii::app()->request->getParam('web_address','');
+		$company_email = Yii::app()->request->getParam('company_email','');
+		$sales_email = Yii::app()->request->getParam('sales_email','');
+		$sales_phone_number = Yii::app()->request->getParam('sales_phone_number','');
+		$company_hotline_number = Yii::app()->request->getParam('company_hotline_number','');
 		$creation_date = new \DateTime();
 
 		$store = Estore::model()->findByAttributes(array('user_id'=>$user_id));
@@ -345,6 +356,13 @@ class IspController extends Controller
 		$store->linkedin_link = $linkedin_link;
 		$store->google_plus_link = $google_plus_link;
 		$store->contact_us = $contact_us;
+
+		$store->web_address = $web_address;
+		$store->company_email = $company_email;
+		$store->sales_email = $sales_email;
+		$store->sales_phone_number = $sales_phone_number;
+		$store->company_hotline_number = $company_hotline_number;
+
 
 		#ME
 		$store->comment = $comments;
@@ -859,9 +877,13 @@ class IspController extends Controller
 			</div>
 		</aside>
 		 ';
-		
-		$email_to_visitor = Generic::sendMail($mail_content,"Request Connectivity From bdbroadbanddeals.com",$email,"bdbroadbanddeals.com <sales@bdbroadbanddeals.com>",false,false,false,$style);
-		$email_to_shop_owner = Generic::sendMail($mail_content,"Request Connectivity From bdbroadbanddeals.com",$order_details->buyer_email,$user_details->email,false,false,"sales@bdbroadbanddeals.com",$style);
+		$visitor_email= $order_details->buyer_email;
+		$owner_email= $user_details->email;
+		if(!empty($estore_details->sales_email) && $estore_details->sales_email != ''){
+			$owner_email= $estore_details->sales_email;
+		}
+		$email_to_visitor = Generic::sendMail($mail_content,"Request Connectivity From bdbroadbanddeals.com",$visitor_email,"bdbroadbanddeals.com <sales@bdbroadbanddeals.com>",false,false,false,$style);
+		$email_to_shop_owner = Generic::sendMail($mail_content,"Request Connectivity From bdbroadbanddeals.com",$owner_email,$visitor_email,false,false,"sales@bdbroadbanddeals.com",$style);
 			$response['business_url'] = 'isp/'.$estore_details->url_alias.'/';
 	            
         	} else {
@@ -1395,5 +1417,82 @@ class IspController extends Controller
 		}
 	}
 
+	public function actionCoverageArea($company_name){	
+		$store_details = Estore::model()->findByAttributes(array('url_alias'=>$company_name));
+		$user_details = Register::model()->findByPk($store_details->user_id);
+		$category_details = Category::model()->findByPk($user_details->business_category_id);
+
+		$isp_type = $user_details->isp_type;
+		$isp_type_category = '';
+		switch ($isp_type) {
+			case 1:
+				$isp_type_category = 'NationWide';
+				break;
+			case 2:
+				$isp_type_category = 'Central Zone';
+				break;
+			case 3:
+				$isp_type_category = 'South-East Zone';
+				break;
+			case 4:
+				$isp_type_category = 'North-East Zone';
+				break;
+			case 5:
+				$isp_type_category = 'South-West Zone';
+				break;
+			case 6:
+				$isp_type_category = 'North-West Zone';
+				break;
+			case 7:
+				$isp_type_category = 'Category-A';
+				break;
+			case 8:
+				$isp_type_category = 'Category-B';
+				break;
+			case 9:
+				$isp_type_category = 'Category-C';
+				break;
+			default:
+				$isp_type_category = '';
+				break;
+		}
+
+		$location_criteria = new CDbCriteria();
+		$location_criteria->condition = 'user_id = :user_id';
+		$location_criteria->params = [':user_id' => $store_details->user_id];
+		$registered_user_location = Registered_user_location::model()->findAll($location_criteria);
+		$coverage_area = [];
+		foreach ($registered_user_location as $location) {
+			$division_id = $location->division_id;
+			$district_id = $location->district_id;
+			$thana_id = $location->thana_id;
+			$divistion_details = Division::model()->findAllByAttributes(['division_id' => $division_id,'status' => 1]);
+			$district_details = District::model()->findAllByAttributes(['district_id' => $district_id,'status' => 1]);
+			$thana_details = Thana::model()->findAllByAttributes(['district_id' => $district_id,'thana_id' => $thana_id,'status' => 1]);
+
+			$coverage_area[] = [
+				'division' => $divistion_details[0]->division,
+				'district' => $district_details[0]->district,
+				'thana' => $thana_details[0]->thana
+			];
+		}
+
+		$opt = array(
+
+			'h' =>'65',
+			'g'=>'center',
+			'r' => '0'
+		);
+		$this->title = 'Coverage Area | '.$user_details->enterprise_name;
+		$this->render('coverage-area',array(
+			'store_details'=>$store_details,
+			'category_details'=>$category_details,
+			'user_id'=>$store_details->user_id,
+			'user_details'=>$user_details,
+			'locale' => $locale,
+			'isp_type_category' => $isp_type_category,
+			'coverage_area' => $coverage_area
+		));
+	}
 
 }

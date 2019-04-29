@@ -6,6 +6,9 @@
 			line-height: 71px;
 		}
 </style>
+<?php
+$active_menu = Yii::app()->controller->action->id;
+?>
 <div id="header">
 		<div class="header6">
 			<div class="container">
@@ -60,9 +63,9 @@
 					<div class="col-md-11 col-sm-12 col-xs-6">
 						<nav class="main-nav main-nav6">
 							<ul>
-								<li><a href="<?=$base_url.'/e-store/'.$store_details->url_alias?>">Home</a></li>
-                                <li><a href="<?=$base_url.'/e-store/'.$store_details->url_alias?>/all-products">All Products</a></li>
-                                <li><a href="<?=$base_url.'/e-store/'.$store_details->url_alias?>/contact-us">Contact-us</a></li>
+								<li class="<?php if($active_menu == 'index') { echo "current-menu-item"; } else { echo ""; } ?>"><a href="<?=$base_url.'/e-store/'.$store_details->url_alias?>">Home</a></li>
+                                <li class="<?php if($active_menu == 'AllProducts') { echo "current-menu-item"; } else { echo ""; } ?>"><a href="<?=$base_url.'/e-store/'.$store_details->url_alias?>/all-products">All Products</a></li>
+                                <li class="<?php if($active_menu == 'Contact') { echo "current-menu-item"; } else { echo ""; } ?>"><a href="<?=$base_url.'/e-store/'.$store_details->url_alias?>/contact-us">Contact-us</a></li>
 							<!--	<li><a href="<?/*=$current_url*/?>/contact-us">Contact Us</a></li>
 								<li><a href="<?/*=$current_url*/?>/about-us">About Us</a></li>-->
 							</ul>

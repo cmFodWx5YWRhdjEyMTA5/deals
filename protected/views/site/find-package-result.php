@@ -136,10 +136,11 @@ $phone_number = isset($profile_data['phone_number']) ? $profile_data['phone_numb
 
                     <!-- Start special week offer -->
                     <div class="widget widget-adv">
-                        <h2 class="title-widget-adv">
+                    <!-- <div class="widget widget-adv find-right-package-ad find-right-package-ad-static"> -->
+                        <!-- <h2 class="title-widget-adv">
                             <span>Week</span>
                             <strong>Special Offer</strong>
-                        </h2>
+                        </h2> -->
                         <div class="wrap-item">
                             <?php foreach ($package_result_left_banner as $slider_banner) { ?>
                             <div class="item">

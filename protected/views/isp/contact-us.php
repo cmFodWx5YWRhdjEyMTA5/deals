@@ -53,7 +53,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                     </script>
 				</div>
 				<!-- End Map -->
-				<div class="contact-info-page">
+				<!-- <div class="contact-info-page">
 					<div class="list-contact-info">
 						<div class="row">
 							<div class="col-md-4 col-sm-4 col-xs-12">
@@ -77,7 +77,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
 						</div>
 					</div>
 					<p class="desc"><?=$store_details->about_us?></p>
-				</div>
+				</div> -->
 				<div class="contact-form-page">
 					<h2>contact form</h2>
 					<div class="form-contact">

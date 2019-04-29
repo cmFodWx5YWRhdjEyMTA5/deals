@@ -2023,19 +2023,23 @@ class CategoryController extends Controller
                     'r' => '0'
                 );
 
-                if(!empty($ad['service_charge']) && $ad['service_charge'] != 0){
-                    $package_info_details = '<div class="product-code">
-                            <label>Service Charge/OTC: </label>&#2547; <span>'.$ad['service_charge'].'</span>
+                $package_info_details = '<div class="product-code">
+                            <label>Service Charge/OTC: </label><span>'.Generic::renderServiceCharge($ad['service_charge']).'</span>
+                        </div>';
+                
+                if(!empty($ad['migration_charge']) && $ad['migration_charge'] != 0){
+                    $package_info_details .= '<div class="product-code">
+                            <label>Migration Charge: </label>&#2547; <span>'.$ad['migration_charge'].'</span>
                         </div>';
                 } else {
-                    $package_info_details = '<div class="product-code">
-                            <label>Service Charge/OTC: </label> Free</div>';
+                    $package_info_details .= '<div class="product-code">
+                            <label>Migration Charge: </label> Free</div>';
                 }
                 $package_info_details .= '<div class="product-code">
                                             <label>Package Type: </label> <span>'.ucwords($ad['package_type']).'</span>
                                         </div>';
                 $package_info_details .= '<div class="product-code">
-                                            <label>Internet Speed: </label> <span>'.$ad['internet_speed'].' Mbps</span>
+                                            <label>Internet Speed: </label> <span>'.$ad['internet_speed'].'</span>
                                         </div>';
                 if($ad['public_ip']) {
                     $package_info_details .= '<div class="product-code">
@@ -2047,19 +2051,18 @@ class CategoryController extends Controller
                                         </div>';
                 }
                 
-                if($ad['package_type'] != 'combo bandwidth'){
-                    if($ad['youtube_speed'] != ''){
-                        $package_info_details .= '<div class="product-code">
-                                                <label>GGC/Youtube Speed: </label> <span>'.$ad['youtube_speed'].' Mbps</span>
-                                            </div>';
-                    }
-                    if($ad['bdix_speed'] != '') {
-                        $package_info_details .= '<div class="product-code">
-                                                <label>BDIX Speed: </label> <span>'.$ad['bdix_speed'].' Mbps</span>
-                                            </div>';
-                    }
-                    
-                }                        
+                
+                if($ad['youtube_speed'] != ''){
+                    $package_info_details .= '<div class="product-code">
+                                            <label>Youtube Speed: </label> <span>'.$ad['youtube_speed'].'</span>
+                                        </div>';
+                }
+                if($ad['bdix_speed'] != '') {
+                    $package_info_details .= '<div class="product-code">
+                                            <label>BDIX Speed: </label> <span>'.$ad['bdix_speed'].'</span>
+                                        </div>';
+                }
+                                         
                 
                 if($ad['ftp_link'] != ''){
                     $package_info_details .= '<div class="product-code">
@@ -2074,12 +2077,12 @@ class CategoryController extends Controller
                 }                      
                 if($ad['facebook_link'] != ''){
                 $package_info_details .= '<div class="product-code">
-                                            <label>Facebook Page: </label> <span>'.$ad['facebook_link'].'</span>
+                                            <label>Facebook Page: </label> <span><a href="http://'.$ad['facebook_link'].'" target="_blank">'.$ad['facebook_link'].'</a></span>
                                         </div>';
                 }
                 if($ad['website_link'] != '') {
                 $package_info_details .= '<div class="product-code">
-                                            <label>Website: </label> <span>'.$ad['website_link'].'</span>
+                                            <label>Website: </label> <span><a href="http://'.$ad['website_link'].'" target="_blank">'.$ad['website_link'].'</a></span>
                                         </div>';
                 }
 

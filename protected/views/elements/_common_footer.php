@@ -26,7 +26,9 @@ if($requested_country){
     $cities = States::model()->findAllByAttributes(array('country_id' => $country_details->id));
 }
 
+$survey_links = Generic::getSurveyLinks();
 
+//Generic::_setTrace($survey_links);
 ?>
 <!-- footer -->
 <div id="footer">
@@ -41,8 +43,11 @@ if($requested_country){
 
                         <li><a href="#">Online Shop</a></li>
                         <li><a href="#">Broadband Packages</a></li>
-                        <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/contact-us');?>">Contact</a></li>
+                        <li  class="<?php if($active_menu == 'help') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/help');?>">FAQs</a></li>
                         <li><a href="http://www.btrc.gov.bd/" target="_blank">BTRC Links</a></li>
+                        <?php if(!empty($survey_links)){ ?>
+                            <li><a href="<?php echo $survey_links->survey_link; ?>" target="_blank"><?php echo $survey_links->survey_name; ?></a></li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -64,12 +69,13 @@ if($requested_country){
                                             <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/my-profile/dashboard');?>"> My Profile</a></li>
                                             <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/my-profile/my-ads');?>"> My ads</a></li>
                                             <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/logout');?>"> Logout</a></li>
-
                                         </ul>
                                     </li>
                                 <?php } ?>
                             </ul>
                         </div>
+                        <p>&nbsp;</p>
+                        <span id="siteseal"><script async type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=NPmaTd2Shq3eOJTc8KPEYrnY6lSwsieq4c0gMrzU4mfVOUoMTocze5F0K6sT"></script></span>
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="footer-box">
@@ -77,9 +83,10 @@ if($requested_country){
                             <ul class="footer-menu-box">
                                 <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/recently-viewed-ad');?>">Recently Viewed</a></li>
                                 <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/help');?>">Help/Support</a></li>
-                                <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/advertise-with-us');?>">Advertise With Us</a></li>
+                                <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/contact-us');?>">Advertise With Us</a></li>
                             </ul>
                         </div>
+
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="footer-box">
@@ -87,6 +94,7 @@ if($requested_country){
                             <ul class="footer-menu-box">
                                 <li><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/contact-us');?>">Contact Us</a></li>
                                 <li><a href="<?php echo Yii::app()->createUrl('/terms-&-conditions');?>" target="_blank">Terms & Conditions</a></li>
+                                <li  class="<?php if($active_menu == 'help') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/help');?>">FAQs</a></li>
                             </ul>
                         </div>
                     </div>
@@ -95,7 +103,7 @@ if($requested_country){
                             <h2>Contact Us</h2>
                             <ul class="footer-box-contact">
                                 <li><i class="fa fa-home"></i> 944 Upper Jashore Road (1st Floor),Joragate Moor,Khulna-9000,Bangladesh.</li>
-                                <li><i class="fa fa-mobile"></i> 09639114455</li>
+                                <li><i class="fa fa-mobile"></i> 09610203060, 09639114455</li>
                                 <li><i class="fa fa-envelope"></i> <a href="mailto:support@bdbroadbanddeals.com">support@bdbroadbanddeals.com</a></li>
                             </ul>
                         </div>
@@ -103,19 +111,6 @@ if($requested_country){
                 </div>
             </div>
             <!-- End List Footer Box -->
-<!--            <div class="social-footer-box">
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="newsletter-footer">
-                            <label>newsletter</label>
-                            <form>
-                                <input type="text"  value="Enter Your Email..." onfocus="if (this.value==this.defaultValue) this.value = ''" onblur="if (this.value=='') this.value = this.defaultValue" />
-                                <input type="submit" value="" />
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
 
             <div class="footer-bottom">
                 <div class="row">
@@ -124,13 +119,6 @@ if($requested_country){
                             <p> All Rights Reserved &copy; <a href="http://bdbroadbanddeals.com">bdbroadbanddeals</a></p>
                         </div>
                     </div>
-<!--                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="payment-method">
-                            <a href="#"><img src="<?=$baseUrl?>/images/home1/p2.png" alt="" width="46" height="28" /></a>
-                            <a href="#"><img src="<?=$baseUrl?>/images/home1/p3.png" alt="" width="46" height="27"/></a>
-                            <a href="#"><img src="<?=$baseUrl?>/images/home1/p4.png" alt="" width="49" height="29"/></a>
-                        </div>
-                    </div>-->
                 </div>
             </div>
             <!-- End Footer Bottom -->
@@ -183,12 +171,26 @@ if($requested_country){
     });
 </script>
 <script>
+    
     $(window).scroll(function(){
       var sticky = $('.header'),
           scroll = $(window).scrollTop();
+        var find_package_left_banner = $('.find-right-package-ad');
 
       if (scroll >= 100) sticky.addClass('sticky');
       else sticky.removeClass('sticky');
+
+      /*var package_number = $(".product-list li").length;
+      scrll_height = 420 * (package_number - 1);
+      //alert(package_number);
+      if(scroll >= scrll_height){
+        find_package_left_banner.addClass('find-right-package-ad-fixed');
+        find_package_left_banner.removeClass('find-right-package-ad-static');
+      } else {
+        find_package_left_banner.addClass('find-right-package-ad-static');
+        find_package_left_banner.removeClass('find-right-package-ad-fixed');
+      }*/
+      
     });
 
     $('a.countrySelectPersonal').on('click', function () {
@@ -292,5 +294,8 @@ if($requested_country){
         });
     }
 </script>
+
+<script src='js/slick.min.js'></script>
+<script  src="js/slick_slider.js"></script>
 
 

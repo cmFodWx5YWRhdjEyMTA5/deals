@@ -19,6 +19,9 @@
  * @property string $longitude
  * @property string $country_code
  * @property string $city
+ * @property string $video_link
+ * @property string $youtube_link
+ * @property string $media_type
  */
 class AdSpecial extends CActiveRecord
 {
@@ -38,13 +41,13 @@ class AdSpecial extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('create_date', 'required'),
+			array('create_date, media_type', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('title, banner_image, banner_position, banner_url, page_alias_ad_special, latitude, longitude, country_code, city', 'length', 'max'=>255),
-			array('description, page_content, update_date', 'safe'),
+			array('description, page_content, update_date, video_link, youtube_link', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, title, description, banner_image, banner_position, banner_url, page_alias_ad_special, page_content, create_date, update_date, latitude, longitude, country_code, city', 'safe', 'on'=>'search'),
+			array('id, user_id, title, description, banner_image, banner_position, banner_url, page_alias_ad_special, page_content, create_date, update_date, latitude, longitude, country_code, city, video_link, youtube_link, media_type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -79,7 +82,10 @@ class AdSpecial extends CActiveRecord
 			'latitude' => 'Latitude',
 			'longitude' => 'Longitude',
 			'country_code' => 'Country Code',
-			'city' => 'City'
+			'city' => 'City',
+			'video_link' => 'Video Link',
+			'youtube_link' => 'Youtube Link',
+			'media_type' => 'Media Type',
 		);
 	}
 
@@ -116,6 +122,9 @@ class AdSpecial extends CActiveRecord
 		$criteria->compare('longitude',$this->longitude,true);
 		$criteria->compare('country_code',$this->country_code,true);
 		$criteria->compare('city',$this->city,true);
+		$criteria->compare('video_link',$this->video_link,true);
+		$criteria->compare('youtube_link',$this->youtube_link,true);
+		$criteria->compare('media_type',$this->media_type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -75,6 +75,7 @@ class RegisterController extends Controller
 			$division = array_map(function($item){
 				return $item->division;
 			}, $division);
+
 			$district = array_map(function($item){
 				return $item->district;
 			}, $district);

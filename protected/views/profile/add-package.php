@@ -112,9 +112,9 @@ echo $this->renderPartial($sidebar_type,array(
                                         <div class="row form-group add-image">
                                             <label class="col-sm-3 label-title">Photos for your <?php if($category_id == 225) { echo "package"; } else { echo "ad"; } ?> <span>(This will be your cover photo )</span> </label>
                                             <div class="col-sm-9">
-                                                <h5><i class="fa fa-upload" aria-hidden="true"></i>Select Files to Upload.<span>You can add multiple images (Maximum Five).<p>(Preferred size: 900x900 px)</p></span></h5>
+                                                <h5><i class="fa fa-upload" aria-hidden="true"></i>Select File to Upload.<span>You can add only one image file. Accepted File format will be jpg, jpeg,gif, png <p>(Preferred size: 900x900 px)</p></span></h5>
                                                 <div class="upload-section">
-                                                    <input type="file" name="files[]" id="filer_input2" multiple="multiple">
+                                                    <input type="file" name="files[]" id="filer_input24" multiple="multiple">
                                                     <input type="hidden" name="image_file" value="" id="image_file" >
                                                     <!--<input type="file" id="upload-image-one" name="ads_image[]" multiple>-->
                                                 </div>
@@ -158,6 +158,13 @@ echo $this->renderPartial($sidebar_type,array(
                                             <div class="col-sm-9">
                                                 <span>BDT</span>
                                                 <input type="text" id="service_charge" name="service_charge" class="form-control">
+                                            </div>    
+                                        </div>
+                                        <div class="row form-group select-price"  title="">
+                                            <label class="col-sm-3 label-title">Migration Charge</label>
+                                            <div class="col-sm-9">
+                                                <span>BDT</span>
+                                                <input type="text" id="migration_charge" name="migration_charge" class="form-control">
                                             </div>    
                                         </div>
                                         <div class="row form-group show-price">
@@ -204,7 +211,7 @@ echo $this->renderPartial($sidebar_type,array(
                                         <div class="row form-group" style="display:none;" id="youtube_speed_block">
                                             <label class="col-sm-3 label-title">Youtube Speed</label>
                                              <div class="col-sm-9">
-                                                 <input type="text" name="youtube_speed_kbps" id="youtube_speed_kbps" placeholder="ex. 2 Mbps"></input>
+                                                 <input type="text" name="youtube_speed_kbps" id="youtube_speed_kbps" placeholder="ex. 2 Mbps/ Buffer Free/ 4K Video"></input>
                                              </div>
                                         </div>
                                         
@@ -220,7 +227,7 @@ echo $this->renderPartial($sidebar_type,array(
                                         <div class="row form-group" style="display:none" id="bdix_speed_block">
                                             <label class="col-sm-3 label-title">BDIX Speed<span class="required">*</span></label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="bdix_speed_kbps" id="bdix_speed_kbps" placeholder="ex. 2 Mbps"></input>
+                                                <input type="text" name="bdix_speed_kbps" id="bdix_speed_kbps" placeholder="ex. 2 Mbps/ Unlimited"></input>
                                             </div>
                                         </div>
                                         

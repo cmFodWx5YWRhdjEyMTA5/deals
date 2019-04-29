@@ -15,9 +15,9 @@ class ImageHelper
 {
     function __construct() {
         \Cloudinary::config(array(
-            "cloud_name" => "dtiozlg5h",
-            "api_key" => "459393383463192",
-            "api_secret" => "y1grj3lryxPLQB8YTWfAAtAK8RA"
+            "cloud_name" => "deqgwodqq",
+            "api_key" => "753254145994357",
+            "api_secret" => "MJtgboMzOz8aPDq9y7h4YwCvlIM"
         ));
     }
     public function getScaledImageFromCloudinary($image_path,$config_array = array()){
@@ -39,9 +39,9 @@ class ImageHelper
 
         }
         if($url != '') {
-            $transform_url = "http://res.cloudinary.com/dtiozlg5h/image/fetch/" . $transform . $url;
+            $transform_url = "https://res.cloudinary.com/deqgwodqq/image/fetch/" . $transform . $url;
         } else {
-            $transform_url = "http://res.cloudinary.com/dtiozlg5h/image/fetch/" . $transform . 'http://ad-dwit-a.s3.amazonaws.com/1491289149.jpg';
+            $transform_url = "https://res.cloudinary.com/deqgwodqq/image/fetch/" . $transform . 'http://ad-dwit-a.s3.amazonaws.com/1491289149.jpg';
         }
         return $transform_url;
     }
