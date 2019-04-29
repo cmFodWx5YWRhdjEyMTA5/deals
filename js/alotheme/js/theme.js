@@ -925,6 +925,9 @@ jQuery(document).ready(function(){
 			});
 		});
 	}	
+
+
+
 	//The New Slider
 	if($('.thenew-slider').length>0){
 		$('.thenew-slider').each(function(){

@@ -2,7 +2,7 @@ function baseUrl(){var href=window.location.href.split('/');return href[0]+'//'+
 var SITE_URL=baseUrl();$('document').ready(function()
 {
     $('#register-form-personal').on('submit',function(e){
-        $("#register_button").html('<img src="'+SITE_URL+'images/ajax-loader.gif" /> &nbsp; Processing...');
+        //$("#register_button").html('<img src="'+SITE_URL+'images/ajax-loader.gif" /> &nbsp; Processing...');
         $(this).prop("disabled",true);
         personalRegisterFormSubmit();
     });
@@ -19,6 +19,7 @@ var SITE_URL=baseUrl();$('document').ready(function()
         var address = '';
         var enterprise_name = '';
         var register_type  = $('input[name="rgroup"]:checked').val();
+        var license_number = '';
         if(register_type == 'individual'){
             phone_number=$("#phone_number_personal").val();
             address=$('input[name="address_personal"]').val();
@@ -26,17 +27,12 @@ var SITE_URL=baseUrl();$('document').ready(function()
         } else if(register_type == 'business'){
             phone_number=$("#phone_number_business").val();
             address=$('input[name="address_business"]').val();
+            license_number=$('input[name="license_number"]').val();
             enterprise_name = $('input[name="enterprise_name_business"]').val();
             enterprise_category = $('select[name="business_category_id"]').val();
-            if(enterprise_category == 'Choose Your Business Category'){
-                $(".register_status").html('<div class="info">Please select category to proceed !</div>');
-                return;
-            }
         } else if(register_type == 'store'){
             phone_number=$("#phone_number_estore").val();
-            
             address=$('input[name="address_estore"]').val();
-            
         }
 
         var password=$("#register_user_password").val();
@@ -44,6 +40,11 @@ var SITE_URL=baseUrl();$('document').ready(function()
         var return_url=$("#return_url").val();
         if(username=="")
         {$(".register_status").html('<div class="info">Please enter your  Username to proceed !</div>');}
+        else if(register_type == 'business' && license_number ==""){
+            $(".register_status").html('<div class="info">Please enter your License Number to proceed !</div>');
+        } else if(register_type == 'business' && enterprise_category == '0'){
+            $(".register_status").html('<div class="info">Please select your ISP category to proceed !</div>');
+        }
         else if(email=="")
         {$(".register_status").html('<div class="info">Please enter your Email address to proceed !</div>');}
         else if(reg.test(email)==false)
@@ -54,7 +55,6 @@ var SITE_URL=baseUrl();$('document').ready(function()
         {$(".register_status").html('<div class="info">Please enter your Address to go !</div>');}
         else if(password=="")
         {$(".register_status").html('<div class="info">Please enter your Password to go !</div>');}
-
         else{
             $.ajax({
                 type:'POST',
