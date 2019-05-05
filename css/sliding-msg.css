@@ -1,0 +1,85 @@
+#slider-feedback{
+	width:464px;
+	top:38%;
+	position:fixed;
+}
+#msg-body{
+	width:306px;
+	position:absolute;
+	right:0px;
+	border:1px solid #d8d8d8;
+	border-radius:3px;
+	box-shadow: 0 0 8px gray;
+}
+#sidebar{
+	position:absolute;
+	margin-top:283px;
+	right: -32px;
+	box-shadow: 0 0 8px gray;
+	cursor: pointer;
+	opacity: 0.5;
+}
+#sidebar:hover{
+	opacity: 1;
+}
+#sidebar1{
+	position:absolute;
+	margin-top:61%;
+	right:-32px;
+	box-shadow: 0 0 8px gray;
+	cursor: pointer;
+}
+
+@media only screen and (max-height: 450px) {
+	#slider-feedback{
+		top:0%;
+	}
+}
+
+@media only screen and (min-height: 451px) and (max-height: 475px) {
+	#slider-feedback{
+		top:6%;
+	}
+}
+
+@media only screen and (min-height: 476px) and (max-height: 501px) {
+	#slider-feedback{
+		top:8%;
+	}
+}
+
+@media only screen and (min-height: 502px) and (max-height: 552px) {
+	#slider-feedback{
+		top:13%;
+	}
+}
+
+@media only screen and (min-height: 553px) and (max-height: 603px) {
+	#slider-feedback{
+		top:18%;
+	}
+}
+
+@media only screen and (min-height: 604px) and (max-height: 654px) {
+	#slider{
+		top:23%;
+	}
+}
+
+@media only screen and (min-height: 655px) and (max-height: 705px) {
+	#slider-feedback{
+		top:28%;
+	}
+}
+
+@media only screen and (min-height: 706px) and (max-height: 756px) {
+	#slider-feedback{
+		top:32%;
+	}
+}
+
+@media only screen and (min-height: 757px) and (max-height: 807px) {
+	#slider-feedback{
+		top:35%;
+	}
+}

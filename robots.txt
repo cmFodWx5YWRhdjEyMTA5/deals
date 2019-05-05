@@ -1,0 +1,9 @@
+User-Agent: *
+Disallow: 
+Disallow: /css
+Disallow: /fonts
+Disallow: /framework
+Disallow: /js
+Disallow: /images
+Disallow: /protected
+Disallow: /themes
