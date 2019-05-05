@@ -96,6 +96,11 @@ $list = CHtml::listData($registered_business_user, 'id', 'user_name');
 		<?php echo $form->textField($model,'youtube_link',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'youtube_link'); ?>
 	</div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'banner_order'); ?>
+        <?php echo $form->textField($model,'banner_order',array('size'=>60)); ?>
+        <?php echo $form->error($model,'banner_order'); ?>
+    </div>
 	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

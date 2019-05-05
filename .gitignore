@@ -3,3 +3,4 @@ service
 themes
 uploads
 protected/config/DbConfig.php
+protected/runtime/*

@@ -22,6 +22,7 @@
  * @property string $video_link
  * @property string $youtube_link
  * @property string $media_type
+ * @property string $banner_order
  */
 class AdSpecial extends CActiveRecord
 {
@@ -44,10 +45,10 @@ class AdSpecial extends CActiveRecord
 			array('create_date, media_type', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('title, banner_image, banner_position, banner_url, page_alias_ad_special, latitude, longitude, country_code, city', 'length', 'max'=>255),
-			array('description, page_content, update_date, video_link, youtube_link', 'safe'),
+			array('description, page_content, update_date, video_link, youtube_link, banner_order', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, title, description, banner_image, banner_position, banner_url, page_alias_ad_special, page_content, create_date, update_date, latitude, longitude, country_code, city, video_link, youtube_link, media_type', 'safe', 'on'=>'search'),
+			array('id, user_id, title, description, banner_image, banner_position, banner_url, page_alias_ad_special, page_content, create_date, update_date, latitude, longitude, country_code, city, video_link, youtube_link, media_type, banner_order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -86,6 +87,7 @@ class AdSpecial extends CActiveRecord
 			'video_link' => 'Video Link',
 			'youtube_link' => 'Youtube Link',
 			'media_type' => 'Media Type',
+			'banner_order' => 'Banner Order',
 		);
 	}
 
@@ -125,6 +127,7 @@ class AdSpecial extends CActiveRecord
 		$criteria->compare('video_link',$this->video_link,true);
 		$criteria->compare('youtube_link',$this->youtube_link,true);
 		$criteria->compare('media_type',$this->media_type,true);
+		$criteria->compare('banner_order',$this->banner_order);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

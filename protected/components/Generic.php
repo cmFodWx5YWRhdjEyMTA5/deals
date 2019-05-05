@@ -1680,33 +1680,14 @@ class Generic
     public static function getHomePageRightSideAds($banner_position, $limit=0, $offset=0,$country_code,$tbl='tbl_ad_special')
     {
         $connection = Yii::app()->db;
-        //$user_ip = SiteConfig::GetUserIP();
-        $user_ip = "180.234.143.72";
-        //$geoinfo = Generic::getGeoInfo($user_ip);
-        //$latitude = $geoinfo['geoplugin_latitude'];
-        //$longitude = $geoinfo['geoplugin_longitude'];
-
 
         $country_details =  Generic::checkForStoredCountry();
 
         $command = $connection->createCommand()
             ->select('*')
-//            ->from('( SELECT *, (((acos(sin(('.$latitude.'*pi()/180)) *
-//                sin((`latitude`*pi()/180))+cos(('.$latitude.'*pi()/180)) *
-//                cos((`latitude`*pi()/180)) * cos((('.$longitude.'-
-//                `longitude`)*pi()/180))))*180/pi())*60*1.1515*1.609344)
-//                as distance
-//                FROM tbl_ad_special) temp_table')
             ->from($tbl)
-            ->Where('banner_position = :banner_position', array(':banner_position' => $banner_position));
-
-        if(!$country_code) {
-            if ($country_details) {
-                $command->andWhere('country_code = :country_code', array(':country_code' => $country_details->sortname));
-            }
-        } else {
-            $command->andWhere('country_code = :country_code', array(':country_code' => strtoupper($country_code)));
-        }
+            ->Where('banner_position = :banner_position', array(':banner_position' => $banner_position))
+            ->order('banner_order asc');
 
         if ($limit) {
             $command->limit($limit);
@@ -1715,8 +1696,6 @@ class Generic
             $command->offset($offset);
         }
 
-
-        //$command->order('distance asc');
 
         $data_result = $command->queryAll();
         return $data_result;

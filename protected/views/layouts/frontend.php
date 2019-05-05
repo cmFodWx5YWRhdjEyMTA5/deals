@@ -22,6 +22,7 @@ $action = Yii::app()->controller->action->id;
     <meta name="description" content="<?=$this->description?>" />
     <meta property="og:image" content="https://www.bdbroadbanddeals.com/images/fb_logo.jpg">
 
+
     <title><?=$this->title?></title>
 
 <?php
