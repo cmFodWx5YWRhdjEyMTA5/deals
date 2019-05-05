@@ -4199,6 +4199,29 @@ class SiteController extends Controller {
         $this->redirect(Yii::app()->getBaseUrl(true) . '/admin/register/admin');
     }
 
+    public function actionCustomizedCompanyDelete(){
+
+        $company_id = Yii::app()->request->getParam('id');
+        $store_details = Estore::model()->findByPk($company_id);
+        $registered_user_id = $store_details->user_id;
+        //Generic::_setTrace($registered_user_id);
+        if($store_details){
+            $ad_criteria = new CDbCriteria();
+            $ad_criteria->condition = 'user_id = :user_id';
+            $ad_criteria->params = array(':user_id' => $registered_user_id);
+            Ads::model()->deleteAll($ad_criteria);
+
+            $store_details->delete();
+        }
+        if(empty($store_details->isp_company_id)){
+            $this->redirect(Yii::app()->getBaseUrl(true) . '/admin/business_estore/admin/store/1');
+        } else {
+            $this->redirect(Yii::app()->getBaseUrl(true) . '/admin/business_estore/admin/store/0');
+        }
+
+
+    }
+
     public function actionchangeBlacklistStatus(){
         $blacklist_id = Yii::app()->request->getParam('id','');
         if($blacklist_id){

@@ -32,9 +32,16 @@
                             <div class="footer-box6 footer-contact6">
                                 <h2 class="estore">Contact Us</h2>
                                 <ul class="footer-box-contact">
-                                    <li><i class="fa fa-home estore"></i> <?=$user_details->address?></li>
-                                    <li><i class="fa fa-mobile estore"></i><?=$user_details->phone_number?></li>
-                                    <li><i class="fa fa-envelope estore"></i> <a href="mailto:<?=$user_details->email?>" class="estore"><?=$user_details->email?></a></li>
+                                    <li><i class="fa fa-home isp"></i> <?=$user_details->address?></li>
+                                    <?php if(!empty($store_details->company_hotline_number)){ ?>
+                                        <li><i class="fa fa-mobile isp"></i><?="Hotline Phone Number: ".$store_details->company_hotline_number?></li>
+                                    <?php } ?>
+                                    <?php if(!empty($store_details->sales_phone_number) && ($store_details->company_hotline_number != $store_details->sales_phone_number)){ ?>
+                                        <li><i class="fa fa-mobile isp"></i><?="Sales Phone Number: ".$store_details->sales_phone_number?></li>
+                                    <?php } ?>
+                                    <?php if(!empty($store_details->company_email)){ ?>
+                                        <li><i class="fa fa-envelope isp"></i> <a href="mailto:<?=$store_details->company_email?>" class="isp"><?=$store_details->company_email?></a></li>
+                                    <?php } ?>
                                 </ul>
                             </div>
                         </div>
@@ -42,11 +49,21 @@
                             <div class="footer-box6">
                                 <div class="social-footer social-network">
                                     <ul>
-                                        <li><a target="_blank" href="<?=$facebook_link?>"><img alt="facebook" src="<?=$base_url?>/images/home1/s1.png"></a></li>
-                                        <li><a target="_blank" href="<?=$twitter_link?>"><img alt="twitter" src="<?=$base_url?>/images/home1/s2.png"></a></li>
-                                        <li><a target="_blank" href="<?=$linkedin_link?>"><img alt="LinkedIn" src="<?=$base_url?>/images/home1/s3.png"></a></li>
-                                        <li><a target="_blank" href="<?=$google_plus_link?>"><img alt="Google Plus" src="<?=$base_url?>/images/home1/s4.png"></a></li>
-
+                                        <?php if(!empty($store_details->facebook_link)) { ?>
+                                            <li><a target="_blank" href="<?=Generic::getURLwithScheme($store_details->facebook_link)?>"><img alt="facebook" src="<?=$base_url?>/images/home1/s1.png"></a></li>
+                                        <?php } ?>
+                                        <?php if(!empty($store_details->twitter_link)) { ?>
+                                            <li><a target="_blank" href="<?=Generic::getURLwithScheme($store_details->twitter_link)?>"><img alt="twitter" src="<?=$base_url?>/images/home1/s2.png"></a></li>
+                                        <?php } ?>
+                                        <?php if(!empty($store_details->linkedin_link)) { ?>
+                                            <li><a target="_blank" href="<?=Generic::getURLwithScheme($store_details->linkedin_link)?>"><img alt="LinkedIn" src="<?=$base_url?>/images/home1/s3.png"></a></li>
+                                        <?php } ?>
+                                        <?php if(!empty($store_details->google_plus_link)) { ?>
+                                            <li><a target="_blank" href="<?=Generic::getURLwithScheme($store_details->google_plus_link)?>"><img alt="Google Plus" src="<?=$base_url?>/images/home1/s4.png"></a></li>
+                                        <?php } ?>
+                                        <?php if(!empty($store_details->web_address)) { ?>
+                                            <li><a target="_blank" href="<?=Generic::getURLwithScheme($store_details->web_address)?>"><img alt="Google Plus" src="<?=$base_url?>/images/home1/s7.png"></a></li>
+                                        <?php } ?>
                                     </ul>
                                 </div>
                             </div>

@@ -185,6 +185,26 @@ echo $this->renderPartial($sidebar_type,array(
                                             <label>Google Plus Link</label>
                                             <input type="text" id="google_plus_link" name="google_plus_link" value="<?=$google_plus_link?>"  class="form-control" >
                                         </div>
+                                        <div class="form-group">
+                                            <label>Web Address</label>
+                                            <input type="text" id="web_address" name="web_address" value="<?=$web_address?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Company Email</label>
+                                            <input type="text" id="company_email" name="company_email" value="<?=$company_email?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sales Email</label>
+                                            <input type="text" id="sales_email" name="sales_email" value="<?=$sales_email?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sales Phone Number</label>
+                                            <input type="text" id="sales_phone_number" name="sales_phone_number" value="<?=$sales_phone_number?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Company Phone Number</label>
+                                            <input type="text" id="company_hotline_number" name="company_hotline_number" value="<?=$company_hotline_number?>"  class="form-control" >
+                                        </div>
                                         <div align="left" id="update_name_status"></div>
                                         <button type="submit" id="estore_update_submit"  class="btn btn-small btn-green">Update</button>
 

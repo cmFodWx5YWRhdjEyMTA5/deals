@@ -109,6 +109,22 @@ echo $this->renderPartial($sidebar_type,array(
                                             <input type="text" id="slogan" name="slogan" class="form-control" value="<?=$store_details->slogan?>" data-container="body" data-toggle="popover" data-trigger="focus" data-content="Type your company slogan here. Example: Your ads our services">
                                         </div>
 
+                                        <div class="form-group">
+                                            <label>Company Logo (Preferred size: 220x55 px)</label>
+                                            <input type="file" name="files" id="filer_input9">
+                                            <input type="hidden" name="logo_image" value="<?php echo $company_logo ?>" id="logo_image" >
+                                            <input type="hidden" name="delete_image_file1" id="delete_image_file1" />
+                                            <ul class="image_block">
+                                                <?php
+                                                ?>
+                                                <li>
+                                                    <img src="<?php echo $company_logo; ?>" />
+                                                    <span class="icon-jfi-trash logo_icon" data-icon="<?php echo $company_logo ?>">
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                            <div style="clear: both;"></div>
+                                        </div>
                                         
                                         
                                         <div class="form-group">
@@ -184,6 +200,26 @@ echo $this->renderPartial($sidebar_type,array(
                                         <div class="form-group">
                                             <label>Google Plus Link</label>
                                             <input type="text" id="google_plus_link" name="google_plus_link" value="<?=$google_plus_link?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Web Address</label>
+                                            <input type="text" id="web_address" name="web_address" value="<?=$store_details->web_address?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Company Email</label>
+                                            <input type="text" id="company_email" name="company_email" value="<?=$store_details->company_email?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sales Email</label>
+                                            <input type="text" id="sales_email" name="sales_email" value="<?=$store_details->sales_email?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sales Phone Number</label>
+                                            <input type="text" id="sales_phone_number" name="sales_phone_number" value="<?=$store_details->sales_phone_number?>"  class="form-control" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Company Phone Number</label>
+                                            <input type="text" id="company_hotline_number" name="company_hotline_number" value="<?=$store_details->company_hotline_number?>"  class="form-control" >
                                         </div>
                                         <div align="left" id="update_name_status"></div>
                                         <button type="submit" id="estore_update_submit"  class="btn btn-small btn-green">Update</button>

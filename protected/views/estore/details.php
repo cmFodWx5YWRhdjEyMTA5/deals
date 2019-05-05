@@ -114,7 +114,7 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                                     <div class="col-md-5 col-sm-12 col-xs-12">
                                         <div class="detail-gallery">
                                             <div class="mid">
-                                                <img width="350" height="320" src="<?= $images[0]?>" alt=""/>
+                                                <img width="400" height="450" src="<?= $images[0]?>" alt=""/>
                                                 <p><i class="fa fa-search"></i> Mouse over to zoom in</p>
                                             </div>
                                             <div class="carousel">

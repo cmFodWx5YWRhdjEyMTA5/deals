@@ -88,5 +88,17 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		array(
 			'class'=>'CButtonColumn',
 		),
+        array(
+            'header'=>'Force Delete',
+            'class'=>'CButtonColumn',
+            'template'=>'{forcedelete}',
+            'buttons'=>array(
+                'forcedelete'=>array(
+                    'label'=>'Delete this Company',
+                    'url'=>'Yii::app()->createUrl("site/CustomizedCompanyDelete?id=$data->id")',
+                    'options'=>array('confirm'=>'Are you sure want to Force Delete this company?'),
+                )
+            ),
+        ),
 	),
 )); ?>

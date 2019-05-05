@@ -277,7 +277,7 @@ class EstoreController extends Controller
 		$company_name = Yii::app()->request->getParam('company_name','');
 		$url_alias = Yii::app()->request->getParam('company_url_alias','');
 		$company_slogan = Yii::app()->request->getParam('slogan','');
-		$company_logo = $user_details->image;
+		$company_logo = Yii::app()->request->getParam('logo_image');
 		if(!strpos($company_logo, 'uploads') !== false){
                 $company_logo = Yii::app()->getBaseUrl(true).'/uploads/'.$company_logo;
         }
@@ -328,6 +328,11 @@ class EstoreController extends Controller
 		$twitter_link = Yii::app()->request->getParam('twitter_link','#');
 		$linkedin_link = Yii::app()->request->getParam('linkedin_link','#');
 		$google_plus_link = Yii::app()->request->getParam('google_plus_link','#');
+        $web_address = Yii::app()->request->getParam('web_address','');
+        $company_email = Yii::app()->request->getParam('company_email','');
+        $sales_email = Yii::app()->request->getParam('sales_email','');
+        $sales_phone_number = Yii::app()->request->getParam('sales_phone_number','');
+        $company_hotline_number = Yii::app()->request->getParam('company_hotline_number','');
 		$creation_date = new \DateTime();
 
 		$store = Estore::model()->findByAttributes(array('user_id'=>$user_id));
@@ -342,6 +347,12 @@ class EstoreController extends Controller
 		$store->linkedin_link = $linkedin_link;
 		$store->google_plus_link = $google_plus_link;
 		$store->contact_us = $contact_us;
+
+        $store->web_address = $web_address;
+        $store->company_email = $company_email;
+        $store->sales_email = $sales_email;
+        $store->sales_phone_number = $sales_phone_number;
+        $store->company_hotline_number = $company_hotline_number;
 
 		#ME
 		$store->comment = $comments;
