@@ -56,7 +56,8 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
 					<!-- Super Deal section from EStore Products -->
 					<div class="super-deal">
 						
-						<h3 style="text-align: center">Survey Winners</h3>
+						<h3 style="text-align: center">Winners</h3>
+                        <?php if(!empty($survey_winners)) { ?>
                         <div>
                             <?php $form=$this->beginWidget('CActiveForm', array(
                                 'id'=>'winners-form',
@@ -66,6 +67,7 @@ $opt_electronics_second = array( "width" => 193, "height" => 230, "crop" => "pad
                             echo $form->dropDownList($survey_winner_model,'competition_name', $competition_list,array('options' => array($selected_option=>array('selected'=>true))));?>
                             <?php $this->endWidget(); ?>
                         </div>
+                        <?php } ?>
                         <br>
 						<div class="super-deal-content">
 						<div class="row">

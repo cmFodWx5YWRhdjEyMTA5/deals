@@ -10,10 +10,11 @@
                     </div>
                     <div class="menu-footer">
                         <ul>
-                            <li><a href="#">Online Shop</a></li>
-                            <li><a href="#">Broadband Packages</a></li>
+                            <li><a href="<?php echo 'https://www.bdbroadbanddeals.com/#isp_accessories'; ?>">Online Shop</a></li>
+                            <li><a href="<?php echo 'https://www.bdbroadbanddeals.com/isp/packages'; ?>">Broadband Packages</a></li>
                             <li  class="<?php if($active_menu == 'help') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="https://www.bdbroadbanddeals.com/help">FAQs</a></li>
                             <li><a href="http://www.btrc.gov.bd/" target="_blank">BTRC Links</a></li>
+                            <li><a href="<?php echo 'https://www.bdbroadbanddeals.com/winner-result'; ?>">Winner Result</a></li>
                         </ul>
                     </div>
                 </div>

@@ -41,13 +41,11 @@ $survey_links = Generic::getSurveyLinks();
                 <div class="menu-footer">
                     <ul>
 
-                        <li><a href="#">Online Shop</a></li>
-                        <li><a href="#">Broadband Packages</a></li>
+                        <li><a href="<?php echo Yii::app()->createUrl('/#isp_accessories'); ?>">Online Shop</a></li>
+                        <li><a href="<?php echo Yii::app()->createUrl('/isp/packages'); ?>">Broadband Packages</a></li>
                         <li  class="<?php if($active_menu == 'help') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/help');?>">FAQs</a></li>
                         <li><a href="http://www.btrc.gov.bd/" target="_blank">BTRC Links</a></li>
-                        <?php if(!empty($survey_links)){ ?>
-                            <li><a href="<?php echo Yii::app()->createUrl('/winner-result'); ?>">Winner Result</a></li>
-                        <?php } ?>
+                        <li><a href="<?php echo Yii::app()->createUrl('/winner-result'); ?>">Winner Result</a></li>
                     </ul>
                 </div>
             </div>
