@@ -53,6 +53,7 @@ class UrlRules {
                     'estore-creation-from-support' => 'site/CreateEStoreFromSupport',
                     'promotion-banner-creation-from-support' => 'site/CreateBannerFromSupport',
                     'career' => 'site/Career',
+                    'winner-result' => 'site/GetSurveyWinners',
                     'job-details' => 'site/jobDetails',
                     'registration-confirm' => 'site/otpConfirmation',
                     'special-offer' => 'site/specialOffer',

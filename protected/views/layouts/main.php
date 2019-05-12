@@ -60,7 +60,14 @@
 				array('label'=>'Order Management', 'url'=>array('admin/EstoreOrder/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'ISP Customer Blacklist', 'url'=>array('admin/Blacklist/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Notify User', 'url'=>array('admin/register/sendNotification'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Survey', 'url'=>array('admin/SurveyList/admin'), 'visible'=>!Yii::app()->user->isGuest),
+				array(
+				        'label'=>'Survey',
+                    'url'=>array('admin/SurveyList/admin'),
+                    'visible'=>!Yii::app()->user->isGuest,
+                    'items' => array(
+                        array('label'=>'Survey Winners', 'url'=>array('admin/surveyWinners/admin'), 'visible'=>!Yii::app()->user->isGuest),
+                    )
+                ),
 				array('label'=>'Logout', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
 		)); ?>

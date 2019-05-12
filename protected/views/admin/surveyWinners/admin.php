@@ -1,15 +1,15 @@
 <?php
-/* @var $this EstoreOrderController */
-/* @var $model EstoreOrder */
+/* @var $this SurveyWinnersController */
+/* @var $model SurveyWinners */
 
 $this->breadcrumbs=array(
-	'Estore Orders'=>array('index'),
+	'Survey Winners'=>array('index'),
 	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'List EstoreOrder', 'url'=>array('index')),
-	array('label'=>'Create EstoreOrder', 'url'=>array('create')),
+	array('label'=>'List SurveyWinners', 'url'=>array('index')),
+	array('label'=>'Create SurveyWinners', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -18,7 +18,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#estore-order-grid').yiiGridView('update', {
+	$('#survey-winners-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Orders</h1>
+<h1>Manage Survey Winners</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -41,34 +41,25 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'estore-order-grid',
+	'id'=>'survey-winners-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
 		'id',
-		'product_name',
-		'product_price',
-		'estore_name',
-		'buyer_name',
-		'buyer_email',
-		'buyer_phone',
-        array(
-            'name'=>'status',
-            'value'=>'Generic::showOrderStatus($data->status)'
-        ),
-		'order_source',
+		'competition_name',
+		'winner_name',
+		'winner_phone',
+		'winner_email',
+		'winning_position',
 		/*
-		'product_price',
-		'estore_name',
-		'buyer_name',
-		'buyer_email',
-		'buyer_phone',
+		'winner_photo',
+		'winner_address',
 		'status',
+		'year',
+		'month',
+		'week',
+		'prize',
 		'create_date',
-		'otp',
-		'otp_time',
-		'order_source',
-		'no_of_try',
 		*/
 		array(
 			'class'=>'CButtonColumn',

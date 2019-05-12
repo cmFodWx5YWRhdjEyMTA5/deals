@@ -4940,5 +4940,24 @@ class Generic
         return $survey_links;
     }
 
+    public static function showOrderStatus($status){
+        $status_name = 'OTP Not Approved';
+        switch (intval($status)){
+            case 1:
+                $status_name = 'Pending';
+                break;
+            case 2:
+                $status_name = 'Cancelled';
+                break;
+            case 3:
+                $status_name = 'Approved';
+                break;
+            case 4:
+                $status_name = 'Completed';
+                break;
+        }
+        return $status_name;
+    }
+
 }
 

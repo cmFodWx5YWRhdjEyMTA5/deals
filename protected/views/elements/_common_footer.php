@@ -46,7 +46,7 @@ $survey_links = Generic::getSurveyLinks();
                         <li  class="<?php if($active_menu == 'help') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo Yii::app()->createUrl($requested_country->sortname.'/help');?>">FAQs</a></li>
                         <li><a href="http://www.btrc.gov.bd/" target="_blank">BTRC Links</a></li>
                         <?php if(!empty($survey_links)){ ?>
-                            <li><a href="<?php echo $survey_links->survey_link; ?>" target="_blank"><?php echo $survey_links->survey_name; ?></a></li>
+                            <li><a href="<?php echo Yii::app()->createUrl('/winner-result'); ?>">Winner Result</a></li>
                         <?php } ?>
                     </ul>
                 </div>

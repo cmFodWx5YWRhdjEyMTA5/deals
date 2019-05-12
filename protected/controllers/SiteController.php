@@ -4310,4 +4310,38 @@ class SiteController extends Controller {
         ));
     }
 
+    public function actionGetSurveyWinners()
+    {
+        $image_helper = new ImageHelper();
+        $selected_option = '';
+        $column_condition = ['status'=>1];
+        if(isset($_REQUEST['SurveyWinners']) && !empty($_REQUEST['SurveyWinners']) ){
+            if(!empty($_REQUEST['SurveyWinners']['competition_name'])){
+                $column_condition['competition_name'] = $_REQUEST['SurveyWinners']['competition_name'];
+                $selected_option = $_REQUEST['SurveyWinners']['competition_name'];
+            }
+        }
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition($column_condition);
+        $criteria->order = 'id desc,winning_position asc';
+        $winners = SurveyWinners::model()->findAll($criteria);
+        $survey_winner_list = SurveyWinners::model()->findAll();
+        $survey_winner_model = new SurveyWinners();
+
+        $competition_list = array('' => 'Competition Name');
+        foreach ($survey_winner_list as $winner){
+            if(!in_array($winner->competition_name,$competition_list)) {
+                $competition_list[$winner->competition_name] = $winner->competition_name;
+            }
+        }
+
+        $this->render('survey_winners', array(
+            'survey_winner_model' => $survey_winner_model,
+            'competition_list' => $competition_list,
+            'image_helper' => $image_helper,
+            'survey_winners' => $winners,
+            'selected_option' => $selected_option
+        ));
+    }
+
 }
