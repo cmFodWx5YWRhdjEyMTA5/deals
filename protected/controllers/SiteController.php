@@ -2139,15 +2139,7 @@ class SiteController extends Controller {
      * Delete Image From Amazon s3
      */
     public static function actionDeleteImageFromS3() {
-        if (!defined('awsAccessKey'))
-            define('awsAccessKey', 'AKIAIRWFUJGOJ46XGJYA');
-        if (!defined('awsSecretKey'))
-            define('awsSecretKey', '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');
-        $s3 = new S3(awsAccessKey, awsSecretKey);
-        if (isset($_POST['file'])) {
-            $bucket = "ad-dwit-a";
-            $s3->deleteObject($bucket, $_POST['file']);
-        }
+        return true;
     }
 
     /*

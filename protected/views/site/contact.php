@@ -34,9 +34,9 @@ $this->breadcrumbs=array(
 			</address>
 
 			<ul class="social">
-				<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-				<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-				<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+				<li><a href="https://www.facebook.com/bdbroadbanddeal" target="_blank"><i class="fa fa-facebook"></i></a></li>
+<!--				<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+				<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
 			</ul>
 		</div>
 

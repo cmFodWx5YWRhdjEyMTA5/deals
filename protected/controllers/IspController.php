@@ -630,7 +630,7 @@ class IspController extends Controller
 		}
 		/* ===================== Pagination Code Ends ================== */
 
-		$this->title = 'Product Gallery | '.$user_details->enterprise_name;
+		$this->title = 'Packages | '.$user_details->enterprise_name;
 		$this->render('all-products',array(
 			'all_products'=> $all_products,
 			'store_details'=>$store_details,

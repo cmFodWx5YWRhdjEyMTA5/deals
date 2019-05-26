@@ -454,7 +454,7 @@ foreach ($districts as $district) {
                                             <div class="col-sm-12">
                                                 <h5><i class="fa fa-upload" aria-hidden="true"></i>Upload estore logo(Preferred size: 220px(Width) X 55px(Height))</p></span></h5>
                                                 <div class="upload-section">
-                                                    <input type="file" name="files[]" id="filer_input2" multiple="multiple">
+                                                    <input type="file" name="files[]" id="filer_input_store_logo" multiple="multiple">
                                                     <input type="hidden" name="image_file" value="" id="image_file" >
                                                     <!--<input type="file" id="upload-image-one" name="ads_image[]" multiple>-->
                                                 </div>

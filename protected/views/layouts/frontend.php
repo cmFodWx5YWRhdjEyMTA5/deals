@@ -41,6 +41,9 @@ $action = Yii::app()->controller->action->id;
     $cs->registerCssFile($baseUrl."/css/alotheme/css/theme.css","screen");
 //    $cs->registerCssFile($baseUrl."/css/alotheme/css/responsive.css","screen");
     $cs->registerCssFile($baseUrl."/css/main.css","screen");
+    $cs->registerCssFile($baseUrl."/css/price_plan.css","screen");
+    $cs->registerCssFile($baseUrl."/css/price_plan2.css","screen");
+    $cs->registerCssFile($baseUrl."/css/price_plan3.css","screen");
 
 
 //    $cs->registerCssFile($baseUrl."/css/style.css","screen");
@@ -99,6 +102,12 @@ $action = Yii::app()->controller->action->id;
     <!-- font -->
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,300' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:Condensed" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
 
     <!-- icons -->
     <link rel="icon" href="<?=$baseUrl?>/images/ico/favicon.png">

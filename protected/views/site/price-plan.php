@@ -2,165 +2,269 @@
 
 <section id="main" class="clearfix contact-us">
     <div class="container">
-        <div id="title-price" class="title"><img src="<?=$baseUrl?>/images/bg/price-pic.jpg"></div>
+        <!--<div id="title-price" class="title"><img src="<?/*=$baseUrl*/?>/images/bg/price-pic.jpg"></div>-->
         
         <div id="send_request_confirmation"></div>
         <div id="tabs">
             <section id="main" class="clearfix contact-us" style="padding: 0">
-            <ul>
-                <li><a href="#tabs-1">BUSINESS E-STORE</a></li>
-                <li><a href="#tabs-2">SERVICE PROMOTION</a></li>
-                <li><a href="#tabs-3">INDIVIDUAL PLAN</a></li>
-            </ul>
-            <div id="tabs-1">
-                <div id="tab009" class="uzr-panel tab-panel">
-                    <div class="clr"></div>
-                    <section id="pricePlans" style="margin-left: 5px">
-                        <ul id="plans">
-                            <li class="plan">
-                                <ul class="planContainer duration-plan">
-                                    <li class="title"><h2>3 MONTHS</h2></li>
-                                    <li class="price"><p style="margin-top: 17px"><label for="basic1" style="margin-left: -9px;color:#3e4f6a"><input type="checkbox" id="basic1" name="pricing" value="1">&nbsp;&nbsp;BASIC <span><?=$currency_sign?> <?php echo $currency_rate*30;?></span></label></p></li>
-                                    <li class="price"><p><label for="silver4" style="color: #3e4f6a"><input type="checkbox" id="silver4" name="pricing" value="4">&nbsp;&nbsp;SILVER <span><?=$currency_sign?> <?php echo $currency_rate*45;?></span></label></p></li>
-                                    <li class="price"><p><label for="gold7" style="margin-left: -7px;color: #3e4f6a"><input type="checkbox" id="gold7" name="pricing" value="7">&nbsp;&nbsp;GOLD <span><?=$currency_sign?> <?php echo $currency_rate*60;?></span></label></p></li>
-                                    <li class="button"><input type="button" id="view-details1" class="view-details" name="view_details" value="View Details"/></li>
-                                </ul>
-                            </li>
+                <ul>
+                    <li><a href="#tabs-1">ISP Company Promotion</a></li>
+                    <li><a href="#tabs-2">EStore Promotion</a></li>
+                    <li><a href="#tabs-3">Other</a></li>
+                </ul>
+                <div id="tabs-1">
+                    <div id="tab009" class="uzr-panel tab-panel">
+                        <div class="clr"></div>
+                        <div class="whole">
+                            <div class="type">
+                                <p>Basic</p>
+                            </div>
+                            <div class="plan_3">
 
-                            <li class="plan active">
-                                <ul class="planContainer">
-                                    <li class="title"><h2>6 MONTHS</h2></li>
-                                    <li class="price"><p style="margin-top: 17px"><label for="basic2" style="margin-left: -8px;color: #f7814d;"><input type="checkbox" id="basic2" name="pricing" value="2">&nbsp;&nbsp;BASIC <span><?=$currency_sign?> <?php echo $currency_rate*60;?></span></label></p></li>
-                                    <li class="price"><p><label for="silver5" style="color: #f7814d"><input type="checkbox" id="silver5" name="pricing" value="5">&nbsp;&nbsp;SILVER <span><?=$currency_sign?> <?php echo $currency_rate*90;?></span></label></p></li>
-                                    <li class="price"><p><label for="gold8" style="margin-left: 3px;color: #f7814d"><input type="checkbox" id="gold8" name="pricing" value="8">&nbsp;&nbsp;GOLD <span><?=$currency_sign?> <?php echo $currency_rate*120;?></span></label></p></li>
-                                    <li class="button"><input type="button" id="view-details2" class="view-details" name="view_details" value="View Details"/></li>
-                                </ul>
-                            </li>
-
-                            <li class="plan">
-                                <ul class="planContainer">
-                                    <li class="title"><h2>12 MONTHS</h2></li>
-                                    <li class="price"><p style="margin-top: 17px"><label for="basic3" style="margin-left: -18px;color:#3e4f6a"><input type="checkbox" id="basic3" name="pricing" value="3">&nbsp;&nbsp;BASIC <span><?=$currency_sign?> <?php echo $currency_rate*90;?></span></label></p></li>
-                                    <li class="price"><p><label for="silver6" style="color:#3e4f6a"><input type="checkbox" id="silver6" name="pricing" value="6">&nbsp;&nbsp;SILVER <span><?=$currency_sign?> <?php echo $currency_rate*145;?></span></label></p></li>
-                                    <li class="price"><p><label for="gold9" style="margin-left: -7px;color:#3e4f6a"><input type="checkbox" id="gold9" name="pricing" value="9">&nbsp;&nbsp;GOLD <span><?=$currency_sign?> <?php echo $currency_rate*180;?></span></label></p></li>
-                                    <li class="price"><p><label for="ultimate" style="margin-left: -7px;color:#3e4f6a"><input type="checkbox" id="ultimate" name="pricing" value="10">&nbsp;&nbsp;ULTIMATE <span><?=$currency_sign?> <?php echo $currency_rate*230;?></span></label></p></li>
-                                    <li class="button"><input type="button" id="view-details3" class="view-details" name="view_details" value="View Details"/></li>
-                                </ul>
-                            </li>
-
-
-                        </ul>
-                    </section>
-                    <div id="show-plan" style="display: none">
-                        <section id="pricePlans">
-                            <form action="" id="pricing-plan-form" method="post">
-                                <ul id="plans">
-                                    <li class="plan active" style="width: 60%;margin: 0 auto; float: none">
-                                        <ul class="planContainer">
-                                            <li class="title"><h2 id="price_plan_name"><?=isset($business_plan_details['name'])?></h2></li>
-                                            <li class="price"><p style="font-size: 32px;height: 48px;line-height: 1.46em;background: #f7814d"><?=$currency_sign?> <span id="price_plan_price" style="color: #fff"><?=isset($business_plan_details['price'])?></span> <span style="font-size: 16px;color: #fff0ef;" id="price_plan_duration">/ <?=isset($business_plan_details['duration'])?></span></p></li>
-                                            <li id="price_plan_details">
-                                                <?=isset($business_plan_details['details'])?>
-                                            </li><br>
-                                            <label for="get_ad_post"><input type="checkbox" id="get_ad_post" name="get-ad-post" style="margin-left: -12px;"><span style="color: #364762; font-weight: bold"> Get Ads Post Services (Post Ads by Support Team).<br> Extra &#2547; 1000 will be charged.</span></label>
-                                            <li class="button"><a href="javascript:void(0);" onclick="CheckLogin()" class="pricing_plan_proceed">Proceed</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <input type="hidden" id="pricing_plan_id" name="pricing_plan_id" value="">
-                                <input type="hidden" id="get-ad-post-service" name="get-ad-post-service" value="">
-                            </form>
-                        </section>
-                    </div>
-
-                </div><!--panel-->
-            </div>
-            <div id="tabs-2">
-                <section id="pricePlans">
-                    <form action="" id="pricing-plan-form" method="post">
-                        <ul id="plans">
-                            <li class="plan">
-                                <ul class="planContainer">
-                                    <li class="title" style="background: #fff"><h3 id="price_plan_name" style="color: #000">Website Promote</h3></li>
-                                    <li class="price"><p style="font-size: 32px;height: 48px;line-height: 1.46em;background: #f7814d"><?=$currency_sign?> <span id="price_plan_price" style="color: #fff"><?=$web_promotion?></span> <span style="font-size: 16px;color: #fff0ef;" id="price_plan_duration">/ 3 Months</span></p></li>
-                                    <li id="price_plan_details1">
-                                        <ul class="options">
-                                            <li><div class="col-md-8 price_list">Promotional Banner</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Social Media Promotion</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Upsell Banner</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Share Facebook Link</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Banner design</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                        </ul>
-                                    </li><br>
-                                    <li class="button"><a href="javascript:void(0);" onclick="CheckLogin()" class="pricing_plan_proceed">Proceed</a></li>
-                                </ul>
-                            </li>
-                            <li class="plan active">
-                                <ul class="planContainer">
-                                    <li class="title"><h3 id="price_plan_name">Banner Promote</h3></li>
-                                    <li class="price"><p style="font-size: 32px;height: 48px;line-height: 1.46em;background: #f7814d"><span id="price_plan_price" style="color: #fff">Duration</span> <span style="font-size: 16px;color: #fff0ef;" id="price_plan_duration">/ 3 Months</span></p></li>
-                                    <li id="price_plan_details2">
-                                        <ul class="options">
-                                            <li><div class="col-md-8 price_list">Home top Banner</div><div class="col-md-4"><span><?=$currency_sign?> <?=$banner_hometop?></span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Category Banner</div><div class="col-md-4"><span><?=$currency_sign?> <?=$banner_category?></span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Menu Banner</div><div class="col-md-4"><span><?=$currency_sign?> <?=$banner_menu?></span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Promotional Banner</div><div class="col-md-4"><span><?=$currency_sign?> <?=$banner_promo?></span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Upsell Banner</div><div class="col-md-4"><span><?=$currency_sign?> <?=$banner_upsell?></span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Share Facebook Link</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Banner design</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                        </ul>
-                                    </li><br>
-                                    <li class="button"><a href="javascript:void(0);" onclick="CheckLogin()" class="pricing_plan_proceed">Proceed</a></li>
-                                </ul>
-                            </li>
-                            <li class="plan">
-                                <ul class="planContainer">
-                                    <li class="title"><h3 id="price_plan_name">Landing Page</h3></li>
-                                    <li class="price"><p style="font-size: 32px;height: 48px;line-height: 1.46em;background: #f7814d"><?=$currency_sign?> <span id="price_plan_price" style="color: #fff"><?=$landing_page?></span> <span style="font-size: 16px;color: #fff0ef;" id="price_plan_duration">/ 6 Months</span></p></li>
-                                    <li id="price_plan_details3">
-                                        <ul class="options">
-                                            <li><div class="col-md-8 price_list">Landing one page</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Service Banner</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Social Media Promotion</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Upsell Banner</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Share Facebook Link</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            <li><div class="col-md-8 price_list">Banner design</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                        </ul>
-                                    </li><br>
-                                    <li class="button"><a href="javascript:void(0);" onclick="CheckLogin()" class="pricing_plan_proceed">Proceed</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <input type="hidden" id="pricing_plan_id" name="pricing_plan_id" value="">
-                        <input type="hidden" id="get-ad-post-service" name="get-ad-post-service" value="">
-                        <input type="hidden" id="currency_rate" name="currency_rate" value="<?=$currency_rate?>">
-                    </form>
-                </section>
-            </div>
-                <div id="tabs-3">
-                    <section id="pricePlans">
-                        <form action="" id="pricing-plan-form" method="post">
-                            <ul id="plans">
-                                <li class="plan active" style="margin:0 auto;float: none;">
-                                    <ul class="planContainer">
-                                        <li class="title"><h3 id="price_plan_name">Individual Ads</h3></li>
-                                        <li class="price"><p style="font-size: 32px;height: 48px;line-height: 1.46em;background: #f7814d"><?=$currency_sign?> <span id="price_plan_price" style="color: #fff"><?=$individual?></span> <span style="font-size: 16px;color: #fff0ef;" id="price_plan_duration">/ 1 Month</span></p></li>
-                                        <li id="price_plan_details4">
-                                            <ul class="options">
-                                                <li><div class="col-md-8 price_list">Individual ads</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                                <li><div class="col-md-8 price_list">Share Facebook Link</div><div class="col-md-4"><span>Yes</span></div><div class="clr"></div></li>
-                                            </ul>
-                                        </li><br>
-                                        <li class="button"><a href="javascript:void(0);" onclick="CheckLogin()" class="pricing_plan_proceed">Proceed</a></li>
+                                <div class="header_3">
+                                    <span>$</span>29<sup>99</sup>
+                                    <p class="month">per month</p>
+                                </div>
+                                <div class="content">
+                                    <ul>
+                                        <li>15 Email Accounts</li>
+                                        <li>100GB Space</li>
+                                        <li>1 Domain Name</li>
+                                        <li>500GB Bandwidth</li>
                                     </ul>
-                                </li>
-                            </ul>
-                            <input type="hidden" id="pricing_plan_id" name="pricing_plan_id" value="">
-                            <input type="hidden" id="get-ad-post-service" name="get-ad-post-service" value="">
-                        </form>
-                    </section>
+
+                                </div>
+
+                                <div class="price_3">
+                                    <a href="#" class="bottom"><p class="cart_3">Contact Us</p></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="whole">
+                            <div class="type standard">
+                                <p>Silver</p>
+                            </div>
+                            <div class="plan_3">
+
+                                <div class="header_3">
+                                    <span>$</span>49<sup>99</sup>
+                                    <p class="month">per month</p>
+                                </div>
+                                <div class="content">
+                                    <ul>
+                                        <li>15 Email Accounts</li>
+                                        <li>100GB Space</li>
+                                        <li>1 Domain Name</li>
+                                        <li>500GB Bandwidth</li>
+                                    </ul>
+                                </div>
+                                <div class="price_3">
+                                    <a href="#" class="bottom"><p class="cart_3">Contact Us</p></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="whole ">
+                            <div class="type gold">
+                                <p>Gold</p>
+                            </div>
+                            <div class="plan_3">
+
+                                <div class="header_3">
+                                    <span>$</span>79<sup>99</sup>
+                                    <p class="month">per month</p>
+                                </div>
+                                <div class="content">
+                                    <ul>
+                                        <li>15 Email Accounts</li>
+                                        <li>100GB Space</li>
+                                        <li>1 Domain Name</li>
+                                        <li>500GB Bandwidth</li>
+                                    </ul>
+                                </div>
+                                <div class="price_3">
+                                    <a href="#" class="bottom"><p class="cart_3">Contact Us</p></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="whole ">
+                            <div class="type ultimate">
+                                <p>Ultimate</p>
+                            </div>
+                            <div class="plan_3">
+                                <div class="header_3">
+                                    <span>$</span>99<sup>99</sup>
+                                    <p class="month">per month</p>
+                                </div>
+                                <div class="content">
+                                    <ul>
+                                        <li>15 Email Accounts</li>
+                                        <li>100GB Space</li>
+                                        <li>1 Domain Name</li>
+                                        <li>500GB Bandwidth</li>
+                                    </ul>
+                                </div>
+                                <div class="price_3">
+                                    <a href="#" class="bottom"><p class="cart_3">Contact Us</p></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                </section>
+                <div id="tabs-2">
+                    <div id="tab010" class="uzr-panel tab-panel">
+                        <div class="clr"></div>
+                        <div id="price23">
+                            <!--price tab-->
+                            <div class="plan">
+                                <div class="plan-inner">
+                                    <div class="entry-title">
+                                        <h3>Basic</h3>
+                                        <div class="price_2">$25<span></span>
+                                        </div>
+                                    </div>
+                                    <div class="entry-content">
+                                        <ul>
+                                            <li><strong>Free</strong> 3 Month</li>
+                                            <li><strong>$6000</strong> 6 Month</li>
+                                            <li><strong>$9000</strong> 12 Month</li>
+                                            <li><strong>$10000</strong> 2 Year</li>
+                                            <li><strong>Unlimited</strong> option 5</li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn">
+                                        <a href="#">Order Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of price tab-->
+                            <!--price tab-->
+                            <div class="plan basic">
+                                <div class="plan-inner">
+                                    <!--<div class="hot">hot</div>-->
+                                    <div class="entry-title">
+                                        <h3>Silver</h3>
+                                        <div class="price_2">$50<span>/PER CAR</span>
+                                        </div>
+                                    </div>
+                                    <div class="entry-content">
+                                        <ul>
+                                            <li><strong>1x</strong> option 1</li>
+                                            <li><strong>2x</strong> option 2</li>
+                                            <li><strong>3x</strong> option 3</li>
+                                            <li><strong>Free</strong> option 4</li>
+                                            <li><strong>Unlimited</strong> option 5</li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn">
+                                        <a href="#">Order Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of price tab-->
+                            <!--price tab-->
+                            <div class="plan standard">
+                                <div class="plan-inner">
+                                    <div class="entry-title">
+                                        <h3>Gold</h3>
+                                        <div class="price_2">$75<span>/PER CAR</span>
+                                        </div>
+                                    </div>
+                                    <div class="entry-content">
+                                        <ul>
+                                            <li><strong>2x</strong> Free Entrance</li>
+                                            <li><strong>Free</strong> Snacks</li>
+                                            <li><strong>Custom</strong> Swags</li>
+                                            <li><strong>2x</strong> Certificate</li>
+                                            <li><strong>Free</strong> Wifi</li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn">
+                                        <a href="#">Order Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of price tab-->
+                            <!--price tab-->
+                            <div class="plan ultimite">
+                                <div class="plan-inner">
+                                    <div class="entry-title">
+                                        <h3>Ultimate</h3>
+                                        <div class="price_2">$100<span>/PER CAR</span>
+                                        </div>
+                                    </div>
+                                    <div class="entry-content">
+                                        <ul>
+                                            <li><strong>1x</strong> option 1</li>
+                                            <li><strong>2x</strong> option 2</li>
+                                            <li><strong>3x</strong> option 3</li>
+                                            <li><strong>Free</strong> option 4</li>
+                                            <li><strong>Unlimited</strong> option 5</li>
+                                        </ul>
+                                    </div>
+                                    <div class="btn">
+                                        <a href="#">Order Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of price tab-->
+                        </div>
+                    </div>
+                </div>
+                <div id="tabs-3">
+                    <div id="tab011" class="uzr-panel tab-panel">
+                        <div class="clr"></div>
+                        <div class="pricingdiv">
+                            <ul class="theplan">
+                                <li class="title"><span class="icon-badge" style="color:#fff"></span><b>Basic</b></li>
+                                <li><b>Dimensions:</b> 24.8W x 47.3H</li>
+                                <li><b>Material:</b> Nylon w/ Breathable Glass Fiber</li>
+                                <li><b>Weight:</b> 55 lbs</li>
+                                <li><b>Max Weight:</b> 330 lbs</li>
+                                <li><b>Tilt Degrees:</b> 135</li>
+                                <li><b>Tilt Degrees:</b> 135</li>
+                                <li><b>Head Rest:</b> Yes</li>
+                                <li><a class="pricebutton" href="http://ergonomictrends.com/best-ergonomic-office-chairs-2017-reviews-buyers-guide/" target="_blank" rel="nofollow"><span class="icon-tag"></span> Check Out</a></li>
+                            </ul>
+                            <ul class="theplan">
+                                <li class="title"></span><span class="icon-star" style="color:#fff"></span><b>Silver</b></li>
+                                <li><b>Dimensions:</b> 24.8W x 47.3H</li>
+                                <li><b>Material:</b> Nylon w/ Breathable Glass Fiber</li>
+                                <li><b>Weight:</b> 55 lbs</li>
+                                <li><b>Max Weight:</b> 330 lbs</li>
+                                <li><b>Head Rest:</b> Yes</li>
+                                <li><b>Arm Rest:</b> <span class="icon-check"></span></li>
+                                <li><b>Lumbar Support:</b> <span class="icon-check"></span></li>
+                                <li><b>Warranty:</b> 30 Days Money Back</li>
+                                <li><a class="pricebutton" href="http://ergonomictrends.com/best-ergonomic-office-chairs-2017-reviews-buyers-guide/" target="_blank" rel="nofollow"><span class="icon-tag"></span> Check Out</a></li>
+                            </ul>
+                            <ul class="theplan">
+                                <li class="title"><span class="icon-trophy" style="color:#fff"></span><b>Gold</b></li>
+                                <li class="ethighlight"><b>Dimensions:</b> 24.8W x 47.3H</li>
+                                <li><b>Material:</b> Nylon w/ Breathable Glass Fiber</li>
+                                <li><b>Weight:</b> 55 lbs</li>
+                                <li><b>Max Weight:</b> 330 lbs</li>
+                                <li><b>Head Rest:</b> Yes</li>
+                                <li><b>Arm Rest:</b> <span class="icon-close"></span></li>
+                                <li><b>Lumbar Support:</b> <span class="icon-check"></span></li>
+                                <li><b>Warranty:</b> 30 Days Money Back</li>
+                                <li><a class="pricebutton" href="http://ergonomictrends.com/best-ergonomic-office-chairs-2017-reviews-buyers-guide/" target="_blank" rel="nofollow"><span class="icon-tag"></span> Check Out</a></li>
+                            </ul>
+                            <ul class="theplan">
+                                <li class="title"><span class="icon-diamond" style="color:#fff"></span><b>Diamond</b></li>
+                                <li class="ethighlight"><b>Dimensions:</b> 24.8W x 47.3H</li>
+                                <li><b>Material:</b> Nylon w/ Breathable Glass Fiber</li>
+                                <li><b>Weight:</b> 55 lbs</li>
+                                <li><b>Max Weight:</b> 330 lbs</li>
+                                <li><b>Head Rest:</b> Yes</li>
+                                <li><b>Arm Rest:</b> <span class="icon-close"></span></li>
+                                <li><b>Lumbar Support:</b> <span class="icon-check"></span></li>
+                                <li><b>Warranty:</b> 30 Days Money Back</li>
+                                <li><a class="pricebutton" href="http://ergonomictrends.com/best-ergonomic-office-chairs-2017-reviews-buyers-guide/" target="_blank" rel="nofollow"><span class="icon-tag"></span> Check Out</a></li>
+                            </ul>
+                        </div><!--panel-->
+                    </div>
+                </div>
+            </section>
     </div><!-- container -->
         </div>
 </section><!-- main -->
@@ -627,6 +731,26 @@
         else {
             alert('Please select a Price Plan');
         }
+    });
+
+    $('.header_3').click(function(){
+        var $this = $(this);
+        $this.closest(".whole").find(".content").slideToggle();
+    });
+
+    $("input").on("mouseenter",function(){
+        event.preventDefault();
+        $(this).animate(
+            {opacity:1}
+        );
+    });
+
+    $(".whole").on("click","a",function(){
+        event.preventDefault();
+        $(".plan").removeClass("selected");
+        $(this).closest(".whole").find(".plan").addClass("selected");
+
+
     });
 </script>
 

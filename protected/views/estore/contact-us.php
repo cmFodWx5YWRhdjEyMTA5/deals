@@ -51,31 +51,31 @@ $google_plus_link = (isset($store_details->google_plus_link) && !empty($store_de
                     </script>
 				</div>
 				<!-- End Map -->
-				<div class="contact-info-page">
+				<!--<div class="contact-info-page">
 					<div class="list-contact-info">
 						<div class="row">
 							<div class="col-md-4 col-sm-4 col-xs-12">
 								<div class="item-contact-info">
 									<a class="contact-icon icon-mobile" href="#"><i class="fa fa-mobile"></i></a>
-									<h2>Hotline: <a href="#"><?=$user_details->phone_number?></a></h2>
+									<h2>Hotline: <a href="#"><?/*=$user_details->phone_number*/?></a></h2>
 								</div>
 							</div>
 							<div class="col-md-4 col-sm-4 col-xs-12">
 								<div class="item-contact-info">
 									<a class="contact-icon icon-phone" href="#"><i class="fa fa-phone"></i></a>
-									<h2>Call: <a href="#"><?=$user_details->phone_number?></a></h2>
+									<h2>Call: <a href="#"><?/*=$user_details->phone_number*/?></a></h2>
 								</div>
 							</div>
 							<div class="col-md-4 col-sm-4 col-xs-12">
 								<div class="item-contact-info last-item">
 									<a class="contact-icon icon-email" href="mailto:7uptheme@gmail.com"><i class="fa fa-envelope"></i></a>
-									<h2><a href="mailto:7uptheme@gmail.com"><?=$user_details->email?></a></h2>
+									<h2><a href="mailto:7uptheme@gmail.com"><?/*=$user_details->email*/?></a></h2>
 								</div>
 							</div>
 						</div>
 					</div>
-					<p class="desc"><?=$store_details->about_us?></p>
-				</div>
+					<p class="desc"><?/*=$store_details->about_us*/?></p>
+				</div>-->
 				<div class="contact-form-page">
 					<h2>contact form</h2>
 					<div class="form-contact">

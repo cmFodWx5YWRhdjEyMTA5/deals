@@ -73,6 +73,7 @@
                                     <li><i class="fa fa-home"></i> 944 Upper Jashore Road (1st Floor),Joragate Moor,Khulna-9000,Bangladesh.</li>
                                     <li><i class="fa fa-mobile"></i> 09610203060, 09639114455</li>
                                     <li><i class="fa fa-envelope"></i> <a href="mailto:support@bdbroadbanddeals.com">support@bdbroadbanddeals.com</a></li>
+<li><i class="fa fa-facebook"></i><a href="https://www.facebook.com/bdbroadbanddeal" target="_blank">bdbroadbanddeal</a></li>
                                 </ul>
                             </div>
                         </div>

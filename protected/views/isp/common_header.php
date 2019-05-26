@@ -16,7 +16,7 @@ $active_menu = Yii::app()->controller->action->id;
 				<div class="row">
 					<div class="col-md-6 col-sm-12 col-xs-12">
 						<div class="contact-top">
-							<p><span><i class="fa fa-phone-square"></i></span> Call Center Support 24/7: <span><?=$store_details->company_hotline_number?></span>
+							<p><span><i class="fa fa-phone-square"></i></span> Call Center Support 24/7: <span><?= !empty($store_details->company_hotline_number) ? $store_details->company_hotline_number : $user_details->phone_number ?></span>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-12 col-xs-12">

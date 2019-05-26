@@ -278,6 +278,9 @@ class EstoreController extends Controller
 		$url_alias = Yii::app()->request->getParam('company_url_alias','');
 		$company_slogan = Yii::app()->request->getParam('slogan','');
 		$company_logo = Yii::app()->request->getParam('logo_image');
+		if(empty($company_logo)){
+		    $company_logo = $user_details->image;
+        }
 		if(!strpos($company_logo, 'uploads') !== false){
                 $company_logo = Yii::app()->getBaseUrl(true).'/uploads/'.$company_logo;
         }
@@ -361,10 +364,9 @@ class EstoreController extends Controller
 
 		$store->update_date = $creation_date->format('Y-m-d');
 		if($store->update()){
-			// update user photo with isp company logo
-			$user_details_info = Register::model()->findByPk($user_id);
-			$user_details_info->image = $company_logo;
-			$user_details_info->save();
+            $user_details_info = Register::model()->findByPk($user_id);
+            $user_details_info->image = $company_logo;
+            $user_details_info->save();
 
 			$response['status'] = 'success';
 			$response['company_name'] = urlencode($company_name);
