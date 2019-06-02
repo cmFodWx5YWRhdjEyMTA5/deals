@@ -96,8 +96,10 @@ echo $this->renderPartial($sidebar_type,array(
                                                 </div>
                                             </div>
                                         </div> -->
+                                        <?php if($business_type != 'business' || ($total_price >0) ) { ?>
                                         <div class="form-group">
-                                        <label for="marketing_representative"><input type="radio" name="payment" id="marketing_representative" value="3"> By Direct Payment</label><br>
+
+                                            <label for="marketing_representative"><input type="radio" name="payment" id="marketing_representative" value="3"> By Direct Payment</label><br>
                                             <div class="form-group" id="direct_payment_block" style="display: none">
                                                 <br>
                                                 <div class="">
@@ -110,6 +112,7 @@ echo $this->renderPartial($sidebar_type,array(
                                             </div>
 
                                         </div>
+
                                         <div class="form-group">
                                         <label for="bkash"><input type="radio" name="payment" id="bkash" value="4"> By bKash Payment</label><br>
                                             <div class="form-group" id="bkash_payment_block" style="display: none">
@@ -128,6 +131,11 @@ echo $this->renderPartial($sidebar_type,array(
                                             </div>
 
                                         </div>
+                                        <?php } else { ?>
+                                            <input class="form-input" type="hidden" id="seller_id" name="seller_id" value="free" />
+                                            <input class="form-input number_input" type="hidden" id="advanced_payment" value="0" name="advanced_payment">
+                                            <input type="hidden" name="payment" id="marketing_representative" value="3">
+                                        <?php } ?>
                                         <!-- <div class="form-group">
                                         <label for="free_payment"><input type="radio" name="payment" id="free_payment" value="9"> Free (for first 3 months)</label><br>
                                         </div> -->
@@ -340,6 +348,10 @@ echo $this->renderPartial($sidebar_type,array(
     // });
 
     $('#payment-confirmation-form').on('submit',function(){
+        if($('#isp_duration').val() == '3 month'){
+            //alert("forcefully set seller id, checking");
+            return true;
+        }
         if($('input[name="payment"]:checked').val()){
             var payment_amount_given = $('#advanced_payment').val();
             var payment_amount = $('#order_amount').val();

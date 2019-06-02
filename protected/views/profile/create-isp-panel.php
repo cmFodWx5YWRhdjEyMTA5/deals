@@ -57,7 +57,7 @@ echo $this->renderPartial($sidebar_type,array(
                         <ul class="planContainer duration-plan">
                             <li class="title"><h2>3 MONTHS</h2></li>
                             <li class="price"><p style="margin-top: 17px"><label for="free_payment" style="margin-left: -9px;color:#3e4f6a"><input type="checkbox" id="free_payment" name="pricing" value="1">&nbsp;&nbsp;FREE </label></p></li>
-                            <li class="button"><input type="button" id="view-details1" class="view-details" name="view_details" value="View Details"/></li>
+                            <li class="button"><input type="button" id="view-details1" class="view-details" name="view_details" value="Proceed"/></li>
                         </ul>
                     </li>
 
@@ -65,7 +65,7 @@ echo $this->renderPartial($sidebar_type,array(
                         <ul class="planContainer">
                             <li class="title"><h2>6 MONTHS</h2></li>
                             <li class="price"><p style="margin-top: 17px"><label for="basic2" style="margin-left: -8px;color: #f7814d;"><input type="checkbox" id="basic2" name="pricing" value="2">&nbsp;&nbsp;<?php echo strtoupper($package_type) ?> <span><?=$currency_sign?> <?php echo $half_yearly_price*6; ?></span></label></p></li>
-                            <li class="button"><input type="button" id="view-details2" class="view-details" name="view_details" value="View Details"/></li>
+                            <li class="button"><input type="button" id="view-details2" class="view-details" name="view_details" value="Proceed"/></li>
                         </ul>
                     </li>
 
@@ -73,7 +73,7 @@ echo $this->renderPartial($sidebar_type,array(
                         <ul class="planContainer">
                             <li class="title"><h2>12 MONTHS</h2></li>
                             <li class="price"><p style="margin-top: 17px"><label for="basic3" style="margin-left: -18px;color:#3e4f6a"><input type="checkbox" id="basic3" name="pricing" value="3">&nbsp;&nbsp;<?php echo strtoupper($package_type) ?> <span><?=$currency_sign?> <?php echo $yearly_price*12; ?></span></label></p></li>
-                            <li class="button"><input type="button" id="view-details3" class="view-details" name="view_details" value="View Details"/></li>
+                            <li class="button"><input type="button" id="view-details3" class="view-details" name="view_details" value="Proceed"/></li>
                         </ul>
                     </li>
 
@@ -363,14 +363,17 @@ echo $this->renderPartial($sidebar_type,array(
                         if(response.status == 'success') {
                             checkbox_selected_id = '#show-plan';
                             $(checkbox_selected_id).show('slow');
-                            //$('#price_plan_name').html(response.name);
-                            $('#price_plan_price').html(response.price);
+
+                            /*$('#price_plan_price').html(response.price);
                             $('#price_plan_duration').html("/"+response.duration);
-                            $('#price_plan_details ').html(response.details);
+                            $('#price_plan_details ').html(response.details);*/
+
                             $('#pricing_plan_id').val(response.id);
-                            //$('#package_type').val(response.package_type);
                             $('#total_price').val(response.price);
                             $('#package_duration').val(response.duration);
+                            action_url = 'payment-selection';
+                            $('#pricing-plan-form').prop('action', action_url);
+                            $('#pricing-plan-form').submit();
                         }
                     }
                 });
@@ -381,7 +384,7 @@ echo $this->renderPartial($sidebar_type,array(
     });
 
     $('.pricing_plan_proceed').on('click',function(){
-        var action_url = 'payment-selection';
+
         if($('input[name="get-ad-post"]').prop('checked') == true){
             $('#ad_post_service').val(1);
         } else {
@@ -391,18 +394,53 @@ echo $this->renderPartial($sidebar_type,array(
         $('#pricing-plan-form').submit();
     });
 
+    // Todo:: uncomment this block to get price plan details. commented at 02-06-2019 (before eid)
+
+    /*$('.view-details').on('click',function(){
+        if($('input[name="pricing"]:checked').length > 0){
+            var selected_value = $('input[name="pricing"]:checked').val();
+            var half_yearly_price = $('#half_yearly_price').val();
+            var yearly_price = $('#yearly_price').val();
+            var package_type = $('#price_plan_name').val();
+            var selected_service = 'isp'
+            $.ajax({
+                type : 'POST',
+                url  : SITE_URL+"profile/ISPPlan",
+                data : {selected_value:selected_value,half_yearly_price:half_yearly_price,yearly_price:yearly_price,package_type:package_type},
+                cache: false,
+                dataType:"json",
+                success : function(response){
+                    if(response.status == 'success') {
+                        checkbox_selected_id = '#show-plan';
+                        $(checkbox_selected_id).show('slow');
+                        //$('#price_plan_name').html(response.name);
+                        $('#price_plan_price').html(response.price);
+                        $('#price_plan_duration').html("/"+response.duration);
+                        $('#price_plan_details ').html(response.details);
+                        $('#pricing_plan_id').val(response.id);
+                        //$('#package_type').val(response.package_type);
+                        $('#total_price').val(response.price);
+                        $('#package_duration').val(response.duration);
+                    }
+                }
+            });
+        }
+        else {
+            alert('Please select a Price Plan');
+        }
+    });*/
+
     /*$('.pricing_plan_proceed').on('click',function(){
-        var action_url = '';
+        var action_url = 'payment-selection';
         if($('input[name="get-ad-post"]').prop('checked') == true){
-            action_url = 'business-information-with-post-service';
             $('#ad_post_service').val(1);
         } else {
-            action_url = 'business-information';
             $('#ad_post_service').val(0);
         }
         $('#pricing-plan-form').prop('action', action_url);
         $('#pricing-plan-form').submit();
     });*/
+
 
 
 </script>

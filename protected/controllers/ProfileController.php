@@ -2103,6 +2103,12 @@ class ProfileController extends Controller
             }
            
         }
+        $register_details = Register::model()->findByPk($user_details->profile_data['id']);
+        $business_type = 'business';
+        if(!empty($register_details)){
+            $business_type = $register_details->register_type;
+        }
+        //Generic::_setTrace($register_details);
         $this->render('payment', array(
             'pricing_plan_id' => $pricing_plan_id,
             'promotion_request_type' => $promotion_request_type,
@@ -2118,7 +2124,8 @@ class ProfileController extends Controller
             'business_information_data' => json_encode($business_information_data),
             'total_price' => $total_price,
             'package_duration' => $package_duration,
-            'package_type' => $package_type
+            'package_type' => $package_type,
+            'business_type' => $business_type
         ));
     }
 
