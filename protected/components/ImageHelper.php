@@ -24,7 +24,7 @@ class ImageHelper
         if($image_path != ''){
             echo fetch_image_tag($image_path,$config_array);
         } else {
-            echo fetch_image_tag($_SERVER['SERVER_ADDR'].'/uploads/1491289149.jpg',$config_array);
+            echo fetch_image_tag(Generic::getSiteURL().'images/noimage.jpg',$config_array);
         }
     }
 
@@ -41,7 +41,7 @@ class ImageHelper
         if($url != '') {
             $transform_url = "https://res.cloudinary.com/deqgwodqq/image/fetch/" . $transform . $url;
         } else {
-            $transform_url = "https://res.cloudinary.com/deqgwodqq/image/fetch/" . $transform . 'http://ad-dwit-a.s3.amazonaws.com/1491289149.jpg';
+            $transform_url = "https://res.cloudinary.com/deqgwodqq/image/fetch/" . $transform . Generic::getSiteURL().'images/noimage.jpg';
         }
         return $transform_url;
     }

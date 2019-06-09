@@ -883,7 +883,7 @@ class IspController extends Controller
 			$owner_email= $estore_details->sales_email;
 		}
 		$email_to_visitor = Generic::sendMail($mail_content,"Request Connectivity From bdbroadbanddeals.com",$visitor_email,"bdbroadbanddeals.com <sales@bdbroadbanddeals.com>",false,false,false,$style);
-		$email_to_shop_owner = Generic::sendMail($mail_content,"Request Connectivity From bdbroadbanddeals.com",$owner_email,$visitor_email,false,false,"sales@bdbroadbanddeals.com",$style);
+		$email_to_shop_owner = Generic::sendMail($mail_content,"Request Connectivity From bdbroadbanddeals.com",$owner_email,$visitor_email,false,false,"sales@bdbroadbanddeals.com,business@bdbroadbanddeals.com",$style);
 			$response['business_url'] = 'isp/'.$estore_details->url_alias.'/';
 	            
         	} else {

@@ -4259,7 +4259,13 @@ class Generic
 </body>
 </html>';
         $from = $registered_user->email;
-        $to = Yii::app()->params['registrationEmail'];
+        $registration_recipients = [
+            Yii::app()->params['registrationEmail'],
+            Yii::app()->params['marketingEmail'],
+            Yii::app()->params['adminEmail'],
+            Yii::app()->params['businessEmail'],
+        ];
+        $to = implode(',',$registration_recipients);
         $subject = 'Registration successful';
         $message = 'An user has successfully completed registration process. Please find details in attachment.';
         Generic::sendMailWithAttachment($subject,$from,$to,$message,$html_content,$registered_user->user_name);
@@ -4957,6 +4963,13 @@ class Generic
                 break;
         }
         return $status_name;
+    }
+
+    public static function getSiteURL()
+    {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domainName = $_SERVER['HTTP_HOST'].'/';
+        return $protocol.$domainName;
     }
 
 }

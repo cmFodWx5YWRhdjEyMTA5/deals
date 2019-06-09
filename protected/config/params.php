@@ -11,6 +11,7 @@ return array(
 	// this is used in error pages
 	'adminEmail'=>'admin@bdbroadbanddeals.com',
 	'registrationEmail' => 'support@bdbroadbanddeals.com',
+	'marketingEmail' => 'business@bdbroadbanddeals.com',
 	'transactionEmail' => 'admin@bdbroadbanddeals.com',
 	'businessEmail' => 'sales@bdbroadbanddeals.com',
 	'jobsEmail' => 'jobs@bdbroadbanddeals.com',

@@ -4003,9 +4003,7 @@ class SiteController extends Controller {
     }
 
     public function actionTest(){
-        $division = Generic::getDivisionFromDistrict(26);
-        $activation_link = Yii::app()->getBaseUrl(true).'/admin/ads/admin/status/0';
-        Generic::_setTrace($activation_link);
+        Generic::_setTrace(Generic::getSiteURL());
     }
 
     /**
@@ -4335,5 +4333,6 @@ class SiteController extends Controller {
             'selected_option' => $selected_option
         ));
     }
+
 
 }
