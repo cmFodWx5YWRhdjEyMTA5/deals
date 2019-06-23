@@ -56,7 +56,8 @@ $this->menu=array(
 		'meta_description',
 		array(
 			'name'=>'url_alias',
-			'value'=>'<a href="'.Yii::app()->getBaseUrl(true).'/e-store/'.$model->url_alias.'" target="_blank">'.$model->url_alias.'</a>',
+			//'value'=>'<a href="'.Yii::app()->getBaseUrl(true).'/e-store/'.$model->url_alias.'" target="_blank">'.$model->url_alias.'</a>',
+			'value'=>Generic::getEstoreUrlAlias($model->isp_company_id,$model->url_alias),
 			'type' => 'raw',
 		),
 		'active',

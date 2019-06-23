@@ -4972,5 +4972,14 @@ class Generic
         return $protocol.$domainName;
     }
 
+    public static function getEstoreUrlAlias($isp_company_id,$alias){
+        if(empty($isp_company_id)) {
+            return '<a href="'.Yii::app()->getBaseUrl(true).'/e-store/'.$alias.'" target="_blank">'.$alias.'</a>';
+        } else {
+            return '<a href="'.Yii::app()->getBaseUrl(true).'/isp/'.$alias.'" target="_blank">'.$alias.'</a>';
+        }
+
+    }
+
 }
 

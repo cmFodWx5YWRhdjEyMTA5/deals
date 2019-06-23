@@ -34,14 +34,14 @@ class SiteController extends Controller {
     /**
      * This is the action to handle external exceptions.
      */
-    // public function actionError() {
-    //     if ($error = Yii::app()->errorHandler->error) {
-    //         if (Yii::app()->request->isAjaxRequest)
-    //             echo $error['message'];
-    //         else
-    //             $this->render('404', $error);
-    //     }
-    // }
+     public function actionError() {
+         if ($error = Yii::app()->errorHandler->error) {
+             if (Yii::app()->request->isAjaxRequest)
+                 echo $error['message'];
+             else
+                 $this->render('404', $error);
+         }
+     }
 
     public function actionIndex($country_code = 'BD') {
 
@@ -239,7 +239,7 @@ class SiteController extends Controller {
             $model->attributes = $_POST['LoginForm'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login()) {
-
+                Yii::app()->user->setState("admin_view", true);
                 if (Yii::app()->user->returnUrl != '/') {
                     $this->redirect(Yii::app()->request->baseUrl . '/user/admin');
                 } else {
@@ -256,6 +256,7 @@ class SiteController extends Controller {
      */
     public function actionLogout($country_code = '') {
         Yii::app()->user->logout();
+        Yii::app()->user->setState("admin_view", null);
         $this->redirect(Yii::app()->homeUrl);
     }
 
@@ -322,6 +323,7 @@ class SiteController extends Controller {
                 $division = Generic::getDivisionFromDistrict($district);
                 $thanas = explode(',', $category_thanas);
             }
+
             
             //$district = Yii::app()->request->getParam('state_business', '');
             $address = Yii::app()->request->getParam('address_business', '');
@@ -354,6 +356,8 @@ class SiteController extends Controller {
         } else {
             $all_thanas = [$thanas];
         }
+
+        $thana_string = implode(',',$all_thanas);
 
         $sql = "select * from tbl_register where email='$email'";
         if($license_number != ''){
@@ -460,7 +464,11 @@ class SiteController extends Controller {
                 $response['status'] = 'error'; // could not register
                 $response['message'] = '<span class="alert-danger">Could Not Register, Try Again Later</span>';
             }
-        } else {
+        } else if(empty($thana_string)){
+            $response['status'] = 'precondition_fail';
+            $response['button_text'] = 'Registration';
+            $response['message'] = '<span class="alert-danger"> Please add thanas before proceed with registration.</span>';
+        }else {
             $response['status'] = 'duplicate'; // could not register
             if($register_type == 'individual'){
                 $response['message'] = '<span class="alert-danger"> An User Already Registered With these details. Please check your email address.</span>';

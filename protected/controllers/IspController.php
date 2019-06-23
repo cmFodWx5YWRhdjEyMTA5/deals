@@ -9,6 +9,10 @@ class IspController extends Controller
 	public $title='';
 	public function actionIndex($country_code = '',$company_name)
 	{
+	    $admin_view = false;
+	    if(Yii::app()->user->hasState("admin_view")){
+	        $admin_view = true;
+        }
 		$requested_country = Generic::checkValidCountryRequest($country_code);
 
 		if($country_code && !$requested_country){
@@ -19,11 +23,12 @@ class IspController extends Controller
 		if($country_code){
 			$locale = '/'.$country_code;
 		}
-		//$shop_id = Yii::app()->request->getParam('company_name','');
 		$store_details = Estore::model()->findByAttributes(array('url_alias'=>$company_name));
-		if(!$store_details->active){
-			throw new CHttpException(404, "Invalid Request!");
-		}
+		if(!$admin_view) {
+            if (!$store_details->active) {
+                throw new CHttpException(404, "Invalid Request!");
+            }
+        }
 		$user_details = Register::model()->findByPk($store_details->user_id);
 		$category_details = Category::model()->findByPk($user_details->business_category_id);
 		$featured_products = Generic::getFeaturedProductsForEstore($store_details->user_id);
@@ -57,6 +62,10 @@ class IspController extends Controller
 	}
 	public function actionContact($country_code = '',$company_name)
 	{
+        $admin_view = false;
+        if(Yii::app()->user->hasState("admin_view")){
+            $admin_view = true;
+        }
 		$requested_country = Generic::checkValidCountryRequest($country_code);
 
 		if($country_code && !$requested_country){
@@ -68,6 +77,12 @@ class IspController extends Controller
 			$locale = '/'.$country_code;
 		}
 		$store_details = Estore::model()->findByAttributes(array('url_alias'=>$company_name));
+        if(!$admin_view) {
+            if (!$store_details->active) {
+                throw new CHttpException(404, "Invalid Request!");
+            }
+        }
+
 		$user_details = Register::model()->findByPk($store_details->user_id);
 		$category_details = Category::model()->findByPk($user_details->business_category_id);
 		$featured_products = Generic::getFeaturedProductsForEstore($store_details->user_id);
@@ -175,6 +190,11 @@ class IspController extends Controller
 			$locale = '/'.$country_code;
 		}
 		$store_details = Estore::model()->findByAttributes(array('url_alias'=>$company_name));
+        if(!$admin_view) {
+            if (!$store_details->active) {
+                throw new CHttpException(404, "Invalid Request!");
+            }
+        }
 		$user_details = Register::model()->findByPk($store_details->user_id);
 		$category_details = Category::model()->findByPk($user_details->business_category_id);
 		$featured_products = Generic::getFeaturedProductsForEstore($store_details->user_id);
@@ -491,7 +511,10 @@ class IspController extends Controller
 		Generic::sendMail($message,$subject,$to_email);
 	}
 	public function actionAllProducts($country_code = '',$company_name){
-
+        $admin_view = false;
+        if(Yii::app()->user->hasState("admin_view")){
+            $admin_view = true;
+        }
 		$requested_country = Generic::checkValidCountryRequest($country_code);
 
 		if($country_code && !$requested_country){
@@ -503,6 +526,11 @@ class IspController extends Controller
 			$locale = '/'.$country_code;
 		}
 		$store_details = Estore::model()->findByAttributes(array('url_alias'=>$company_name));
+        if(!$admin_view) {
+            if (!$store_details->active) {
+                throw new CHttpException(404, "Invalid Request!");
+            }
+        }
 		$user_details = Register::model()->findByPk($store_details->user_id);
 		$category_details = Category::model()->findByPk($user_details->business_category_id);
 		$featured_products = Generic::getFeaturedProductsForEstore($store_details->user_id);
@@ -899,7 +927,11 @@ class IspController extends Controller
     }
 
 	public function actionproductDetails($country_code = '',$company_name,$product_id){
-		$requested_country = Generic::checkValidCountryRequest($country_code);
+        $admin_view = false;
+        if(Yii::app()->user->hasState("admin_view")){
+            $admin_view = true;
+        }
+        $requested_country = Generic::checkValidCountryRequest($country_code);
 
 		if($country_code && !$requested_country){
 			return ;
@@ -910,6 +942,11 @@ class IspController extends Controller
 			$locale = '/'.$country_code;
 		}
 		$store_details = Estore::model()->findByAttributes(array('url_alias'=>$company_name));
+        if(!$admin_view) {
+            if (!$store_details->active) {
+                throw new CHttpException(404, "Invalid Request!");
+            }
+        }
 		$user_details = Register::model()->findByPk($store_details->user_id);
 		$category_details = Category::model()->findByPk($user_details->business_category_id);
 		$featured_products = Generic::getFeaturedProductsForEstore($store_details->user_id);
@@ -1417,8 +1454,17 @@ class IspController extends Controller
 		}
 	}
 
-	public function actionCoverageArea($company_name){	
+	public function actionCoverageArea($company_name){
+        $admin_view = false;
+        if(Yii::app()->user->hasState("admin_view")){
+            $admin_view = true;
+        }
 		$store_details = Estore::model()->findByAttributes(array('url_alias'=>$company_name));
+        if(!$admin_view) {
+            if (!$store_details->active) {
+                throw new CHttpException(404, "Invalid Request!");
+            }
+        }
 		$user_details = Register::model()->findByPk($store_details->user_id);
 		$category_details = Category::model()->findByPk($user_details->business_category_id);
 
@@ -1491,7 +1537,8 @@ class IspController extends Controller
 			'user_details'=>$user_details,
 			'locale' => $locale,
 			'isp_type_category' => $isp_type_category,
-			'coverage_area' => $coverage_area
+			'coverage_area' => $coverage_area,
+            'opt' => $opt
 		));
 	}
 

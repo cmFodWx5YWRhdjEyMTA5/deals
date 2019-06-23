@@ -79,6 +79,9 @@ var SITE_URL=baseUrl();$('document').ready(function()
                     else if(data.status==='duplicate'){
                         $(".register_status").show().html(data.message);
                         $("#register_button").html(data.button_text);
+                    }else if(data.status==='precondition_fail'){
+                            $(".register_status").show().html(data.message);
+                            $("#register_button").html(data.button_text);
                     }
                     },5000);
             },

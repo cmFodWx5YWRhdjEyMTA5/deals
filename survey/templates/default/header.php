@@ -93,8 +93,8 @@
                                         <a href="/index.php#isp_accessories">EStore</a>
                                     </li>
                                     <li class="<?php if($active_menu == 'Career') {  echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="<?php echo 'https://www.bdbroadbanddeals.com/career';?>">ISP Career</a></li>
-                                    <li class="<?php if($active_menu == 'ListAllISP') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="https://www.bdbroadbanddeals.com/isp/list';?>" target="_blank">ISP List</a></li>
-                                    <li  class="<?php if($active_menu == 'contact') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="https://www.bdbroadbanddeals.com/contact-us';?>">Contact Us</a></li>
+                                    <li class="<?php if($active_menu == 'ListAllISP') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="https://www.bdbroadbanddeals.com/isp/list" target="_blank">ISP List</a></li>
+                                    <li  class="<?php if($active_menu == 'contact') { echo "current-menu-ancestor"; } else { echo ""; } ?>"><a href="https://www.bdbroadbanddeals.com/contact-us">Contact Us</a></li>
                                     <li><a href="javascript:void(0);" onclick="CheckLogin('<?php echo $requested_country->sortname ?>')" class="mini-cart-view">Post Your Ad</a></li>
                                 </ul>
                                 <a href="#" class="toggle-mobile-menu"><span>&nbsp;</span></a>
