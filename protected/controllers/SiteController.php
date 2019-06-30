@@ -367,7 +367,12 @@ class SiteController extends Controller {
             $sql .= " or enterprise_name='$enter_prise_name'";
         }
         $result = Yii::app()->db->createCommand($sql)->queryRow();
-        if (empty($result)) {
+        if (empty($thana_string)) {
+            $response['status'] = 'precondition_fail';
+            $response['button_text'] = 'Registration';
+            $response['message'] = '<span class="alert-danger"> Please add thanas before proceed with registration.</span>';
+        } else if(!empty($thana_string) && empty($result)){
+
             $register = new Register();
             $register->register_type = $user_type;
             $register->user_name = $user_name;
@@ -398,7 +403,6 @@ class SiteController extends Controller {
                     $register->referral_id = $referral_id;
                 }
             }
-            //if (true) {
             if ($register->save()) {
 
                 if($user_type == 'store'){
@@ -418,32 +422,6 @@ class SiteController extends Controller {
                     }
                     $register->image = $store_logo;
                     $register->update();
-
-                    $todays_date = new \DateTime();
-                    // $store = new Estore();
-                    // $store->user_id = $register->id;
-                    // $store->slogan = '';
-                    // $store->logo = $store_logo;
-                    // $store->banner = '';
-                    // $store->sub_banner = '';
-                   
-                    // $store->about_us = '';
-                    // $store->contact_us = '';
-
-                    
-                    // $store->url_alias = strtolower($store_alias);
-                    // $store->create_date = $todays_date->format('Y-m-d');
-                    // $store->active = 1;
-                    // $store->save();
-
-                    // $service_plan = new Subscription_plan();
-                    // $service_plan->user_id = $register->id;
-                    // $service_plan->estore_id = $store->id;
-                    // $service_plan->plan_type = 1;
-                    // $service_plan->additional_service = '';
-                    // $service_plan->create_date = $todays_date->format('Y-m-d H:i:s');
-                    // $service_plan->status = 1;
-                    // $service_plan->save();
                 }
 
                 if($nationwide_thanas != '' || $zonal_thanas != ''){
@@ -451,7 +429,7 @@ class SiteController extends Controller {
                 } else {
                     $this->insert_into_register_location($register->id,$division,$district,$all_thanas);
                 }
-                
+
                 Yii::app()->session['user_token'] = $register->user_token;
                 $response['status'] = 'success';
                 $response['message'] = '<span class="alert-success">Registration Successful.You are Now Redirect to Your profile.</span>';
@@ -464,10 +442,7 @@ class SiteController extends Controller {
                 $response['status'] = 'error'; // could not register
                 $response['message'] = '<span class="alert-danger">Could Not Register, Try Again Later</span>';
             }
-        } else if(empty($thana_string)){
-            $response['status'] = 'precondition_fail';
-            $response['button_text'] = 'Registration';
-            $response['message'] = '<span class="alert-danger"> Please add thanas before proceed with registration.</span>';
+
         }else {
             $response['status'] = 'duplicate'; // could not register
             if($register_type == 'individual'){
