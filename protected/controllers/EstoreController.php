@@ -1434,7 +1434,12 @@ class EstoreController extends Controller
 						Generic::sendMailApprovalToBusiness($company,$message);
 						//Generic::sendMailApprovalToAdmin($company,$message_for_business);
 					}
-					$this->redirect($base_url . '/admin/business_estore/admin');
+					if($business_type == 'isp'){
+                        $this->redirect($base_url . '/admin/business_estore/admin/store/0');
+                    } else {
+                        $this->redirect($base_url . '/admin/business_estore/admin/store/1');
+                    }
+
 				}
 			}
 		}

@@ -75,6 +75,11 @@ class ProfileController extends Controller
     {
         $user_details = (object) $this->checkUserDetails();
 
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
+
         $criteria = new CDbCriteria();
         $criteria->condition = 'user_id = :user_id';
         $criteria->params = array(':user_id' => $user_details->profile_data['id']);
@@ -322,13 +327,15 @@ class ProfileController extends Controller
         if($user_details->register_type == 'business' && $user_details->business_status == 'approved') {
             #If not skipped
             $info_array['remarks'] = 0;
-            #else
-            if(empty($store_details->banner) || empty($store_details->logo)){
+
+            // Skipping logo and banner checking after registration done
+            /*if(empty($store_details->banner) || empty($store_details->logo)){
                 $info_array['remarks'] = 1;
 
                 $this->actionUpdateISP();
                 return;
-            }
+            }*/
+            //Generic::_setTrace($info_array);
             $user_ads_array = Generic::getUserAdsArray($user_details->profile_data['id']);
             $info_array['isp_details'] = ISP_details::model()->findByPk($store_details->isp_company_id);
             $info_array['user_ads_array'] = $user_ads_array;
@@ -408,6 +415,11 @@ class ProfileController extends Controller
     public function actionManageJobs()
     {
         $user_details = (object) $this->checkUserDetails();
+
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
         
         $this->render('my-jobs',array(
             'user_name' => $user_details->user_name,
@@ -422,6 +434,11 @@ class ProfileController extends Controller
     public function actionMyPackages()
     {
         $user_details = (object) $this->checkUserDetails();
+
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
 
         $this->render('my-packages',array(
             'user_name' => $user_details->user_name,
@@ -466,6 +483,11 @@ class ProfileController extends Controller
 	public function actionListFavouriteAds()
 	{
         $user_details = (object) $this->checkUserDetails();
+
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
 
         $criteria = new CDbCriteria();
         $criteria->condition = "user_token = :user_token";
@@ -650,6 +672,12 @@ class ProfileController extends Controller
     public function actionUpdateISP()
     {
         $user_details = (object) $this->checkUserDetails();
+
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
+
         $store_details = Estore::model()->findByAttributes(array('user_id'=>$user_details->profile_data['id']));
         $isp_details = ISP_details::model()->findByPk($store_details->isp_company_id);
         
@@ -766,8 +794,8 @@ class ProfileController extends Controller
         if(!$store_owner_status['active']){
             $this->redirect($user_details->base_url.'/my-profile/dashboard');
         }
-        
-        
+
+
 
         $this->render('add-package',array(
             'user_name' => $user_details->user_name,
@@ -1671,9 +1699,10 @@ class ProfileController extends Controller
             $criteria->params = array(':user_id' => $profile_data['id']);
             $store_details = Estore::model()->find($criteria);
 
-            if(empty($store_details->logo)){
+            // uncomment to check logo before declaring isp company as complete
+           /* if(empty($store_details->logo)){
                 $sidebar_type = '../elements/profile_sidebar';
-            }
+            }*/
 
             if(!$store_details){
                 $business_status = 'no_store';
@@ -1762,7 +1791,10 @@ class ProfileController extends Controller
 
     public function actionOrderManagement(){
         $user_details = (object) $this->checkUserDetails();
-
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
         $criteria = new CDbCriteria();
         $criteria->condition = 'estore_id = :estore_id and status != :status';
         $criteria->params = array(':estore_id' => $user_details->estore_id, ':status' => 0);
@@ -1782,6 +1814,11 @@ class ProfileController extends Controller
 
     public function actionBanList(){
         $user_details = (object) $this->checkUserDetails();
+
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
 
         $black_list_data = [];
         $message = "";
@@ -1815,6 +1852,11 @@ class ProfileController extends Controller
     public function actionMyBanList(){
         $user_details = (object) $this->checkUserDetails();
 
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
+
         $criteria = new CDbCriteria();
         $criteria->condition = 'reported_by = :reported_by';
         $criteria->params = array(':reported_by' => $user_details->estore_id);
@@ -1833,6 +1875,11 @@ class ProfileController extends Controller
 
     public function actionAddBanList(){
         $user_details = (object) $this->checkUserDetails();
+        $store_owner_status = Generic::checkStoreOwnerStatus($user_details->profile_data['id']);
+        if(!$store_owner_status['active']){
+            $this->redirect($user_details->base_url.'/my-profile/dashboard');
+        }
+
         //Generic::_setTrace($user_details);
         $this->render('add-ban-list',array(
             'user_name' => $user_details->user_name,
@@ -1994,6 +2041,29 @@ class ProfileController extends Controller
         ));
     }
 
+    public  function actionIspInformation(){
+        $user_details = (object) $this->checkUserDetails();
+
+        $pricing_plan_id = Yii::app()->request->getParam('pricing_plan_id');
+        $total_price = Yii::app()->request->getParam('total_price');
+        $package_type = Yii::app()->request->getParam('package_type');
+        $package_duration = Yii::app()->request->getParam('package_duration');
+
+
+        $this->render('isp-information',array(
+            'pricing_plan_id' => $pricing_plan_id,
+            'total_price' => $total_price,
+            'package_type' => $package_type,
+            'package_duration' => $package_duration,
+            'user_name' => $user_details->user_name,
+            'register_type' => $user_details->register_type,
+            'profile_data' => $user_details->profile_data,
+            'sidebar_type' => $user_details->sidebar_type,
+            'business_status' => $user_details->business_status,
+            'store_url' => $user_details->store_url
+        ));
+    }
+
     public  function actionBusinessInformationWithPostService(){
         $user_details = (object) $this->checkUserDetails();
 
@@ -2055,6 +2125,17 @@ class ProfileController extends Controller
             $business_information_data['comment'] = Yii::app()->request->getParam('comment');
             $business_information_data['product_details'] = Yii::app()->request->getParam('product_details');
             $business_information_data['product_images'] = Yii::app()->request->getParam('product_images');
+
+            // New fields of isp
+            $business_information_data['facebook_link'] = Yii::app()->request->getParam('facebook_link','');
+            $business_information_data['twitter_link'] = Yii::app()->request->getParam('twitter_link','');
+            $business_information_data['linkedin_link'] = Yii::app()->request->getParam('linkedin_link','');
+            $business_information_data['google_plus_link'] = Yii::app()->request->getParam('google_plus_link','');
+            $business_information_data['web_address'] = Yii::app()->request->getParam('web_address','');
+            $business_information_data['company_email'] = Yii::app()->request->getParam('company_email','');
+            $business_information_data['sales_email'] = Yii::app()->request->getParam('sales_email','');
+            $business_information_data['sales_phone_number'] = Yii::app()->request->getParam('sales_phone_number','');
+            $business_information_data['company_hotline_number'] = Yii::app()->request->getParam('company_hotline_number','');
 
             $pricing_plan_details = Generic::getBusinessPlanDetails($pricing_plan_id);
         
@@ -2673,6 +2754,7 @@ class ProfileController extends Controller
     private function createISPFromProfile($business_info_data,$ad_post_service,$payment_id,$seller_id = '',$deposit_amount = 0, $package_type = '', $packacge_duration= '',$total_price = 0){
 
         $business_data = json_decode($business_info_data);
+
         $todays_date = new DateTime();
         $expire_date = new DateTime();
         $expire_date->modify($packacge_duration);
@@ -2710,6 +2792,8 @@ class ProfileController extends Controller
         $comment = $business_data->comment;
         $product_details = $business_data->product_details;
         $product_images = $business_data->product_images;
+        // new fields of isp
+
 
         $additional_service = $ad_post_service;
         $creation_date = new \DateTime();
@@ -2730,6 +2814,18 @@ class ProfileController extends Controller
         $store->product_images = $product_images;
         $store->url_alias = $url_alias;
         $store->create_date = $creation_date->format('Y-m-d');
+
+        $store->facebook_link = $business_data->facebook_link;
+        $store->twitter_link = $business_data->twitter_link;
+        $store->linkedin_link = $business_data->linkedin_link;
+        $store->google_plus_link = $business_data->google_plus_link;
+
+        $store->web_address = $business_data->web_address;
+        $store->company_email = $business_data->company_email;
+        $store->sales_email = $business_data->sales_email;
+        $store->sales_phone_number = $business_data->sales_phone_number;
+        $store->company_hotline_number = $business_data->company_hotline_number;
+
         if($payment_id == 3 || $payment_id == 1) {
             $store->active = 1;
         }

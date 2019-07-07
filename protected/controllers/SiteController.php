@@ -303,6 +303,9 @@ class SiteController extends Controller {
             $contact_number = Yii::app()->request->getParam('phone_number_personal', '');
             $district = Yii::app()->request->getParam('state_personal', '');
             $thanas = Yii::app()->request->getParam('selected_hidden_individual_thana', '');
+            if($district == '9999') {
+                $thanas = '9999';
+            }
             $thanas = trim($thanas,',');
             $address = Yii::app()->request->getParam('address_personal', '');
         } else if ($register_type == 'business') {
@@ -345,6 +348,9 @@ class SiteController extends Controller {
             $store_alias = str_replace(" ", "-", $enter_prise_name);
             $store_categories = Yii::app()->request->getParam('estore_categories', []);
 
+            if($district == '9999') {
+                $thanas = '9999';
+            }
             $thanas = trim($thanas,',');
             $address = Yii::app()->request->getParam('address_estore', '');
             $designation = Yii::app()->request->getParam('designation_estore', '');

@@ -371,7 +371,8 @@ echo $this->renderPartial($sidebar_type,array(
                             $('#pricing_plan_id').val(response.id);
                             $('#total_price').val(response.price);
                             $('#package_duration').val(response.duration);
-                            action_url = 'payment-selection';
+                            //action_url = 'payment-selection';
+                            action_url = 'isp-information';
                             $('#pricing-plan-form').prop('action', action_url);
                             $('#pricing-plan-form').submit();
                         }
